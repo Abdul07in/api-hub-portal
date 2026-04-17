@@ -36,7 +36,7 @@ export default function Header() {
   return (
     <AppBar position="sticky" elevation={0}>
       <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ minHeight: 64, gap: 2 }}>
+        <Toolbar disableGutters sx={{ minHeight: { xs: 56, md: 64 }, gap: { xs: 1, md: 2 } }}>
           <Box
             component={RouterLink}
             to="/"
@@ -46,6 +46,7 @@ export default function Header() {
               gap: 1.25,
               textDecoration: "none",
               color: "inherit",
+              flexShrink: 0,
             }}
           >
             <Box
@@ -53,7 +54,7 @@ export default function Header() {
               src={iciciLogo}
               alt="ICICI Prudential Mutual Fund"
               sx={{
-                height: 52,
+                height: { xs: 40, md: 52 },
                 width: "auto",
                 borderRadius: 1,
                 objectFit: "contain",
@@ -93,9 +94,10 @@ export default function Header() {
           </Button>
 
           <IconButton
-            sx={{ display: { md: "none" } }}
+            sx={{ display: { md: "none" }, ml: "auto" }}
             onClick={() => setOpen(true)}
             aria-label="open menu"
+            edge="end"
           >
             <MenuIcon />
           </IconButton>

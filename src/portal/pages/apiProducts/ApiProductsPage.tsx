@@ -47,6 +47,8 @@ function ApiTabs({ api, onTryInSandbox }: { api: ApiSpec; onTryInSandbox: (id: s
       <Tabs
         value={tab}
         onChange={(_, v) => setTab(v)}
+        variant="scrollable"
+        scrollButtons="auto"
         sx={{ borderBottom: 1, borderColor: "divider", mb: 2 }}
       >
         <Tab label="Overview" />
@@ -153,8 +155,8 @@ function ApiTabs({ api, onTryInSandbox }: { api: ApiSpec; onTryInSandbox: (id: s
 
 function FieldTable({ fields }: { fields: ApiSpec["requestFields"] }) {
   return (
-    <TableContainer component={Paper} variant="outlined">
-      <Table size="small">
+    <TableContainer component={Paper} variant="outlined" sx={{ overflowX: "auto" }}>
+      <Table size="small" sx={{ minWidth: { xs: 600, md: "auto" } }}>
         <TableHead>
           <TableRow sx={{ "& th": { fontWeight: 700, bgcolor: "background.default" } }}>
             <TableCell>Field</TableCell>
@@ -223,19 +225,19 @@ export default function ApiProductsPage() {
       <Box
         sx={{
           mb: 4,
-          p: { xs: 3, md: 5 },
+          p: { xs: 2.5, md: 5 },
           borderRadius: 3,
           background: "linear-gradient(135deg, #155686 0%, #1f6fa8 100%)",
           color: "#fff",
         }}
       >
-        <Typography variant="overline" sx={{ color: "#ffd2c2", letterSpacing: 2 }}>
+        <Typography variant="overline" sx={{ color: "#ffd2c2", letterSpacing: 2, fontSize: { xs: 10, sm: 12 } }}>
           API CATALOG
         </Typography>
-        <Typography variant="h3" sx={{ mt: 1, fontWeight: 800 }}>
+        <Typography variant="h3" sx={{ mt: 1, fontWeight: 800, fontSize: { xs: "1.75rem", md: "3rem" } }}>
           Build with PartnerHub APIs
         </Typography>
-        <Typography sx={{ mt: 1.5, maxWidth: 720, opacity: 0.92 }}>
+        <Typography sx={{ mt: 1.5, maxWidth: 720, opacity: 0.92, fontSize: { xs: 14, md: 16 } }}>
           Browse our developer-ready APIs across KYC, FATCA, Tax Status and PAN verification.
           Inspect request and response specifications, then try every endpoint in the in-browser
           Sandbox.

@@ -14,17 +14,17 @@ export default function HomePage() {
         sx={{
           background: "linear-gradient(135deg, #155686 0%, #1f6fa8 60%, #e15325 140%)",
           color: "#fff",
-          py: { xs: 8, md: 12 },
+          py: { xs: 6, md: 12 },
         }}
       >
         <Container maxWidth="lg">
-          <Typography variant="overline" sx={{ color: "#ffd2c2", letterSpacing: 3 }}>
+          <Typography variant="overline" sx={{ color: "#ffd2c2", letterSpacing: 2, fontSize: { xs: 10, sm: 12 } }}>
             ICICI PRU AMC · PARTNERHUB
           </Typography>
-          <Typography variant="h2" sx={{ fontWeight: 800, mt: 1, maxWidth: 820 }}>
+          <Typography variant="h2" sx={{ fontWeight: 800, mt: 1, maxWidth: 820, fontSize: { xs: "1.75rem", sm: "2.5rem", md: "3.75rem" } }}>
             The developer portal for our distribution partners.
           </Typography>
-          <Typography sx={{ mt: 2, maxWidth: 720, fontSize: 18, opacity: 0.92 }}>
+          <Typography sx={{ mt: 2, maxWidth: 720, fontSize: { xs: 15, md: 18 }, opacity: 0.92 }}>
             Browse our API catalog, inspect every request and response, and try endpoints instantly
             in the in-browser Sandbox — no credentials needed.
           </Typography>
@@ -36,6 +36,7 @@ export default function HomePage() {
               color="primary"
               size="large"
               startIcon={<ApiIcon />}
+              fullWidth={{ xs: true, sm: false }}
             >
               Explore API Catalog
             </Button>
@@ -45,6 +46,7 @@ export default function HomePage() {
               variant="outlined"
               size="large"
               startIcon={<ScienceIcon />}
+              fullWidth={{ xs: true, sm: false }}
               sx={{
                 color: "#fff",
                 borderColor: "rgba(255,255,255,0.6)",

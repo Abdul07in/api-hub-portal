@@ -16,6 +16,7 @@ export default function AppLayout() {
           flexDirection: "column",
           minHeight: "100vh",
           bgcolor: "background.default",
+          overflowX: "hidden",
         }}
       >
         <Header />

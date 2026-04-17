@@ -79,14 +79,14 @@ export default function Footer() {
         <Divider sx={{ my: 3, borderColor: "rgba(255,255,255,0.18)" }} />
         <Stack
           direction={{ xs: "column", md: "row" }}
-          spacing={1}
-          sx={{ justifyContent: "space-between" }}
+          spacing={2}
+          sx={{ justifyContent: "space-between", alignItems: { xs: "flex-start", md: "center" } }}
         >
           <Typography sx={{ fontSize: 12, opacity: 0.8 }}>
             © {new Date().getFullYear()} ICICI Prudential Asset Management Company Ltd. All rights
             reserved.
           </Typography>
-          <Stack direction="row" spacing={2}>
+          <Stack direction="row" spacing={2} sx={{ flexWrap: "wrap" }}>
             <Link href="#" color="inherit" underline="hover" sx={{ fontSize: 12 }}>
               Privacy Policy
             </Link>

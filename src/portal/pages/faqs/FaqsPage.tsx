@@ -31,13 +31,13 @@ export default function FaqsPage() {
 
   return (
     <Box>
-      <Typography variant="overline" sx={{ color: "primary.main", letterSpacing: 2 }}>
+      <Typography variant="overline" sx={{ color: "primary.main", letterSpacing: 2, fontSize: { xs: 10, sm: 12 } }}>
         HELP CENTER
       </Typography>
-      <Typography variant="h3" sx={{ color: "secondary.main", fontWeight: 800, mt: 1 }}>
+      <Typography variant="h3" sx={{ color: "secondary.main", fontWeight: 800, mt: 1, fontSize: { xs: "1.75rem", md: "3rem" } }}>
         Frequently Asked Questions
       </Typography>
-      <Typography sx={{ mt: 1, mb: 3, color: "text.secondary", maxWidth: 640 }}>
+      <Typography sx={{ mt: 1, mb: 3, color: "text.secondary", maxWidth: 640, fontSize: { xs: 14, md: 16 } }}>
         Quick answers to the most common questions about onboarding, authentication, modules and the
         sandbox.
       </Typography>

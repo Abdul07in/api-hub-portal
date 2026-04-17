@@ -44,13 +44,13 @@ export default function ContactPage() {
 
   return (
     <Box>
-      <Typography variant="overline" sx={{ color: "primary.main", letterSpacing: 2 }}>
+      <Typography variant="overline" sx={{ color: "primary.main", letterSpacing: 2, fontSize: { xs: 10, sm: 12 } }}>
         GET IN TOUCH
       </Typography>
-      <Typography variant="h3" sx={{ color: "secondary.main", fontWeight: 800, mt: 1 }}>
+      <Typography variant="h3" sx={{ color: "secondary.main", fontWeight: 800, mt: 1, fontSize: { xs: "1.75rem", md: "3rem" } }}>
         Contact Us
       </Typography>
-      <Typography sx={{ mt: 1, mb: 4, color: "text.secondary", maxWidth: 640 }}>
+      <Typography sx={{ mt: 1, mb: 4, color: "text.secondary", maxWidth: 640, fontSize: { xs: 14, md: 16 } }}>
         Want to integrate with PartnerHub APIs or have a question about onboarding? Send us a
         message and our developer relations team will respond within one business day.
       </Typography>
@@ -148,7 +148,8 @@ export default function ContactPage() {
                 variant="contained"
                 color="primary"
                 size="large"
-                sx={{ alignSelf: "flex-start" }}
+                fullWidth={{ xs: true, sm: false }}
+                sx={{ alignSelf: { xs: "stretch", sm: "flex-start" } }}
               >
                 Send Message
               </Button>

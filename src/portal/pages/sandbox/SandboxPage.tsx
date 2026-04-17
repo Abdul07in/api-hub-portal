@@ -115,13 +115,13 @@ export default function SandboxPage() {
 
   return (
     <Box>
-      <Typography variant="overline" sx={{ color: "primary.main", letterSpacing: 2 }}>
+      <Typography variant="overline" sx={{ color: "primary.main", letterSpacing: 2, fontSize: { xs: 10, sm: 12 } }}>
         SANDBOX
       </Typography>
-      <Typography variant="h3" sx={{ color: "secondary.main", fontWeight: 800, mt: 1 }}>
+      <Typography variant="h3" sx={{ color: "secondary.main", fontWeight: 800, mt: 1, fontSize: { xs: "1.75rem", md: "3rem" } }}>
         Try our APIs
       </Typography>
-      <Typography sx={{ mt: 1, mb: 4, color: "text.secondary", maxWidth: 720 }}>
+      <Typography sx={{ mt: 1, mb: 4, color: "text.secondary", maxWidth: 720, fontSize: { xs: 14, md: 16 } }}>
         Pick an endpoint, fill the request, and inspect the mocked response. No credentials required
         — responses are deterministic mocks generated from the field specifications.
       </Typography>
@@ -130,7 +130,7 @@ export default function SandboxPage() {
         sx={{
           display: "grid",
           gap: 2.5,
-          gridTemplateColumns: { xs: "1fr", md: "260px 1fr 1fr" },
+          gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "260px 1fr 1fr" },
           alignItems: "start",
         }}
       >

@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
 export const BRAND = {
   bg: "#fffaf6",
@@ -12,7 +12,7 @@ export const BRAND = {
   textSecondary: "#5b6472",
 };
 
-export const theme = createTheme({
+let theme = createTheme({
   palette: {
     mode: "light",
     background: { default: BRAND.bg, paper: BRAND.surface },
@@ -72,3 +72,7 @@ export const theme = createTheme({
     MuiTab: { styleOverrides: { root: { textTransform: "none", fontWeight: 600 } } },
   },
 });
+
+theme = responsiveFontSizes(theme);
+
+export { theme };
