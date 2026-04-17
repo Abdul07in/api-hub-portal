@@ -64,9 +64,9 @@ function ApiTabs({ api }: { api: ApiSpec }) {
             <Typography sx={{ fontFamily: "monospace", fontSize: 14 }}>{api.path}</Typography>
           </Stack>
           <Button
-            component={RouterLink}
-            to="/sandbox"
-            search={{ apiId: api.id }}
+            onClick={() => {
+              window.location.href = `/sandbox?apiId=${encodeURIComponent(api.id)}`;
+            }}
             variant="contained"
             color="primary"
             endIcon={<LaunchIcon />}
