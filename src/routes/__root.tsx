@@ -1,12 +1,7 @@
-import { Outlet, createRootRoute, HeadContent, Scripts, useRouter } from "@tanstack/react-router";
+import { Outlet, createRootRoute, useRouter } from "@tanstack/react-router";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { Box, Button, Container, Typography } from "@mui/material";
 
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
-
-import appCss from "../styles.css?url";
 import { theme } from "@/common/styles/theme";
 import Header from "@/common/templates/header/Header";
 import Footer from "@/common/templates/footer/Footer";
@@ -68,27 +63,11 @@ export const Route = createRootRoute({
       },
       { property: "og:type", content: "website" },
     ],
-    links: [{ rel: "stylesheet", href: appCss }],
   }),
-  shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
-
-function RootShell({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  );
-}
 
 function RootComponent() {
   return (
@@ -104,3 +83,4 @@ function RootComponent() {
     </ThemeProvider>
   );
 }
+
