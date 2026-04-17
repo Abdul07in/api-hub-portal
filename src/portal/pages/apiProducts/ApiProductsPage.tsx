@@ -23,7 +23,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SearchIcon from "@mui/icons-material/Search";
 import LaunchIcon from "@mui/icons-material/Launch";
-import { Link as RouterLink } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 
 import { apiCatalog } from "@/common/helpers/constant/apiCatalog";
 import type { ApiSpec } from "@/common/interfaces/api";
@@ -41,7 +41,7 @@ function buildCurl(api: ApiSpec): string {
   return `curl -X ${api.method} https://api.icicipruamc.com${api.path} \\\n${headers}${data}`;
 }
 
-function ApiTabs({ api }: { api: ApiSpec }) {
+function ApiTabs({ api, onTryInSandbox }: { api: ApiSpec; onTryInSandbox: (id: string) => void }) {
   const [tab, setTab] = useState(0);
   return (
     <Box sx={{ mt: 2 }}>
