@@ -1,26 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
+import HomePage from "@/portal/pages/home/HomePage";
 
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "ICICI Pru AMC PartnerHub — API Developer Portal" },
+      {
+        name: "description",
+        content:
+          "Developer portal for ICICI Prudential AMC distribution partners. Explore the API catalog and try endpoints in the in-browser sandbox.",
+      },
+    ],
+  }),
+  component: HomePage,
 });
-
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
-
-function Index() {
-  return <PlaceholderIndex />;
-}

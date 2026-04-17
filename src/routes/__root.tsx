@@ -1,26 +1,50 @@
-import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { Outlet, createRootRoute, HeadContent, Scripts, useRouter } from "@tanstack/react-router";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
+
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 
 import appCss from "../styles.css?url";
+import { theme } from "@/common/styles/theme";
+import Header from "@/common/templates/header/Header";
+import Footer from "@/common/templates/footer/Footer";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Go home
-          </Link>
-        </div>
-      </div>
-    </div>
+    <Container maxWidth="sm" sx={{ minHeight: "70vh", display: "flex", alignItems: "center" }}>
+      <Box sx={{ textAlign: "center", width: "100%" }}>
+        <Typography sx={{ fontSize: 96, fontWeight: 800, color: "secondary.main", lineHeight: 1 }}>404</Typography>
+        <Typography variant="h5" sx={{ mt: 1, color: "secondary.main" }}>Page not found</Typography>
+        <Typography sx={{ mt: 1, color: "text.secondary" }}>
+          The page you're looking for doesn't exist.
+        </Typography>
+        <Button href="/" variant="contained" color="primary" sx={{ mt: 3 }}>
+          Go home
+        </Button>
+      </Box>
+    </Container>
+  );
+}
+
+function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+  const router = useRouter();
+  return (
+    <Container maxWidth="sm" sx={{ py: 8 }}>
+      <Typography variant="h5" color="error">Something went wrong</Typography>
+      <Typography sx={{ mt: 1, color: "text.secondary" }}>{error.message}</Typography>
+      <Button
+        variant="contained"
+        sx={{ mt: 3 }}
+        onClick={() => {
+          router.invalidate();
+          reset();
+        }}
+      >
+        Retry
+      </Button>
+    </Container>
   );
 }
 
@@ -29,25 +53,27 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-    ],
-    links: [
+      { title: "ICICI Pru AMC PartnerHub — API Developer Portal" },
       {
-        rel: "stylesheet",
-        href: appCss,
+        name: "description",
+        content:
+          "Browse and try ICICI Prudential AMC PartnerHub APIs — KYC, FATCA, Tax Status and PAN verification, with an in-browser sandbox.",
       },
+      { name: "author", content: "ICICI Pru AMC PartnerHub" },
+      { property: "og:title", content: "ICICI Pru AMC PartnerHub — API Developer Portal" },
+      {
+        property: "og:description",
+        content:
+          "Browse and try ICICI Prudential AMC PartnerHub APIs in your browser — no credentials required.",
+      },
+      { property: "og:type", content: "website" },
     ],
+    links: [{ rel: "stylesheet", href: appCss }],
   }),
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
+  errorComponent: ErrorComponent,
 });
 
 function RootShell({ children }: { children: React.ReactNode }) {
@@ -65,5 +91,16 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
-  return <Outlet />;
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh", bgcolor: "background.default" }}>
+        <Header />
+        <Box sx={{ flex: 1 }}>
+          <Outlet />
+        </Box>
+        <Footer />
+      </Box>
+    </ThemeProvider>
+  );
 }
