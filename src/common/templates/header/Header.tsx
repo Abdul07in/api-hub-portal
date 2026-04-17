@@ -110,9 +110,13 @@ export default function Header() {
                 <ListItemButton component={RouterLink} to={n.to}>
                   <ListItemText
                     primary={n.label}
-                    primaryTypographyProps={{
-                      fontWeight: isActive(n.to) ? 700 : 500,
-                      color: isActive(n.to) ? "primary.main" : "text.primary",
+                    slotProps={{
+                      primary: {
+                        sx: {
+                          fontWeight: isActive(n.to) ? 700 : 500,
+                          color: isActive(n.to) ? "primary.main" : "text.primary",
+                        },
+                      },
                     }}
                   />
                 </ListItemButton>
