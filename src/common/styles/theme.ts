@@ -41,7 +41,7 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: { borderRadius: 8, paddingInline: 18 },
-        containedPrimary: { boxShadow: "none", "&:hover": { boxShadow: "none" } },
+        contained: { boxShadow: "none", "&:hover": { boxShadow: "none" } },
       },
     },
     MuiPaper: {
