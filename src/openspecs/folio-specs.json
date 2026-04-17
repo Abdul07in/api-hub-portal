@@ -1,0 +1,486 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "API-FOLIO-SERVICE API Documentation",
+        "description": "API documentation for the UserFolio Service, including SOA. This service provides UserFolio services through CAMS.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/apifolio/v1",
+            "description": "Default Server URL"
+        }
+    ],
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "Bank Details",
+            "description": "API for bank details operations"
+        }
+    ],
+    "paths": {
+        "/statement/v2/getSOA": {
+            "post": {
+                "tags": [
+                    "account-statement-controller"
+                ],
+                "summary": "Download Statement of Account",
+                "description": "Downloads account statement after validating client credentials. The request body must be encrypted. Requires Authorization header with Bearer token.",
+                "operationId": "getStatementV2",
+                "parameters": [
+                    {
+                        "name": "ClientID",
+                        "in": "header",
+                        "description": "Client ID for authentication",
+                        "required": true
+                    },
+                    {
+                        "name": "RequestID",
+                        "in": "header",
+                        "description": "Unique request identifier",
+                        "required": true
+                    },
+                    {
+                        "name": "ClientIP",
+                        "in": "header",
+                        "description": "Client IP address",
+                        "required": true
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token for authentication",
+                        "required": true,
+                        "example": "Bearer eyJhbGciOiJ..."
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EncryptedContentDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "415": {
+                        "description": "Unsupported Media Type - Content-Type must be application/json",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EncryptedContentDto"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Statement retrieved successfully",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error or external service error",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EncryptedContentDto"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request format, missing required fields, or validation failures",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EncryptedContentDto"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - invalid client credentials or missing/invalid Bearer token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EncryptedContentDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/statement/getSOA": {
+            "post": {
+                "tags": [
+                    "account-statement-controller"
+                ],
+                "summary": "Download Statement of Account",
+                "description": "Downloads account statement after validating client credentials. The request body must be encrypted. Requires Authorization header with Bearer token.",
+                "operationId": "getStatement",
+                "parameters": [
+                    {
+                        "name": "ClientID",
+                        "in": "header",
+                        "description": "Client ID for authentication",
+                        "required": true
+                    },
+                    {
+                        "name": "RequestID",
+                        "in": "header",
+                        "description": "Unique request identifier",
+                        "required": true
+                    },
+                    {
+                        "name": "ClientIP",
+                        "in": "header",
+                        "description": "Client IP address",
+                        "required": true
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token for authentication",
+                        "required": true,
+                        "example": "Bearer eyJhbGciOiJ..."
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EncryptedContentDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EncryptedContentDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/investor/v2/exit-load": {
+            "post": {
+                "tags": [
+                    "api-folio-controller"
+                ],
+                "summary": "Get Exit Load Details V2",
+                "description": "Retrieves exit load details via api-cams-service after validating client credentials. The request body must be encrypted. Requires Authorization header with Bearer token.",
+                "operationId": "getExitLoadV2",
+                "parameters": [
+                    {
+                        "name": "ClientID",
+                        "in": "header",
+                        "description": "Client ID for authentication",
+                        "required": true
+                    },
+                    {
+                        "name": "RequestID",
+                        "in": "header",
+                        "description": "Unique request identifier",
+                        "required": true
+                    },
+                    {
+                        "name": "ClientIP",
+                        "in": "header",
+                        "description": "Client IP address",
+                        "required": true
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token for authentication",
+                        "required": true,
+                        "example": "Bearer eyJhbGciOiJ..."
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EncryptedContentDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EncryptedContentDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/investor/folio/create": {
+            "post": {
+                "tags": [
+                    "api-folio-controller"
+                ],
+                "summary": "Create New Folio",
+                "description": "Creates a new folio after validating client credentials. The request body must be encrypted. Requires Authorization header with Bearer token.",
+                "operationId": "createFolio",
+                "parameters": [
+                    {
+                        "name": "ClientID",
+                        "in": "header",
+                        "description": "Client ID for authentication",
+                        "required": true
+                    },
+                    {
+                        "name": "RequestID",
+                        "in": "header",
+                        "description": "Unique request identifier",
+                        "required": true
+                    },
+                    {
+                        "name": "ClientIP",
+                        "in": "header",
+                        "description": "Client IP address",
+                        "required": true
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token for authentication",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EncryptedContentDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EncryptedContentDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/investor/exit-load": {
+            "post": {
+                "tags": [
+                    "api-folio-controller"
+                ],
+                "summary": "Get Exit Load Details",
+                "description": "Retrieves exit load details after validating client credentials. The request body must be encrypted. Requires Authorization header with Bearer token.",
+                "operationId": "getExitLoad",
+                "parameters": [
+                    {
+                        "name": "ClientID",
+                        "in": "header",
+                        "description": "Client ID for authentication",
+                        "required": true
+                    },
+                    {
+                        "name": "RequestID",
+                        "in": "header",
+                        "description": "Unique request identifier",
+                        "required": true
+                    },
+                    {
+                        "name": "ClientIP",
+                        "in": "header",
+                        "description": "Client IP address",
+                        "required": true
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token for authentication",
+                        "required": true,
+                        "example": "Bearer eyJhbGciOiJ..."
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EncryptedContentDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EncryptedContentDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bank-details/getBankDetailsByFolio": {
+            "post": {
+                "tags": [
+                    "Bank Details"
+                ],
+                "summary": "Get bank details by folio number",
+                "description": "Fetches bank details for a given folio number. The request body must be encrypted. Requires Authorization header with Bearer token.",
+                "operationId": "getBankDetailsByFolio",
+                "parameters": [
+                    {
+                        "name": "ClientID",
+                        "in": "header",
+                        "description": "Client ID for authentication",
+                        "required": true
+                    },
+                    {
+                        "name": "RequestID",
+                        "in": "header",
+                        "description": "Unique request identifier",
+                        "required": true
+                    },
+                    {
+                        "name": "ClientIP",
+                        "in": "header",
+                        "description": "Client IP address",
+                        "required": true
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token for authentication",
+                        "required": true,
+                        "example": "Bearer eyJhbGciOiJ..."
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EncryptedContentDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "415": {
+                        "description": "Unsupported Media Type - Content-Type must be application/json",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EncryptedContentDto"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Data Fetch successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EncryptedContentDto"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "PAN not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EncryptedContentDto"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request format or missing required fields",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EncryptedContentDto"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error or external service error",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EncryptedContentDto"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - invalid client credentials or missing/invalid Bearer token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EncryptedContentDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "EncryptedContentDto": {
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Enter JWT token in the format: Bearer {token}",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

@@ -37,7 +37,16 @@ export default function CodeBlock({ code, language, maxHeight = 360 }: Props) {
       }}
     >
       {language && (
-        <Box sx={{ px: 2, py: 0.5, bgcolor: "#13243d", fontSize: 11, color: "#9fb0c8", letterSpacing: 1 }}>
+        <Box
+          sx={{
+            px: 2,
+            py: 0.5,
+            bgcolor: "#13243d",
+            fontSize: 11,
+            color: "#9fb0c8",
+            letterSpacing: 1,
+          }}
+        >
           {language.toUpperCase()}
         </Box>
       )}
@@ -45,12 +54,28 @@ export default function CodeBlock({ code, language, maxHeight = 360 }: Props) {
         <IconButton
           onClick={handleCopy}
           size="small"
-          sx={{ position: "absolute", top: 6, right: 6, color: "#9fb0c8", "&:hover": { color: "#fff" } }}
+          sx={{
+            position: "absolute",
+            top: 6,
+            right: 6,
+            color: "#9fb0c8",
+            "&:hover": { color: "#fff" },
+          }}
         >
           {copied ? <CheckIcon fontSize="small" /> : <ContentCopyIcon fontSize="small" />}
         </IconButton>
       </Tooltip>
-      <Box component="pre" sx={{ m: 0, p: 2, maxHeight, overflow: "auto", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+      <Box
+        component="pre"
+        sx={{
+          m: 0,
+          p: 2,
+          maxHeight,
+          overflow: "auto",
+          whiteSpace: "pre-wrap",
+          wordBreak: "break-word",
+        }}
+      >
         {code}
       </Box>
     </Box>

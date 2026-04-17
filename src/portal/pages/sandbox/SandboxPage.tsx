@@ -19,9 +19,11 @@ import {
   Typography,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
-import { useSearch, useNavigate } from "@tanstack/react-router";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import { apiCatalog, findApiById } from "@/common/helpers/constant/apiCatalog";
+import { selectModules, selectApiById } from "@/store/slices/apiCatalogSlice";
+import { RootState } from "@/store";
 import type { ApiSpec } from "@/common/interfaces/api";
 import { FieldType } from "@/common/enums";
 import MethodBadge from "@/common/atoms/methodBadge/MethodBadge";
@@ -40,18 +42,28 @@ function defaultPayload(api: ApiSpec): Record<string, unknown> {
 }
 
 export default function SandboxPage() {
-  const search = useSearch({ from: "/sandbox" }) as { apiId?: string };
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const initial = (search.apiId && findApiById(search.apiId)) || {
+  const apiIdParam = searchParams.get("apiId");
+  const apiCatalog = useSelector(selectModules);
+  const foundApi = useSelector((state: RootState) =>
+    apiIdParam ? selectApiById(state, apiIdParam) : null,
+  );
+
+  const initial = foundApi || {
     module: apiCatalog[0],
-    api: apiCatalog[0].apis[0],
+    api: apiCatalog[0]?.apis[0],
   };
 
   const [moduleId, setModuleId] = useState(initial.module.id);
   const [apiId, setApiId] = useState(initial.api.id);
-  const [payload, setPayload] = useState<Record<string, unknown>>(() => defaultPayload(initial.api));
+  const [payload, setPayload] = useState<Record<string, unknown>>(() =>
+    defaultPayload(initial.api),
+  );
   const [rawMode, setRawMode] = useState(false);
-  const [rawText, setRawText] = useState(() => JSON.stringify(defaultPayload(initial.api), null, 2));
+  const [rawText, setRawText] = useState(() =>
+    JSON.stringify(defaultPayload(initial.api), null, 2),
+  );
   const [rawError, setRawError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<SandboxResult | null>(null);
@@ -69,8 +81,8 @@ export default function SandboxPage() {
     setRawText(JSON.stringify(fresh, null, 2));
     setRawError(null);
     setResult(null);
-    if (search.apiId !== currentApi.id) {
-      navigate({ to: "/sandbox", search: { apiId: currentApi.id }, replace: true });
+    if (apiIdParam !== currentApi?.id && currentApi) {
+      navigate(`/sandbox?apiId=${currentApi.id}`, { replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentApi.id]);
@@ -103,13 +115,15 @@ export default function SandboxPage() {
 
   return (
     <Box>
-      <Typography variant="overline" sx={{ color: "primary.main", letterSpacing: 2 }}>SANDBOX</Typography>
+      <Typography variant="overline" sx={{ color: "primary.main", letterSpacing: 2 }}>
+        SANDBOX
+      </Typography>
       <Typography variant="h3" sx={{ color: "secondary.main", fontWeight: 800, mt: 1 }}>
         Try our APIs
       </Typography>
       <Typography sx={{ mt: 1, mb: 4, color: "text.secondary", maxWidth: 720 }}>
-        Pick an endpoint, fill the request, and inspect the mocked response. No credentials required —
-        responses are deterministic mocks generated from the field specifications.
+        Pick an endpoint, fill the request, and inspect the mocked response. No credentials required
+        — responses are deterministic mocks generated from the field specifications.
       </Typography>
 
       <Box
@@ -135,7 +149,9 @@ export default function SandboxPage() {
               }}
             >
               {apiCatalog.map((m) => (
-                <MenuItem key={m.id} value={m.id}>{m.name}</MenuItem>
+                <MenuItem key={m.id} value={m.id}>
+                  {m.name}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -143,26 +159,40 @@ export default function SandboxPage() {
             <InputLabel>API</InputLabel>
             <Select label="API" value={apiId} onChange={(e) => setApiId(e.target.value)}>
               {currentModule.apis.map((a) => (
-                <MenuItem key={a.id} value={a.id}>{a.name}</MenuItem>
+                <MenuItem key={a.id} value={a.id}>
+                  {a.name}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
-          <Box sx={{ mt: 2, p: 1.5, bgcolor: "background.default", borderRadius: 1.5, border: 1, borderColor: "divider" }}>
+          <Box
+            sx={{
+              mt: 2,
+              p: 1.5,
+              bgcolor: "background.default",
+              borderRadius: 1.5,
+              border: 1,
+              borderColor: "divider",
+            }}
+          >
             <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-              <MethodBadge method={currentApi.method} />
+              {currentApi?.method && <MethodBadge method={currentApi.method} />}
               <Typography sx={{ fontFamily: "monospace", fontSize: 12, wordBreak: "break-all" }}>
-                {currentApi.path}
+                {currentApi?.path}
               </Typography>
             </Stack>
             <Typography sx={{ mt: 1, fontSize: 12, color: "text.secondary" }}>
-              {currentApi.description}
+              {currentApi?.description}
             </Typography>
           </Box>
         </Paper>
 
         {/* Request builder */}
         <Paper variant="outlined" sx={{ p: 2 }}>
-          <Stack direction="row" sx={{ mb: 1.5, alignItems: "center", justifyContent: "space-between" }}>
+          <Stack
+            direction="row"
+            sx={{ mb: 1.5, alignItems: "center", justifyContent: "space-between" }}
+          >
             <Typography sx={{ fontWeight: 700, color: "secondary.main" }}>Request</Typography>
             <FormControlLabel
               control={<Switch checked={rawMode} onChange={(_, v) => setRawMode(v)} />}
@@ -185,19 +215,24 @@ export default function SandboxPage() {
             </>
           ) : (
             <Stack spacing={2}>
-              {currentApi.requestFields.map((f) => {
+              {currentApi?.requestFields?.map((f) => {
                 const value = payload[f.name];
                 if (f.type === FieldType.ENUM && f.enumValues) {
                   return (
                     <FormControl key={f.name} fullWidth size="small">
-                      <InputLabel>{f.name}{f.required ? " *" : ""}</InputLabel>
+                      <InputLabel>
+                        {f.name}
+                        {f.required ? " *" : ""}
+                      </InputLabel>
                       <Select
                         label={f.name}
                         value={value as string}
                         onChange={(e) => handleField(f.name, e.target.value)}
                       >
                         {f.enumValues.map((v) => (
-                          <MenuItem key={v} value={v}>{v}</MenuItem>
+                          <MenuItem key={v} value={v}>
+                            {v}
+                          </MenuItem>
                         ))}
                       </Select>
                     </FormControl>
@@ -226,14 +261,19 @@ export default function SandboxPage() {
                     type={f.type === FieldType.NUMBER ? "number" : "text"}
                     value={value ?? ""}
                     onChange={(e) =>
-                      handleField(f.name, f.type === FieldType.NUMBER ? Number(e.target.value) : e.target.value)
+                      handleField(
+                        f.name,
+                        f.type === FieldType.NUMBER ? Number(e.target.value) : e.target.value,
+                      )
                     }
                     helperText={f.description}
                   />
                 );
               })}
-              {currentApi.requestFields.length === 0 && (
-                <Typography color="text.secondary" variant="body2">No request body required.</Typography>
+              {(!currentApi?.requestFields || currentApi.requestFields.length === 0) && (
+                <Typography color="text.secondary" variant="body2">
+                  No request body required.
+                </Typography>
               )}
             </Stack>
           )}
@@ -253,7 +293,9 @@ export default function SandboxPage() {
 
         {/* Response */}
         <Paper variant="outlined" sx={{ p: 2 }}>
-          <Typography sx={{ fontWeight: 700, mb: 1.5, color: "secondary.main" }}>Response</Typography>
+          <Typography sx={{ fontWeight: 700, mb: 1.5, color: "secondary.main" }}>
+            Response
+          </Typography>
           {!result && !loading && (
             <Alert severity="info" variant="outlined">
               Hit <strong>Send Request</strong> to view the mocked response.
@@ -270,14 +312,20 @@ export default function SandboxPage() {
                 <Chip
                   label={`HTTP ${result.status}`}
                   size="small"
-                  color={result.status < 300 ? "success" : result.status < 500 ? "warning" : "error"}
+                  color={
+                    result.status < 300 ? "success" : result.status < 500 ? "warning" : "error"
+                  }
                   sx={{ fontWeight: 700 }}
                 />
                 <Typography variant="caption" color="text.secondary">
                   {result.latencyMs} ms
                 </Typography>
               </Stack>
-              <CodeBlock language="json" code={JSON.stringify(result.body, null, 2)} maxHeight={520} />
+              <CodeBlock
+                language="json"
+                code={JSON.stringify(result.body, null, 2)}
+                maxHeight={520}
+              />
             </>
           )}
         </Paper>

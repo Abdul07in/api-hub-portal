@@ -1,673 +1,661 @@
 {
-    "openapi": "3.0.1",
-    "info": {
-        "title": "API-KYC-SERVICE API Documentation",
-        "description": "API documentation for the KYC Service, including Tax Status and Check KYC endpoints. This service provides KYC verification through CAMS and tax status information.",
-        "contact": {
-            "name": "ICICI Prudential",
-            "url": "https://www.iciciprulife.com",
-            "email": "support@iciciprulife.com"
-        },
-        "license": {
-            "name": "ICICI Prudential License",
-            "url": "https://www.iciciprulife.com/terms"
-        },
-        "version": "1.0.0"
+  "openapi": "3.0.1",
+  "info": {
+    "title": "API-KYC-SERVICE API Documentation",
+    "description": "API documentation for the KYC Service, including Tax Status and Check KYC endpoints. This service provides KYC verification through CAMS and tax status information.",
+    "contact": {
+      "name": "ICICI Prudential",
+      "url": "https://www.iciciprulife.com",
+      "email": "support@iciciprulife.com"
     },
-    "servers": [
-        {
-            "url": "/apikyc/v1",
-            "description": "Default Server URL"
-        }
-    ],
-    "security": [
-        {
-            "bearerAuth": []
-        }
-    ],
-    "tags": [
-        {
-            "name": "FATCA Details",
-            "description": "APIs for FATCA details operations"
-        },
-        {
-            "name": "Tax Status",
-            "description": "APIs for retrieving tax status information"
-        },
-        {
-            "name": "KYC Verification",
-            "description": "APIs for KYC verification operations"
-        },
-        {
-            "name": "NSDL PAN Verification",
-            "description": "APIs for NSDL PAN verification operations"
-        }
-    ],
-    "paths": {
-        "/nsdl/nsdl-pan-verification": {
-            "post": {
-                "tags": [
-                    "NSDL PAN Verification"
-                ],
-                "summary": "Verify PAN via NSDL",
-                "description": "Verifies PAN details (name, DOB, father name) against NSDL records via CAMS service. Request body must be encrypted. Requires Authorization header with Bearer token.",
-                "operationId": "verifyNsdlPan",
-                "parameters": [
-                    {
-                        "name": "ClientID",
-                        "in": "header",
-                        "description": "Client ID for authentication",
-                        "required": true
-                    },
-                    {
-                        "name": "RequestID",
-                        "in": "header",
-                        "description": "Unique request identifier",
-                        "required": true
-                    },
-                    {
-                        "name": "ClientIP",
-                        "in": "header",
-                        "description": "Client IP address",
-                        "required": true
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer token for authentication",
-                        "required": true,
-                        "example": "Bearer eyJhbGciOiJ..."
-                    }
-                ],
-                "requestBody": {
-                    "description": "Encrypted request body containing PAN, name, fathername, dob",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/EncryptedContentDto"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "503": {
-                        "description": "NSDL service unavailable",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized - invalid credentials or Bearer token",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "200": {
-                        "description": "PAN verification successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "415": {
-                        "description": "Unsupported Media Type - Content-Type must be application/json",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request - validation failed",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/checkkyc/getData": {
-            "post": {
-                "tags": [
-                    "KYC Verification"
-                ],
-                "summary": "Verify KYC for a PAN",
-                "description": "Verifies KYC status for a PAN number after validating client credentials. The request body must be encrypted. Requires Authorization header with Bearer token.",
-                "operationId": "checkAccess",
-                "parameters": [
-                    {
-                        "name": "ClientID",
-                        "in": "header",
-                        "description": "Client ID for authentication",
-                        "required": true
-                    },
-                    {
-                        "name": "RequestID",
-                        "in": "header",
-                        "description": "Unique request identifier",
-                        "required": true
-                    },
-                    {
-                        "name": "ClientIP",
-                        "in": "header",
-                        "description": "Client IP address",
-                        "required": true
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer token for authentication",
-                        "required": true,
-                        "example": "Bearer eyJhbGciOiJ..."
-                    }
-                ],
-                "requestBody": {
-                    "description": "Encrypted request body containing KYC verification details",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/EncryptedContentDto"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "400": {
-                        "description": "Invalid request format or missing required fields",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "200": {
-                        "description": "KYC verification successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "PAN not found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "415": {
-                        "description": "Unsupported Media Type - Content-Type must be application/json",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized - invalid client credentials or missing/invalid Bearer token",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error or external service error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/checkkyc/verifyPan": {
-            "post": {
-                "tags": [
-                    "KYC Verification"
-                ],
-                "summary": "Verify PAN using KYC Service",
-                "description": "Verifies PAN and retrieves KYC data from external KYC service after validating client credentials. Returns encrypted response with KYC status (Valid/On Hold/Not Available). Requires Authorization header with Bearer token.",
-                "operationId": "verifyPan",
-                "parameters": [
-                    {
-                        "name": "ClientID",
-                        "in": "header",
-                        "description": "Client ID for authentication",
-                        "required": true
-                    },
-                    {
-                        "name": "RequestID",
-                        "in": "header",
-                        "description": "Unique request identifier",
-                        "required": true
-                    },
-                    {
-                        "name": "ClientIP",
-                        "in": "header",
-                        "description": "Client IP address",
-                        "required": true
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer token for authentication",
-                        "required": true,
-                        "example": "Bearer eyJhbGciOiJ..."
-                    }
-                ],
-                "requestBody": {
-                    "description": "Request body containing PAN number to verify",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/EncryptedContentDto"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "503": {
-                        "description": "External KYC service unavailable",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "200": {
-                        "description": "PAN verification successful - returns KYC data based on status",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized - invalid client credentials or missing/invalid Bearer token",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error or external KYC service error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request - missing or invalid PAN number",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/taxinfo/getTaxStatus": {
-            "get": {
-                "tags": [
-                    "Tax Status"
-                ],
-                "summary": "Get tax status information",
-                "description": "Retrieves current tax status information after validating client credentials. Requires Authorization header with Bearer token. This is a GET request and should NOT include a Content-Type header.",
-                "operationId": "getTaxStatus",
-                "parameters": [
-                    {
-                        "name": "ClientID",
-                        "in": "header",
-                        "description": "Client ID for authentication",
-                        "required": true
-                    },
-                    {
-                        "name": "RequestID",
-                        "in": "header",
-                        "description": "Unique request identifier",
-                        "required": true
-                    },
-                    {
-                        "name": "ClientIP",
-                        "in": "header",
-                        "description": "Client IP address",
-                        "required": true
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer token for authentication",
-                        "required": true,
-                        "example": "Bearer eyJhbGciOiJ..."
-                    }
-                ],
-                "responses": {
-                    "400": {
-                        "description": "Bad request - missing required headers or invalid request format (e.g. including Content-Type header)",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "200": {
-                        "description": "Tax status information retrieved successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized - invalid client credentials or missing/invalid Bearer token",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/fatca/getFatcaDetails": {
-            "post": {
-                "tags": [
-                    "FATCA Details"
-                ],
-                "summary": "Get FATCA details for a PAN",
-                "description": "Gets FATCA details for a PAN number after validating client credentials. The request body must be encrypted. Requires Authorization header with Bearer token.",
-                "operationId": "getFatcaDetails",
-                "parameters": [
-                    {
-                        "name": "ClientID",
-                        "in": "header",
-                        "description": "Client ID for authentication",
-                        "required": true
-                    },
-                    {
-                        "name": "RequestID",
-                        "in": "header",
-                        "description": "Unique request identifier",
-                        "required": true
-                    },
-                    {
-                        "name": "ClientIP",
-                        "in": "header",
-                        "description": "Client IP address",
-                        "required": true
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer token for authentication",
-                        "required": true,
-                        "example": "Bearer eyJhbGciOiJ..."
-                    }
-                ],
-                "requestBody": {
-                    "description": "Encrypted request body containing PAN number",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/EncryptedContentDto"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "400": {
-                        "description": "Invalid request format or missing required fields",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "200": {
-                        "description": "FATCA details retrieved successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "PAN not found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "415": {
-                        "description": "Unsupported Media Type - Content-Type must be application/json",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized - invalid client credentials or missing/invalid Bearer token",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error or external service error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/fatca/insertFatcaDetails": {
-            "post": {
-                "tags": [
-                    "FATCA Details"
-                ],
-                "summary": "Insert FATCA details for a PAN",
-                "description": "Inserts FATCA details for a PAN number after validating client credentials. The request body must be encrypted. Requires Authorization header with Bearer token.",
-                "operationId": "insertFatcaDetails",
-                "parameters": [
-                    {
-                        "name": "ClientID",
-                        "in": "header",
-                        "description": "Client ID for authentication",
-                        "required": true
-                    },
-                    {
-                        "name": "RequestID",
-                        "in": "header",
-                        "description": "Unique request identifier",
-                        "required": true
-                    },
-                    {
-                        "name": "ClientIP",
-                        "in": "header",
-                        "description": "Client IP address",
-                        "required": true
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer token for authentication",
-                        "required": true,
-                        "example": "Bearer eyJhbGciOiJ..."
-                    }
-                ],
-                "requestBody": {
-                    "description": "Encrypted request body containing FATCA insert details",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/EncryptedContentDto"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "400": {
-                        "description": "Invalid request format or missing required fields",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "200": {
-                        "description": "FATCA details inserted successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "415": {
-                        "description": "Unsupported Media Type - Content-Type must be application/json",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized - invalid client credentials or missing/invalid Bearer token",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error or external service error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EncryptedContentDto"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    "license": {
+      "name": "ICICI Prudential License",
+      "url": "https://www.iciciprulife.com/terms"
     },
-    "components": {
-        "schemas": {
-            "EncryptedContentDto": {
-                "type": "object",
-                "properties": {
-                    "content": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "securitySchemes": {
-            "bearerAuth": {
-                "type": "http",
-                "description": "Enter JWT token in the format: Bearer {token}",
-                "name": "bearerAuth",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            }
-        }
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/apikyc/v1",
+      "description": "Default Server URL"
     }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "FATCA Details",
+      "description": "APIs for FATCA details operations"
+    },
+    {
+      "name": "Tax Status",
+      "description": "APIs for retrieving tax status information"
+    },
+    {
+      "name": "KYC Verification",
+      "description": "APIs for KYC verification operations"
+    },
+    {
+      "name": "NSDL PAN Verification",
+      "description": "APIs for NSDL PAN verification operations"
+    }
+  ],
+  "paths": {
+    "/nsdl/nsdl-pan-verification": {
+      "post": {
+        "tags": ["NSDL PAN Verification"],
+        "summary": "Verify PAN via NSDL",
+        "description": "Verifies PAN details (name, DOB, father name) against NSDL records via CAMS service. Request body must be encrypted. Requires Authorization header with Bearer token.",
+        "operationId": "verifyNsdlPan",
+        "parameters": [
+          {
+            "name": "ClientID",
+            "in": "header",
+            "description": "Client ID for authentication",
+            "required": true
+          },
+          {
+            "name": "RequestID",
+            "in": "header",
+            "description": "Unique request identifier",
+            "required": true
+          },
+          {
+            "name": "ClientIP",
+            "in": "header",
+            "description": "Client IP address",
+            "required": true
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "example": "Bearer eyJhbGciOiJ..."
+          }
+        ],
+        "requestBody": {
+          "description": "Encrypted request body containing PAN, name, fathername, dob",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EncryptedContentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "503": {
+            "description": "NSDL service unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - invalid credentials or Bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "PAN verification successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type - Content-Type must be application/json",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request - validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/checkkyc/getData": {
+      "post": {
+        "tags": ["KYC Verification"],
+        "summary": "Verify KYC for a PAN",
+        "description": "Verifies KYC status for a PAN number after validating client credentials. The request body must be encrypted. Requires Authorization header with Bearer token.",
+        "operationId": "checkAccess",
+        "parameters": [
+          {
+            "name": "ClientID",
+            "in": "header",
+            "description": "Client ID for authentication",
+            "required": true
+          },
+          {
+            "name": "RequestID",
+            "in": "header",
+            "description": "Unique request identifier",
+            "required": true
+          },
+          {
+            "name": "ClientIP",
+            "in": "header",
+            "description": "Client IP address",
+            "required": true
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "example": "Bearer eyJhbGciOiJ..."
+          }
+        ],
+        "requestBody": {
+          "description": "Encrypted request body containing KYC verification details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EncryptedContentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid request format or missing required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "KYC verification successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "PAN not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type - Content-Type must be application/json",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - invalid client credentials or missing/invalid Bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error or external service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/checkkyc/verifyPan": {
+      "post": {
+        "tags": ["KYC Verification"],
+        "summary": "Verify PAN using KYC Service",
+        "description": "Verifies PAN and retrieves KYC data from external KYC service after validating client credentials. Returns encrypted response with KYC status (Valid/On Hold/Not Available). Requires Authorization header with Bearer token.",
+        "operationId": "verifyPan",
+        "parameters": [
+          {
+            "name": "ClientID",
+            "in": "header",
+            "description": "Client ID for authentication",
+            "required": true
+          },
+          {
+            "name": "RequestID",
+            "in": "header",
+            "description": "Unique request identifier",
+            "required": true
+          },
+          {
+            "name": "ClientIP",
+            "in": "header",
+            "description": "Client IP address",
+            "required": true
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "example": "Bearer eyJhbGciOiJ..."
+          }
+        ],
+        "requestBody": {
+          "description": "Request body containing PAN number to verify",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EncryptedContentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "503": {
+            "description": "External KYC service unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "PAN verification successful - returns KYC data based on status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - invalid client credentials or missing/invalid Bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error or external KYC service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request - missing or invalid PAN number",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/taxinfo/getTaxStatus": {
+      "get": {
+        "tags": ["Tax Status"],
+        "summary": "Get tax status information",
+        "description": "Retrieves current tax status information after validating client credentials. Requires Authorization header with Bearer token. This is a GET request and should NOT include a Content-Type header.",
+        "operationId": "getTaxStatus",
+        "parameters": [
+          {
+            "name": "ClientID",
+            "in": "header",
+            "description": "Client ID for authentication",
+            "required": true
+          },
+          {
+            "name": "RequestID",
+            "in": "header",
+            "description": "Unique request identifier",
+            "required": true
+          },
+          {
+            "name": "ClientIP",
+            "in": "header",
+            "description": "Client IP address",
+            "required": true
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "example": "Bearer eyJhbGciOiJ..."
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad request - missing required headers or invalid request format (e.g. including Content-Type header)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Tax status information retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - invalid client credentials or missing/invalid Bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fatca/getFatcaDetails": {
+      "post": {
+        "tags": ["FATCA Details"],
+        "summary": "Get FATCA details for a PAN",
+        "description": "Gets FATCA details for a PAN number after validating client credentials. The request body must be encrypted. Requires Authorization header with Bearer token.",
+        "operationId": "getFatcaDetails",
+        "parameters": [
+          {
+            "name": "ClientID",
+            "in": "header",
+            "description": "Client ID for authentication",
+            "required": true
+          },
+          {
+            "name": "RequestID",
+            "in": "header",
+            "description": "Unique request identifier",
+            "required": true
+          },
+          {
+            "name": "ClientIP",
+            "in": "header",
+            "description": "Client IP address",
+            "required": true
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "example": "Bearer eyJhbGciOiJ..."
+          }
+        ],
+        "requestBody": {
+          "description": "Encrypted request body containing PAN number",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EncryptedContentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid request format or missing required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "FATCA details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "PAN not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type - Content-Type must be application/json",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - invalid client credentials or missing/invalid Bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error or external service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fatca/insertFatcaDetails": {
+      "post": {
+        "tags": ["FATCA Details"],
+        "summary": "Insert FATCA details for a PAN",
+        "description": "Inserts FATCA details for a PAN number after validating client credentials. The request body must be encrypted. Requires Authorization header with Bearer token.",
+        "operationId": "insertFatcaDetails",
+        "parameters": [
+          {
+            "name": "ClientID",
+            "in": "header",
+            "description": "Client ID for authentication",
+            "required": true
+          },
+          {
+            "name": "RequestID",
+            "in": "header",
+            "description": "Unique request identifier",
+            "required": true
+          },
+          {
+            "name": "ClientIP",
+            "in": "header",
+            "description": "Client IP address",
+            "required": true
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "example": "Bearer eyJhbGciOiJ..."
+          }
+        ],
+        "requestBody": {
+          "description": "Encrypted request body containing FATCA insert details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EncryptedContentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid request format or missing required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "FATCA details inserted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type - Content-Type must be application/json",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - invalid client credentials or missing/invalid Bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error or external service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncryptedContentDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EncryptedContentDto": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "description": "Enter JWT token in the format: Bearer {token}",
+        "name": "bearerAuth",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
 }

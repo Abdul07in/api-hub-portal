@@ -31,12 +31,15 @@ export default function FaqsPage() {
 
   return (
     <Box>
-      <Typography variant="overline" sx={{ color: "primary.main", letterSpacing: 2 }}>HELP CENTER</Typography>
+      <Typography variant="overline" sx={{ color: "primary.main", letterSpacing: 2 }}>
+        HELP CENTER
+      </Typography>
       <Typography variant="h3" sx={{ color: "secondary.main", fontWeight: 800, mt: 1 }}>
         Frequently Asked Questions
       </Typography>
       <Typography sx={{ mt: 1, mb: 3, color: "text.secondary", maxWidth: 640 }}>
-        Quick answers to the most common questions about onboarding, authentication, modules and the sandbox.
+        Quick answers to the most common questions about onboarding, authentication, modules and the
+        sandbox.
       </Typography>
 
       <TextField
@@ -61,7 +64,14 @@ export default function FaqsPage() {
           <Box key={g.category}>
             <Typography
               variant="h6"
-              sx={{ color: "secondary.main", mb: 1.5, borderBottom: 2, borderColor: "primary.main", display: "inline-block", pb: 0.5 }}
+              sx={{
+                color: "secondary.main",
+                mb: 1.5,
+                borderBottom: 2,
+                borderColor: "primary.main",
+                display: "inline-block",
+                pb: 0.5,
+              }}
             >
               {g.category}
             </Typography>

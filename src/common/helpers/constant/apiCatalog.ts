@@ -15,7 +15,8 @@ export const apiCatalog: ApiModule[] = [
   {
     id: "fatca",
     name: "FATCA Details",
-    description: "APIs for FATCA details operations — fetch and submit FATCA declarations linked to a PAN.",
+    description:
+      "APIs for FATCA details operations — fetch and submit FATCA declarations linked to a PAN.",
     apis: [
       {
         id: "fatca-get",
@@ -52,7 +53,11 @@ export const apiCatalog: ApiModule[] = [
           {
             status: 404,
             label: "Not Found",
-            body: { status: "ERROR", code: "FATCA_NOT_FOUND", message: "No FATCA record found for given PAN." },
+            body: {
+              status: "ERROR",
+              code: "FATCA_NOT_FOUND",
+              message: "No FATCA record found for given PAN.",
+            },
           },
           {
             status: 400,
@@ -61,11 +66,31 @@ export const apiCatalog: ApiModule[] = [
           },
         ],
         responseFields: [
-          { name: "status", type: FieldType.STRING, required: true, description: "SUCCESS or ERROR" },
+          {
+            name: "status",
+            type: FieldType.STRING,
+            required: true,
+            description: "SUCCESS or ERROR",
+          },
           { name: "pan", type: FieldType.STRING, required: true, description: "Echoed PAN" },
-          { name: "fatca.taxResidency", type: FieldType.STRING, required: true, description: "ISO country code" },
-          { name: "fatca.occupation", type: FieldType.STRING, required: false, description: "Investor occupation" },
-          { name: "fatca.politicallyExposed", type: FieldType.BOOLEAN, required: true, description: "PEP flag" },
+          {
+            name: "fatca.taxResidency",
+            type: FieldType.STRING,
+            required: true,
+            description: "ISO country code",
+          },
+          {
+            name: "fatca.occupation",
+            type: FieldType.STRING,
+            required: false,
+            description: "Investor occupation",
+          },
+          {
+            name: "fatca.politicallyExposed",
+            type: FieldType.BOOLEAN,
+            required: true,
+            description: "PEP flag",
+          },
         ],
       },
       {
@@ -101,7 +126,15 @@ export const apiCatalog: ApiModule[] = [
             type: FieldType.ENUM,
             required: true,
             description: "Investor's occupation.",
-            enumValues: ["Service", "Business", "Professional", "Retired", "Housewife", "Student", "Others"],
+            enumValues: [
+              "Service",
+              "Business",
+              "Professional",
+              "Retired",
+              "Housewife",
+              "Student",
+              "Others",
+            ],
             example: "Service",
           },
           {
@@ -140,17 +173,35 @@ export const apiCatalog: ApiModule[] = [
           {
             status: 201,
             label: "Created",
-            body: { status: "SUCCESS", referenceId: "FATCA-2025-00098231", message: "FATCA details saved." },
+            body: {
+              status: "SUCCESS",
+              referenceId: "FATCA-2025-00098231",
+              message: "FATCA details saved.",
+            },
           },
           {
             status: 409,
             label: "Conflict",
-            body: { status: "ERROR", code: "FATCA_EXISTS", message: "FATCA record already exists for PAN." },
+            body: {
+              status: "ERROR",
+              code: "FATCA_EXISTS",
+              message: "FATCA record already exists for PAN.",
+            },
           },
         ],
         responseFields: [
-          { name: "status", type: FieldType.STRING, required: true, description: "SUCCESS or ERROR" },
-          { name: "referenceId", type: FieldType.STRING, required: false, description: "Server-generated reference id" },
+          {
+            name: "status",
+            type: FieldType.STRING,
+            required: true,
+            description: "SUCCESS or ERROR",
+          },
+          {
+            name: "referenceId",
+            type: FieldType.STRING,
+            required: false,
+            description: "Server-generated reference id",
+          },
         ],
       },
     ],
@@ -189,9 +240,24 @@ export const apiCatalog: ApiModule[] = [
           },
         ],
         responseFields: [
-          { name: "status", type: FieldType.STRING, required: true, description: "SUCCESS or ERROR" },
-          { name: "taxStatus", type: FieldType.STRING, required: true, description: "Human-readable tax status" },
-          { name: "taxStatusCode", type: FieldType.STRING, required: true, description: "AMFI tax status code" },
+          {
+            name: "status",
+            type: FieldType.STRING,
+            required: true,
+            description: "SUCCESS or ERROR",
+          },
+          {
+            name: "taxStatus",
+            type: FieldType.STRING,
+            required: true,
+            description: "Human-readable tax status",
+          },
+          {
+            name: "taxStatusCode",
+            type: FieldType.STRING,
+            required: true,
+            description: "AMFI tax status code",
+          },
         ],
       },
     ],
@@ -199,7 +265,8 @@ export const apiCatalog: ApiModule[] = [
   {
     id: "checkkyc",
     name: "KYC Verification",
-    description: "APIs for KYC verification operations — check KYC status and verify PAN against the KYC service.",
+    description:
+      "APIs for KYC verification operations — check KYC status and verify PAN against the KYC service.",
     apis: [
       {
         id: "kyc-getdata",
@@ -235,9 +302,19 @@ export const apiCatalog: ApiModule[] = [
           },
         ],
         responseFields: [
-          { name: "kycStatus", type: FieldType.STRING, required: true, description: "KYC_VERIFIED / KYC_PENDING / KYC_REJECTED" },
+          {
+            name: "kycStatus",
+            type: FieldType.STRING,
+            required: true,
+            description: "KYC_VERIFIED / KYC_PENDING / KYC_REJECTED",
+          },
           { name: "kra", type: FieldType.STRING, required: false, description: "KRA agency name" },
-          { name: "kycDate", type: FieldType.DATE, required: false, description: "Last KYC update date" },
+          {
+            name: "kycDate",
+            type: FieldType.DATE,
+            required: false,
+            description: "Last KYC update date",
+          },
         ],
       },
       {
@@ -246,7 +323,8 @@ export const apiCatalog: ApiModule[] = [
         method: HttpMethod.POST,
         path: "/checkkyc/verifyPan",
         name: "Verify PAN using KYC Service",
-        description: "Validates that a PAN exists in the KYC service and matches the provided name.",
+        description:
+          "Validates that a PAN exists in the KYC service and matches the provided name.",
         headers: {
           "Content-Type": "application/json",
           "x-api-key": "<YOUR_API_KEY>",
@@ -276,8 +354,18 @@ export const apiCatalog: ApiModule[] = [
           },
         ],
         responseFields: [
-          { name: "nameMatch", type: FieldType.BOOLEAN, required: true, description: "Whether name matches KYC record" },
-          { name: "score", type: FieldType.NUMBER, required: true, description: "Confidence score 0-1" },
+          {
+            name: "nameMatch",
+            type: FieldType.BOOLEAN,
+            required: true,
+            description: "Whether name matches KYC record",
+          },
+          {
+            name: "score",
+            type: FieldType.NUMBER,
+            required: true,
+            description: "Confidence score 0-1",
+          },
         ],
       },
     ],
@@ -321,13 +409,32 @@ export const apiCatalog: ApiModule[] = [
           {
             status: 502,
             label: "Upstream Error",
-            body: { status: "ERROR", code: "NSDL_UNAVAILABLE", message: "NSDL service is currently unavailable." },
+            body: {
+              status: "ERROR",
+              code: "NSDL_UNAVAILABLE",
+              message: "NSDL service is currently unavailable.",
+            },
           },
         ],
         responseFields: [
-          { name: "panStatus", type: FieldType.STRING, required: true, description: "VALID / INVALID / DEACTIVATED" },
-          { name: "name", type: FieldType.STRING, required: false, description: "Name as per NSDL" },
-          { name: "lastNameUpdated", type: FieldType.DATE, required: false, description: "Last name update date" },
+          {
+            name: "panStatus",
+            type: FieldType.STRING,
+            required: true,
+            description: "VALID / INVALID / DEACTIVATED",
+          },
+          {
+            name: "name",
+            type: FieldType.STRING,
+            required: false,
+            description: "Name as per NSDL",
+          },
+          {
+            name: "lastNameUpdated",
+            type: FieldType.DATE,
+            required: false,
+            description: "Last name update date",
+          },
         ],
       },
     ],

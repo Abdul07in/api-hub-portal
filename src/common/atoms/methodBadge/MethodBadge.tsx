@@ -9,7 +9,13 @@ const COLOR: Record<HttpMethod, string> = {
   [HttpMethod.PATCH]: "#0f766e",
 };
 
-export default function MethodBadge({ method, size = "small" }: { method: HttpMethod; size?: "small" | "medium" }) {
+export default function MethodBadge({
+  method,
+  size = "small",
+}: {
+  method: HttpMethod;
+  size?: "small" | "medium";
+}) {
   return (
     <Chip
       label={method}

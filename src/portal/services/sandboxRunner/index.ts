@@ -10,7 +10,10 @@ const PAN_RE = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-export async function runSandbox(api: ApiSpec, payload: Record<string, unknown>): Promise<SandboxResult> {
+export async function runSandbox(
+  api: ApiSpec,
+  payload: Record<string, unknown>,
+): Promise<SandboxResult> {
   const start = performance.now();
   await sleep(280 + Math.random() * 320);
 

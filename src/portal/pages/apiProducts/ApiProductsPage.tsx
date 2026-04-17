@@ -23,9 +23,10 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SearchIcon from "@mui/icons-material/Search";
 import LaunchIcon from "@mui/icons-material/Launch";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import { apiCatalog } from "@/common/helpers/constant/apiCatalog";
+import { selectModules } from "@/store/slices/apiCatalogSlice";
 import type { ApiSpec } from "@/common/interfaces/api";
 import MethodBadge from "@/common/atoms/methodBadge/MethodBadge";
 import CodeBlock from "@/common/atoms/codeBlock/CodeBlock";
@@ -35,9 +36,7 @@ function buildCurl(api: ApiSpec): string {
     .map(([k, v]) => `  -H "${k}: ${v}"`)
     .join(" \\\n");
   const data =
-    api.method === "GET"
-      ? ""
-      : ` \\\n  -d '${JSON.stringify(api.sampleRequest, null, 2)}'`;
+    api.method === "GET" ? "" : ` \\\n  -d '${JSON.stringify(api.sampleRequest, null, 2)}'`;
   return `curl -X ${api.method} https://api.icicipruamc.com${api.path} \\\n${headers}${data}`;
 }
 
@@ -58,7 +57,9 @@ function ApiTabs({ api, onTryInSandbox }: { api: ApiSpec; onTryInSandbox: (id: s
 
       {tab === 0 && (
         <Stack spacing={1.5}>
-          <Typography variant="body2" color="text.secondary">{api.description}</Typography>
+          <Typography variant="body2" color="text.secondary">
+            {api.description}
+          </Typography>
           <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
             <MethodBadge method={api.method} />
             <Typography sx={{ fontFamily: "monospace", fontSize: 14 }}>{api.path}</Typography>
@@ -78,15 +79,26 @@ function ApiTabs({ api, onTryInSandbox }: { api: ApiSpec; onTryInSandbox: (id: s
       {tab === 1 && (
         <Stack spacing={2}>
           <Box>
-            <Typography variant="subtitle2" sx={{ mb: 1 }}>Headers</Typography>
-            <CodeBlock language="http" code={Object.entries(api.headers).map(([k, v]) => `${k}: ${v}`).join("\n")} />
+            <Typography variant="subtitle2" sx={{ mb: 1 }}>
+              Headers
+            </Typography>
+            <CodeBlock
+              language="http"
+              code={Object.entries(api.headers)
+                .map(([k, v]) => `${k}: ${v}`)
+                .join("\n")}
+            />
           </Box>
           <Box>
-            <Typography variant="subtitle2" sx={{ mb: 1 }}>Sample Request Body</Typography>
+            <Typography variant="subtitle2" sx={{ mb: 1 }}>
+              Sample Request Body
+            </Typography>
             <CodeBlock language="json" code={JSON.stringify(api.sampleRequest, null, 2)} />
           </Box>
           <Box>
-            <Typography variant="subtitle2" sx={{ mb: 1 }}>cURL</Typography>
+            <Typography variant="subtitle2" sx={{ mb: 1 }}>
+              cURL
+            </Typography>
             <CodeBlock language="bash" code={buildCurl(api)} />
           </Box>
         </Stack>
@@ -101,7 +113,12 @@ function ApiTabs({ api, onTryInSandbox }: { api: ApiSpec; onTryInSandbox: (id: s
                   label={r.status}
                   size="small"
                   sx={{
-                    bgcolor: r.status < 300 ? "success.light" : r.status < 500 ? "warning.light" : "error.light",
+                    bgcolor:
+                      r.status < 300
+                        ? "success.light"
+                        : r.status < 500
+                          ? "warning.light"
+                          : "error.light",
                     color: "#fff",
                     fontWeight: 700,
                   }}
@@ -117,11 +134,15 @@ function ApiTabs({ api, onTryInSandbox }: { api: ApiSpec; onTryInSandbox: (id: s
       {tab === 3 && (
         <Stack spacing={3}>
           <Box>
-            <Typography variant="subtitle2" sx={{ mb: 1 }}>Request Fields</Typography>
+            <Typography variant="subtitle2" sx={{ mb: 1 }}>
+              Request Fields
+            </Typography>
             <FieldTable fields={api.requestFields} />
           </Box>
           <Box>
-            <Typography variant="subtitle2" sx={{ mb: 1 }}>Response Fields</Typography>
+            <Typography variant="subtitle2" sx={{ mb: 1 }}>
+              Response Fields
+            </Typography>
             <FieldTable fields={api.responseFields} />
           </Box>
         </Stack>
@@ -147,7 +168,10 @@ function FieldTable({ fields }: { fields: ApiSpec["requestFields"] }) {
           {fields.map((f) => (
             <TableRow key={f.name}>
               <TableCell sx={{ fontFamily: "monospace", fontWeight: 600 }}>{f.name}</TableCell>
-              <TableCell>{f.type}{f.enumValues ? ` (${f.enumValues.join(" | ")})` : ""}</TableCell>
+              <TableCell>
+                {f.type}
+                {f.enumValues ? ` (${f.enumValues.join(" | ")})` : ""}
+              </TableCell>
               <TableCell>{f.required ? "Yes" : "No"}</TableCell>
               <TableCell sx={{ color: "text.secondary" }}>{f.description}</TableCell>
               <TableCell sx={{ fontFamily: "monospace", color: "text.secondary" }}>
@@ -163,11 +187,12 @@ function FieldTable({ fields }: { fields: ApiSpec["requestFields"] }) {
 
 export default function ApiProductsPage() {
   const navigate = useNavigate();
-  const [activeModuleId, setActiveModuleId] = useState(apiCatalog[0].id);
+  const apiCatalog = useSelector(selectModules);
+  const [activeModuleId, setActiveModuleId] = useState(apiCatalog[0]?.id || "");
   const [search, setSearch] = useState("");
 
   const handleTry = (apiId: string) => {
-    navigate({ to: "/sandbox", search: { apiId } as never });
+    navigate(`/sandbox?apiId=${apiId}`);
   };
 
   const filteredModules = useMemo(() => {
@@ -177,13 +202,20 @@ export default function ApiProductsPage() {
       .map((m) => ({
         ...m,
         apis: m.apis.filter(
-          (a) => a.name.toLowerCase().includes(q) || a.path.toLowerCase().includes(q) || m.name.toLowerCase().includes(q),
+          (a) =>
+            a.name.toLowerCase().includes(q) ||
+            a.path.toLowerCase().includes(q) ||
+            m.name.toLowerCase().includes(q),
         ),
       }))
       .filter((m) => m.apis.length > 0 || m.name.toLowerCase().includes(q));
   }, [search]);
 
-  const activeModule = filteredModules.find((m) => m.id === activeModuleId) ?? filteredModules[0] ?? apiCatalog[0];
+  const activeModule =
+    filteredModules.find((m) => m.id === activeModuleId) ??
+    filteredModules[0] ??
+    apiCatalog[0] ??
+    null;
 
   return (
     <Box>
@@ -205,7 +237,8 @@ export default function ApiProductsPage() {
         </Typography>
         <Typography sx={{ mt: 1.5, maxWidth: 720, opacity: 0.92 }}>
           Browse our developer-ready APIs across KYC, FATCA, Tax Status and PAN verification.
-          Inspect request and response specifications, then try every endpoint in the in-browser Sandbox.
+          Inspect request and response specifications, then try every endpoint in the in-browser
+          Sandbox.
         </Typography>
       </Box>
 
@@ -285,12 +318,25 @@ export default function ApiProductsPage() {
               {activeModule.apis.map((api) => (
                 <Accordion key={api.id} disableGutters>
                   <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <Stack direction="row" spacing={1.5} sx={{ flex: 1, minWidth: 0, alignItems: "center" }}>
+                    <Stack
+                      direction="row"
+                      spacing={1.5}
+                      sx={{ flex: 1, minWidth: 0, alignItems: "center" }}
+                    >
                       <MethodBadge method={api.method} />
-                      <Typography sx={{ fontFamily: "monospace", fontWeight: 600, color: "secondary.main" }}>
+                      <Typography
+                        sx={{ fontFamily: "monospace", fontWeight: 600, color: "secondary.main" }}
+                      >
                         {api.path}
                       </Typography>
-                      <Typography sx={{ color: "text.secondary", fontSize: 13, ml: "auto", display: { xs: "none", sm: "block" } }}>
+                      <Typography
+                        sx={{
+                          color: "text.secondary",
+                          fontSize: 13,
+                          ml: "auto",
+                          display: { xs: "none", sm: "block" },
+                        }}
+                      >
                         {api.name}
                       </Typography>
                     </Stack>

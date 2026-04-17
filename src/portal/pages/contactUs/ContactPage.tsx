@@ -1,14 +1,5 @@
 import { useState } from "react";
-import {
-  Alert,
-  Box,
-  Button,
-  Paper,
-  Snackbar,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Alert, Box, Button, Paper, Snackbar, Stack, TextField, Typography } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -53,13 +44,15 @@ export default function ContactPage() {
 
   return (
     <Box>
-      <Typography variant="overline" sx={{ color: "primary.main", letterSpacing: 2 }}>GET IN TOUCH</Typography>
+      <Typography variant="overline" sx={{ color: "primary.main", letterSpacing: 2 }}>
+        GET IN TOUCH
+      </Typography>
       <Typography variant="h3" sx={{ color: "secondary.main", fontWeight: 800, mt: 1 }}>
         Contact Us
       </Typography>
       <Typography sx={{ mt: 1, mb: 4, color: "text.secondary", maxWidth: 640 }}>
-        Want to integrate with PartnerHub APIs or have a question about onboarding?
-        Send us a message and our developer relations team will respond within one business day.
+        Want to integrate with PartnerHub APIs or have a question about onboarding? Send us a
+        message and our developer relations team will respond within one business day.
       </Typography>
 
       <Box
@@ -71,16 +64,30 @@ export default function ContactPage() {
         }}
       >
         <Paper variant="outlined" sx={{ p: 3 }}>
-          <Typography variant="h6" sx={{ color: "secondary.main", mb: 2 }}>Reach us directly</Typography>
+          <Typography variant="h6" sx={{ color: "secondary.main", mb: 2 }}>
+            Reach us directly
+          </Typography>
           <Stack spacing={2.5}>
-            <InfoRow icon={<EmailIcon color="primary" />} label="Email" value="partnerhub.support@icicipruamc.com" />
-            <InfoRow icon={<PhoneIcon color="primary" />} label="Phone" value="1800-222-999 (toll free)" />
+            <InfoRow
+              icon={<EmailIcon color="primary" />}
+              label="Email"
+              value="partnerhub.support@icicipruamc.com"
+            />
+            <InfoRow
+              icon={<PhoneIcon color="primary" />}
+              label="Phone"
+              value="1800-222-999 (toll free)"
+            />
             <InfoRow
               icon={<LocationOnIcon color="primary" />}
               label="Office"
               value="One BKC, A-Wing, 13th Floor, Bandra Kurla Complex, Mumbai 400051"
             />
-            <InfoRow icon={<AccessTimeIcon color="primary" />} label="Support Hours" value="Mon–Fri, 9:00 AM – 6:00 PM IST" />
+            <InfoRow
+              icon={<AccessTimeIcon color="primary" />}
+              label="Support Hours"
+              value="Mon–Fri, 9:00 AM – 6:00 PM IST"
+            />
           </Stack>
         </Paper>
 
@@ -109,7 +116,12 @@ export default function ContactPage() {
                 />
               </Stack>
               <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-                <TextField label="Company" fullWidth value={form.company} onChange={set("company")} />
+                <TextField
+                  label="Company"
+                  fullWidth
+                  value={form.company}
+                  onChange={set("company")}
+                />
                 <TextField
                   label="Subject"
                   fullWidth
@@ -131,7 +143,13 @@ export default function ContactPage() {
                 error={!!errors.message}
                 helperText={errors.message}
               />
-              <Button type="submit" variant="contained" color="primary" size="large" sx={{ alignSelf: "flex-start" }}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                size="large"
+                sx={{ alignSelf: "flex-start" }}
+              >
                 Send Message
               </Button>
             </Stack>
@@ -158,7 +176,9 @@ function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string;
     <Stack direction="row" spacing={1.5} sx={{ alignItems: "flex-start" }}>
       <Box sx={{ mt: 0.25 }}>{icon}</Box>
       <Box>
-        <Typography sx={{ fontWeight: 700, fontSize: 13, color: "secondary.main" }}>{label}</Typography>
+        <Typography sx={{ fontWeight: 700, fontSize: 13, color: "secondary.main" }}>
+          {label}
+        </Typography>
         <Typography sx={{ fontSize: 14, color: "text.secondary" }}>{value}</Typography>
       </Box>
     </Stack>

@@ -1,10 +1,12 @@
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import { Link as RouterLink } from "@tanstack/react-router";
+import { Box, Button, Container, Stack, Typography, Paper } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 import ScienceIcon from "@mui/icons-material/Science";
 import ApiIcon from "@mui/icons-material/Api";
-import { apiCatalog } from "@/common/helpers/constant/apiCatalog";
+import { useSelector } from "react-redux";
+import { selectModules } from "@/store/slices/apiCatalogSlice";
 
 export default function HomePage() {
+  const apiCatalog = useSelector(selectModules);
   return (
     <Box>
       {/* Hero */}
@@ -23,8 +25,8 @@ export default function HomePage() {
             The developer portal for our distribution partners.
           </Typography>
           <Typography sx={{ mt: 2, maxWidth: 720, fontSize: 18, opacity: 0.92 }}>
-            Browse our API catalog, inspect every request and response, and try endpoints
-            instantly in the in-browser Sandbox — no credentials needed.
+            Browse our API catalog, inspect every request and response, and try endpoints instantly
+            in the in-browser Sandbox — no credentials needed.
           </Typography>
           <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mt: 4 }}>
             <Button
@@ -90,7 +92,9 @@ export default function HomePage() {
                 },
               }}
             >
-              <Typography sx={{ fontSize: 12, color: "primary.main", fontWeight: 700, letterSpacing: 1 }}>
+              <Typography
+                sx={{ fontSize: 12, color: "primary.main", fontWeight: 700, letterSpacing: 1 }}
+              >
                 {m.apis.length} {m.apis.length === 1 ? "ENDPOINT" : "ENDPOINTS"}
               </Typography>
               <Typography variant="h6" sx={{ color: "secondary.main", fontWeight: 700, mt: 0.5 }}>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link as RouterLink, useLocation } from "@tanstack/react-router";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -30,7 +30,8 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
-  const isActive = (to: string) => location.pathname === to || (to !== "/" && location.pathname.startsWith(to));
+  const isActive = (to: string) =>
+    location.pathname === to || (to !== "/" && location.pathname.startsWith(to));
 
   return (
     <AppBar position="sticky" elevation={0}>
@@ -39,7 +40,13 @@ export default function Header() {
           <Box
             component={RouterLink}
             to="/"
-            sx={{ display: "flex", alignItems: "center", gap: 1.25, textDecoration: "none", color: "inherit" }}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1.25,
+              textDecoration: "none",
+              color: "inherit",
+            }}
           >
             <Box
               component="img"
@@ -85,7 +92,11 @@ export default function Header() {
             Login
           </Button>
 
-          <IconButton sx={{ display: { md: "none" } }} onClick={() => setOpen(true)} aria-label="open menu">
+          <IconButton
+            sx={{ display: { md: "none" } }}
+            onClick={() => setOpen(true)}
+            aria-label="open menu"
+          >
             <MenuIcon />
           </IconButton>
         </Toolbar>
