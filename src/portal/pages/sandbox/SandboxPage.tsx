@@ -148,7 +148,7 @@ export default function SandboxPage() {
             </Select>
           </FormControl>
           <Box sx={{ mt: 2, p: 1.5, bgcolor: "background.default", borderRadius: 1.5, border: 1, borderColor: "divider" }}>
-            <Stack direction="row" spacing={1} alignItems="center">
+            <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
               <MethodBadge method={currentApi.method} />
               <Typography sx={{ fontFamily: "monospace", fontSize: 12, wordBreak: "break-all" }}>
                 {currentApi.path}
@@ -162,7 +162,7 @@ export default function SandboxPage() {
 
         {/* Request builder */}
         <Paper variant="outlined" sx={{ p: 2 }}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1.5 }}>
+          <Stack direction="row" sx={{ mb: 1.5, alignItems: "center", justifyContent: "space-between" }}>
             <Typography sx={{ fontWeight: 700, color: "secondary.main" }}>Request</Typography>
             <FormControlLabel
               control={<Switch checked={rawMode} onChange={(_, v) => setRawMode(v)} />}
@@ -266,7 +266,7 @@ export default function SandboxPage() {
           )}
           {result && (
             <>
-              <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
+              <Stack direction="row" spacing={1} sx={{ mb: 1.5, alignItems: "center" }}>
                 <Chip
                   label={`HTTP ${result.status}`}
                   size="small"

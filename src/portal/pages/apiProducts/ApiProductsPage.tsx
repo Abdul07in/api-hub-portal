@@ -59,7 +59,7 @@ function ApiTabs({ api }: { api: ApiSpec }) {
       {tab === 0 && (
         <Stack spacing={1.5}>
           <Typography variant="body2" color="text.secondary">{api.description}</Typography>
-          <Stack direction="row" spacing={1} alignItems="center">
+          <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
             <MethodBadge method={api.method} />
             <Typography sx={{ fontFamily: "monospace", fontSize: 14 }}>{api.path}</Typography>
           </Stack>
@@ -98,7 +98,7 @@ function ApiTabs({ api }: { api: ApiSpec }) {
         <Stack spacing={2}>
           {api.responses.map((r, i) => (
             <Box key={i}>
-              <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+              <Stack direction="row" spacing={1} sx={{ mb: 1, alignItems: "center" }}>
                 <Chip
                   label={r.status}
                   size="small"
@@ -282,7 +282,7 @@ export default function ApiProductsPage() {
               {activeModule.apis.map((api) => (
                 <Accordion key={api.id} disableGutters>
                   <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <Stack direction="row" spacing={1.5} alignItems="center" sx={{ flex: 1, minWidth: 0 }}>
+                    <Stack direction="row" spacing={1.5} sx={{ flex: 1, minWidth: 0, alignItems: "center" }}>
                       <MethodBadge method={api.method} />
                       <Typography sx={{ fontFamily: "monospace", fontWeight: 600, color: "secondary.main" }}>
                         {api.path}

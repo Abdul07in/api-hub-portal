@@ -155,7 +155,7 @@ export default function ContactPage() {
 
 function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <Stack direction="row" spacing={1.5} alignItems="flex-start">
+    <Stack direction="row" spacing={1.5} sx={{ alignItems: "flex-start" }}>
       <Box sx={{ mt: 0.25 }}>{icon}</Box>
       <Box>
         <Typography sx={{ fontWeight: 700, fontSize: 13, color: "secondary.main" }}>{label}</Typography>
