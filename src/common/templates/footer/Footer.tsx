@@ -1,4 +1,4 @@
-import { Box, Container, Divider, Grid, IconButton, Link, Stack, Typography } from "@mui/material";
+import { Box, Container, Divider, IconButton, Link, Stack, Typography } from "@mui/material";
 import { Link as RouterLink } from "@tanstack/react-router";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
@@ -8,8 +8,14 @@ export default function Footer() {
   return (
     <Box component="footer" sx={{ bgcolor: "secondary.main", color: "#e7eef6", mt: 8 }}>
       <Container maxWidth="xl" sx={{ py: 6 }}>
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={4}>
+        <Box
+          sx={{
+            display: "grid",
+            gap: 4,
+            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "1.6fr 1fr 1.2fr 1fr" },
+          }}
+        >
+          <Box>
             <Typography sx={{ fontWeight: 800, fontSize: 18, color: "#fff" }}>
               ICICI Pru AMC · PartnerHub
             </Typography>
@@ -17,8 +23,8 @@ export default function Footer() {
               The developer portal for our distribution partners. Build, test and integrate
               with our APIs in minutes.
             </Typography>
-          </Grid>
-          <Grid item xs={6} md={2}>
+          </Box>
+          <Box>
             <Typography sx={{ fontWeight: 700, color: "#fff", mb: 1 }}>Explore</Typography>
             <Stack spacing={0.5}>
               <Link component={RouterLink} to="/api-products" color="inherit" underline="hover">API Products</Link>
@@ -26,8 +32,8 @@ export default function Footer() {
               <Link component={RouterLink} to="/faqs" color="inherit" underline="hover">FAQs</Link>
               <Link component={RouterLink} to="/contact" color="inherit" underline="hover">Contact Us</Link>
             </Stack>
-          </Grid>
-          <Grid item xs={6} md={3}>
+          </Box>
+          <Box>
             <Typography sx={{ fontWeight: 700, color: "#fff", mb: 1 }}>Resources</Typography>
             <Stack spacing={0.5}>
               <Link href="#" color="inherit" underline="hover">Authentication Guide</Link>
@@ -35,8 +41,8 @@ export default function Footer() {
               <Link href="#" color="inherit" underline="hover">Changelog</Link>
               <Link href="#" color="inherit" underline="hover">SLA</Link>
             </Stack>
-          </Grid>
-          <Grid item xs={12} md={3}>
+          </Box>
+          <Box>
             <Typography sx={{ fontWeight: 700, color: "#fff", mb: 1 }}>Connect</Typography>
             <Stack direction="row" spacing={1}>
               <IconButton size="small" sx={{ color: "#fff" }}><LinkedInIcon /></IconButton>
@@ -46,10 +52,14 @@ export default function Footer() {
             <Typography sx={{ mt: 2, fontSize: 13, opacity: 0.85 }}>
               partnerhub.support@icicipruamc.com
             </Typography>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
         <Divider sx={{ my: 3, borderColor: "rgba(255,255,255,0.18)" }} />
-        <Stack direction={{ xs: "column", md: "row" }} justifyContent="space-between" spacing={1}>
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          spacing={1}
+          sx={{ justifyContent: "space-between" }}
+        >
           <Typography sx={{ fontSize: 12, opacity: 0.8 }}>
             © {new Date().getFullYear()} ICICI Prudential Asset Management Company Ltd. All rights reserved.
           </Typography>
