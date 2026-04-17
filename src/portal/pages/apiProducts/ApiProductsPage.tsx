@@ -64,9 +64,7 @@ function ApiTabs({ api }: { api: ApiSpec }) {
             <Typography sx={{ fontFamily: "monospace", fontSize: 14 }}>{api.path}</Typography>
           </Stack>
           <Button
-            onClick={() => {
-              window.location.href = `/sandbox?apiId=${encodeURIComponent(api.id)}`;
-            }}
+            onClick={() => onTryInSandbox(api.id)}
             variant="contained"
             color="primary"
             endIcon={<LaunchIcon />}
