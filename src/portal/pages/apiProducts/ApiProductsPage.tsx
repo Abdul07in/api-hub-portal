@@ -162,8 +162,13 @@ function FieldTable({ fields }: { fields: ApiSpec["requestFields"] }) {
 }
 
 export default function ApiProductsPage() {
+  const navigate = useNavigate();
   const [activeModuleId, setActiveModuleId] = useState(apiCatalog[0].id);
   const [search, setSearch] = useState("");
+
+  const handleTry = (apiId: string) => {
+    navigate({ to: "/sandbox", search: { apiId } as never });
+  };
 
   const filteredModules = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -291,7 +296,7 @@ export default function ApiProductsPage() {
                     </Stack>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <ApiTabs api={api} />
+                    <ApiTabs api={api} onTryInSandbox={handleTry} />
                   </AccordionDetails>
                 </Accordion>
               ))}
