@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import LoginIcon from "@mui/icons-material/Login";
-import ApiIcon from "@mui/icons-material/Api";
+import iciciLogo from "@/common/assets/ICICI_Prudential_Mutual_Fund_Official_Logo.jpg";
 
 const NAV: { label: string; to: string }[] = [
   { label: "API Products", to: "/api-products" },
@@ -41,28 +41,17 @@ export default function Header() {
             to="/"
             sx={{ display: "flex", alignItems: "center", gap: 1.25, textDecoration: "none", color: "inherit" }}
           >
-            {/* Logo placeholder — drop /public/logo.png to override */}
             <Box
+              component="img"
+              src={iciciLogo}
+              alt="ICICI Prudential Mutual Fund"
               sx={{
-                width: 38,
-                height: 38,
-                borderRadius: 1.5,
-                bgcolor: "secondary.main",
-                color: "#fff",
-                display: "grid",
-                placeItems: "center",
+                height: 52,
+                width: "auto",
+                borderRadius: 1,
+                objectFit: "contain",
               }}
-            >
-              <ApiIcon fontSize="small" />
-            </Box>
-            <Box sx={{ lineHeight: 1.1 }}>
-              <Typography sx={{ fontWeight: 800, color: "secondary.main", fontSize: 16 }}>
-                ICICI Pru AMC
-              </Typography>
-              <Typography sx={{ fontSize: 11, letterSpacing: 1.5, color: "primary.main", fontWeight: 700 }}>
-                PARTNERHUB · DEVELOPERS
-              </Typography>
-            </Box>
+            />
           </Box>
 
           <Box sx={{ flexGrow: 1 }} />

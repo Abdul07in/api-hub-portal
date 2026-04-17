@@ -1,8 +1,11 @@
 {
-  "name": "tanstack_start_ts",
+  "name": "icici-prudential-api-hub-portal",
   "private": true,
   "sideEffects": false,
   "type": "module",
+  "engines": {
+    "node": ">=18.18.0"
+  },
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
@@ -73,7 +76,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
-    "@lovable.dev/vite-tanstack-config": "^1.4.0",
     "@types/node": "^22.16.5",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
