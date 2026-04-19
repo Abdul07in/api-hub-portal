@@ -34,11 +34,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "faqs",
-        element: <FaqsPage />,
+        element: (
+          <PageShell maxWidth="xl">
+            <FaqsPage />
+          </PageShell>
+        ),
       },
       {
         path: "contact",
-        element: <ContactPage />,
+        element: (
+          <PageShell maxWidth="xl">
+            <ContactPage />
+          </PageShell>
+        ),
       },
     ],
   },

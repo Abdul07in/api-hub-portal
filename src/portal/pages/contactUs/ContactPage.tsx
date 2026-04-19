@@ -148,8 +148,7 @@ export default function ContactPage() {
                 variant="contained"
                 color="primary"
                 size="large"
-                fullWidth={{ xs: true, sm: false }}
-                sx={{ alignSelf: { xs: "stretch", sm: "flex-start" } }}
+                sx={{ alignSelf: { xs: "stretch", sm: "flex-start" }, width: { xs: "100%", sm: "auto" } }}
               >
                 Send Message
               </Button>

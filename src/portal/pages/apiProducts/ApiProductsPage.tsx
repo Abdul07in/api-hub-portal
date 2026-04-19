@@ -43,13 +43,14 @@ function buildCurl(api: ApiSpec): string {
 function ApiTabs({ api, onTryInSandbox }: { api: ApiSpec; onTryInSandbox: (id: string) => void }) {
   const [tab, setTab] = useState(0);
   return (
-    <Box sx={{ mt: 2 }}>
+    <Box sx={{ mt: 2, width: "100%", overflow: "hidden" }}>
       <Tabs
         value={tab}
         onChange={(_, v) => setTab(v)}
         variant="scrollable"
         scrollButtons="auto"
-        sx={{ borderBottom: 1, borderColor: "divider", mb: 2 }}
+        allowScrollButtonsMobile
+        sx={{ borderBottom: 1, borderColor: "divider", mb: 2, width: "100%" }}
       >
         <Tab label="Overview" />
         <Tab label="Request" />
@@ -155,8 +156,8 @@ function ApiTabs({ api, onTryInSandbox }: { api: ApiSpec; onTryInSandbox: (id: s
 
 function FieldTable({ fields }: { fields: ApiSpec["requestFields"] }) {
   return (
-    <TableContainer component={Paper} variant="outlined" sx={{ overflowX: "auto" }}>
-      <Table size="small" sx={{ minWidth: { xs: 600, md: "auto" } }}>
+    <TableContainer component={Paper} variant="outlined" sx={{ overflowX: "auto", width: "100%" }}>
+      <Table size="small" sx={{ minWidth: 600 }}>
         <TableHead>
           <TableRow sx={{ "& th": { fontWeight: 700, bgcolor: "background.default" } }}>
             <TableCell>Field</TableCell>
@@ -307,7 +308,7 @@ export default function ApiProductsPage() {
         </Paper>
 
         {/* Right pane */}
-        <Box>
+        <Box sx={{ minWidth: 0, width: "100%" }}>
           {activeModule && (
             <>
               <Typography variant="h4" sx={{ color: "secondary.main" }}>
@@ -321,13 +322,19 @@ export default function ApiProductsPage() {
                 <Accordion key={api.id} disableGutters>
                   <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Stack
-                      direction="row"
-                      spacing={1.5}
-                      sx={{ flex: 1, minWidth: 0, alignItems: "center" }}
+                      direction={{ xs: "column", sm: "row" }}
+                      spacing={{ xs: 0.5, sm: 1.5 }}
+                      sx={{ flex: 1, minWidth: 0, alignItems: { xs: "flex-start", sm: "center" } }}
                     >
                       <MethodBadge method={api.method} />
                       <Typography
-                        sx={{ fontFamily: "monospace", fontWeight: 600, color: "secondary.main" }}
+                        sx={{
+                          fontFamily: "monospace",
+                          fontWeight: 600,
+                          color: "secondary.main",
+                          fontSize: { xs: 12, sm: 14 },
+                          wordBreak: "break-all",
+                        }}
                       >
                         {api.path}
                       </Typography>

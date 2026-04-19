@@ -17,7 +17,7 @@ export default function HomePage() {
           py: { xs: 6, md: 12 },
         }}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth="xl">
           <Typography variant="overline" sx={{ color: "#ffd2c2", letterSpacing: 2, fontSize: { xs: 10, sm: 12 } }}>
             ICICI PRU AMC · PARTNERHUB
           </Typography>
@@ -36,7 +36,7 @@ export default function HomePage() {
               color="primary"
               size="large"
               startIcon={<ApiIcon />}
-              fullWidth={{ xs: true, sm: false }}
+              sx={{ width: { xs: "100%", sm: "auto" } }}
             >
               Explore API Catalog
             </Button>
@@ -46,8 +46,8 @@ export default function HomePage() {
               variant="outlined"
               size="large"
               startIcon={<ScienceIcon />}
-              fullWidth={{ xs: true, sm: false }}
               sx={{
+                width: { xs: "100%", sm: "auto" },
                 color: "#fff",
                 borderColor: "rgba(255,255,255,0.6)",
                 "&:hover": { borderColor: "#fff", bgcolor: "rgba(255,255,255,0.08)" },
@@ -60,7 +60,7 @@ export default function HomePage() {
       </Box>
 
       {/* Module grid */}
-      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 8 } }}>
+      <Container maxWidth="xl" sx={{ py: { xs: 6, md: 8 } }}>
         <Typography variant="overline" sx={{ color: "primary.main", letterSpacing: 2 }}>
           MODULES
         </Typography>
