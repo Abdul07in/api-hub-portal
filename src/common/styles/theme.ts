@@ -22,7 +22,7 @@ let theme = createTheme({
     divider: BRAND.border,
   },
   typography: {
-    fontFamily: `"Roboto","Helvetica","Arial",sans-serif`,
+    fontFamily: `"Mulish","Helvetica","Arial",sans-serif`,
     h1: { fontWeight: 700, letterSpacing: "-0.02em" },
     h2: { fontWeight: 700, letterSpacing: "-0.01em" },
     h3: { fontWeight: 700 },

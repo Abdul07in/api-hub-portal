@@ -1,0 +1,137 @@
+$primary: #e15325;
+$secondary: #155686;
+$text-secondary: #5b6472;
+$border: #f0e3d8;
+$background-default: #fffaf6;
+
+.sandbox-template {
+  &__hero-overline {
+    color: $primary;
+    letter-spacing: 2px;
+    font-size: 10px;
+
+    @media (min-width: 600px) {
+      font-size: 12px;
+    }
+  }
+
+  &__hero-title {
+    color: $secondary;
+    font-weight: 800;
+    margin-top: 8px;
+    font-size: 1.75rem;
+
+    @media (min-width: 900px) {
+      font-size: 3rem;
+    }
+  }
+
+  &__hero-desc {
+    margin-top: 8px;
+    margin-bottom: 32px;
+    color: $text-secondary;
+    max-width: 720px;
+    font-size: 14px;
+
+    @media (min-width: 900px) {
+      font-size: 16px;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr;
+    align-items: start;
+
+    @media (min-width: 600px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (min-width: 900px) {
+      grid-template-columns: 260px 1fr 1fr;
+    }
+  }
+
+  &__paper {
+    padding: 16px;
+  }
+
+  &__section-title {
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: $secondary;
+  }
+
+  &__module-select {
+    margin-bottom: 12px;
+  }
+
+  &__api-info-box {
+    margin-top: 16px;
+    padding: 12px;
+    background-color: $background-default;
+    border-radius: 12px;
+    border: 1px solid $border;
+  }
+
+  &__api-path-stack {
+    align-items: center;
+  }
+
+  &__api-path-text {
+    font-family: monospace;
+    font-size: 12px;
+    word-break: break-all;
+  }
+
+  &__api-desc {
+    margin-top: 8px;
+    font-size: 12px;
+    color: $text-secondary;
+  }
+
+  &__request-header {
+    margin-bottom: 12px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__raw-text-field {
+    & textarea {
+      font-family: monospace;
+      font-size: 13px;
+    }
+  }
+
+  &__send-btn {
+    margin-top: 20px;
+  }
+
+  &__response-title {
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: $secondary;
+  }
+
+  &__loading-box {
+    display: flex;
+    justify-content: center;
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
+  &__result-header {
+    margin-bottom: 12px;
+    align-items: center;
+  }
+
+  &__status-chip {
+    font-weight: 700;
+  }
+
+  &__latency-text {
+    color: $text-secondary;
+  }
+}
+

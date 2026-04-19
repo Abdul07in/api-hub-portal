@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { ThemeProvider, CssBaseline } from "@mui/material";
+import { ThemeProvider, CssBaseline, StyledEngineProvider } from "@mui/material";
 import { Box } from "@mui/material";
 
 import { theme } from "@/common/styles/theme";
@@ -8,9 +8,10 @@ import Footer from "@/common/templates/footer/Footer";
 
 export default function AppLayout() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Box
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Box
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -24,7 +25,8 @@ export default function AppLayout() {
           <Outlet />
         </Box>
         <Footer />
-      </Box>
-    </ThemeProvider>
+        </Box>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 }

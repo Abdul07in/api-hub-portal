@@ -1,0 +1,231 @@
+$primary: #e15325;
+$primary-dark: #b9421d;
+$secondary: #155686;
+$text-secondary: #5b6472;
+$border: #f0e3d8;
+
+.api-products-template {
+  &__hero {
+    margin-bottom: 32px;
+    padding: 20px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #155686 0%, #1f6fa8 100%);
+    color: #fff;
+
+    @media (min-width: 900px) {
+      padding: 40px;
+    }
+  }
+
+  &__hero-overline {
+    color: #ffd2c2;
+    letter-spacing: 2px;
+    font-size: 10px;
+
+    @media (min-width: 600px) {
+      font-size: 12px;
+    }
+  }
+
+  &__hero-title {
+    margin-top: 8px;
+    font-weight: 800;
+    font-size: 1.75rem;
+
+    @media (min-width: 900px) {
+      font-size: 3rem;
+    }
+  }
+
+  &__hero-desc {
+    margin-top: 12px;
+    max-width: 720px;
+    opacity: 0.92;
+    font-size: 14px;
+
+    @media (min-width: 900px) {
+      font-size: 16px;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: 1fr;
+    align-items: start;
+
+    @media (min-width: 900px) {
+      grid-template-columns: 300px 1fr;
+    }
+  }
+
+  &__left-rail {
+    padding: 16px;
+    
+    @media (min-width: 900px) {
+      position: sticky;
+      top: 88px;
+    }
+  }
+
+  &__search {
+    margin-bottom: 16px;
+  }
+
+  &__module-btn {
+    justify-content: flex-start;
+    text-align: left;
+    padding: 10px 12px;
+    border-radius: 12px;
+    
+    &--active {
+      background-color: $primary !important;
+      color: #fff !important;
+      
+      &:hover {
+        background-color: $primary-dark !important;
+      }
+    }
+
+    &--inactive {
+      background-color: transparent !important;
+      color: inherit !important;
+      
+      &:hover {
+        background-color: rgba(225, 83, 37, 0.08) !important;
+      }
+    }
+  }
+
+  &__module-btn-title {
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  &__module-btn-desc {
+    font-size: 11px;
+    opacity: 0.8;
+    color: $text-secondary;
+    
+    &--active {
+      color: #fff;
+    }
+  }
+
+  &__right-pane {
+    min-width: 0;
+    width: 100%;
+  }
+
+  &__module-title {
+    color: $secondary;
+  }
+
+  &__module-desc {
+    margin-top: 8px;
+    margin-bottom: 24px;
+    color: $text-secondary;
+  }
+
+  &__accordion-summary {
+    flex: 1;
+    min-width: 0;
+    align-items: flex-start;
+
+    @media (min-width: 600px) {
+      align-items: center;
+    }
+  }
+
+  &__api-path {
+    font-family: monospace;
+    font-weight: 600;
+    color: $secondary;
+    font-size: 12px;
+    word-break: break-all;
+
+    @media (min-width: 600px) {
+      font-size: 14px;
+    }
+  }
+
+  &__api-name {
+    color: $text-secondary;
+    font-size: 13px;
+    margin-left: auto;
+    display: none;
+
+    @media (min-width: 600px) {
+      display: block;
+    }
+  }
+}
+
+.api-tabs {
+  margin-top: 16px;
+  width: 100%;
+  overflow: hidden;
+
+  &__list {
+    border-bottom: 1px solid $border;
+    margin-bottom: 16px;
+    width: 100%;
+  }
+
+  &__overview-desc {
+    color: $text-secondary;
+  }
+
+  &__overview-path {
+    align-items: center;
+  }
+
+  &__overview-path-text {
+    font-family: monospace;
+    font-size: 14px;
+  }
+
+  &__try-btn {
+    align-self: flex-start;
+    margin-top: 8px;
+  }
+
+  &__section-title {
+    margin-bottom: 8px;
+  }
+
+  &__response-row {
+    margin-bottom: 8px;
+    align-items: center;
+  }
+}
+
+.field-table {
+  overflow-x: auto;
+  width: 100%;
+
+  &__container {
+    min-width: 600px;
+  }
+
+  &__head-row {
+    & th {
+      font-weight: 700;
+      background-color: #fffaf6;
+    }
+  }
+
+  &__cell-field {
+    font-family: monospace;
+    font-weight: 600;
+  }
+
+  &__cell-desc {
+    color: $text-secondary;
+  }
+
+  &__cell-example {
+    font-family: monospace;
+    color: $text-secondary;
+  }
+}
