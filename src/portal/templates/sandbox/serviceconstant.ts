@@ -9,6 +9,12 @@ export const CONTENT = {
     moduleLabel: "Module",
     apiLabel: "API",
   },
+  headers: {
+    title: "Headers",
+    keyPlaceholder: "Key",
+    valuePlaceholder: "Value",
+    addBtn: "Add Header",
+  },
   request: {
     title: "Request",
     rawJsonToggle: "Raw JSON",

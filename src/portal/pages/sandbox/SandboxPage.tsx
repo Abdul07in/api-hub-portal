@@ -39,11 +39,11 @@ export default function SandboxPage() {
   const [payload, setPayload] = useState<Record<string, unknown>>(() =>
     defaultPayload(initial.api),
   );
-  const [rawMode, setRawMode] = useState(false);
   const [rawText, setRawText] = useState(() =>
     JSON.stringify(defaultPayload(initial.api), null, 2),
   );
   const [rawError, setRawError] = useState<string | null>(null);
+  const [headers, setHeaders] = useState<Array<{ key: string; value: string }>>([{ key: "", value: "" }]);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<SandboxResult | null>(null);
 
@@ -59,6 +59,7 @@ export default function SandboxPage() {
     setPayload(fresh);
     setRawText(JSON.stringify(fresh, null, 2));
     setRawError(null);
+    setHeaders([{ key: "", value: "" }]);
     setResult(null);
     if (apiIdParam !== currentApi?.id && currentApi) {
       navigate(`/sandbox?apiId=${currentApi.id}`, { replace: true });
@@ -75,15 +76,13 @@ export default function SandboxPage() {
   };
 
   const handleSend = async () => {
-    let body = payload;
-    if (rawMode) {
-      try {
-        body = JSON.parse(rawText);
-        setRawError(null);
-      } catch (e) {
-        setRawError((e as Error).message);
-        return;
-      }
+    let body: Record<string, unknown>;
+    try {
+      body = JSON.parse(rawText);
+      setRawError(null);
+    } catch (e) {
+      setRawError((e as Error).message);
+      return;
     }
     setLoading(true);
     setResult(null);
@@ -102,13 +101,13 @@ export default function SandboxPage() {
       currentModule={currentModule}
       currentApi={currentApi}
       payload={payload}
-      rawMode={rawMode}
-      setRawMode={setRawMode}
       rawText={rawText}
       setRawText={setRawText}
       rawError={rawError}
       loading={loading}
       result={result}
+      headers={headers}
+      setHeaders={setHeaders}
       handleField={handleField}
       handleSend={handleSend}
     />

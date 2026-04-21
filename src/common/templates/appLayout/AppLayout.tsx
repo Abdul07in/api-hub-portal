@@ -1,13 +1,21 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { ThemeProvider, CssBaseline, StyledEngineProvider } from "@mui/material";
 import { Box } from "@mui/material";
-import type { CSSProperties } from "react";
+import { useEffect, type CSSProperties } from "react";
 
 import { theme } from "@/common/styles/theme";
 import Header from "@/common/templates/header/Header";
 import Footer from "@/common/templates/footer/Footer";
 import { APP_LAYOUT_CONFIG } from "./serviceconstant";
 import "./AppLayout.scss";
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [pathname]);
+  return null;
+}
 
 export default function AppLayout() {
   const spacerStyle = {
@@ -20,6 +28,7 @@ export default function AppLayout() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Box className="app-layout">
+          <ScrollToTop />
           <Header />
           <Box className="app-layout__header-spacer" style={spacerStyle} />
           <Box className="app-layout__content">
