@@ -29,9 +29,7 @@ export default function FaqsTemplate({ q, setQ, filtered }: FaqsTemplateProps) {
       <Typography variant="h3" className="faqs-template__hero-title">
         {CONTENT.hero.title}
       </Typography>
-      <Typography className="faqs-template__hero-desc">
-        {CONTENT.hero.description}
-      </Typography>
+      <Typography className="faqs-template__hero-desc">{CONTENT.hero.description}</Typography>
 
       <TextField
         fullWidth
@@ -57,7 +55,7 @@ export default function FaqsTemplate({ q, setQ, filtered }: FaqsTemplateProps) {
               {g.category}
             </Typography>
             {g.items.map((it, i) => (
-              <Accordion key={i} disableGutters>
+              <Accordion key={i} disableGutters className="faqs-template__item">
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Typography className="faqs-template__question">{it.q}</Typography>
                 </AccordionSummary>
@@ -70,7 +68,9 @@ export default function FaqsTemplate({ q, setQ, filtered }: FaqsTemplateProps) {
         ))}
         {filtered.length === 0 && (
           <Typography className="faqs-template__no-results">
-            {CONTENT.noResultsPrefix}{q}{CONTENT.noResultsSuffix}
+            {CONTENT.noResultsPrefix}
+            {q}
+            {CONTENT.noResultsSuffix}
           </Typography>
         )}
       </Stack>

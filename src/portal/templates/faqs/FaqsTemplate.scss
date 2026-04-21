@@ -49,6 +49,14 @@ $text-secondary: #5b6472;
     padding-bottom: 4px;
   }
 
+  &__item {
+    transition: margin-bottom 0.2s ease;
+
+    &.Mui-expanded {
+      margin-bottom: 18px;
+    }
+  }
+
   &__question {
     font-weight: 600;
   }
@@ -61,4 +69,3 @@ $text-secondary: #5b6472;
     color: $text-secondary;
   }
 }
-
