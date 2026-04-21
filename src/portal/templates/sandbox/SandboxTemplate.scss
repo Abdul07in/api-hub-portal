@@ -108,6 +108,17 @@ $background-default: #fffaf6;
     margin-top: 20px;
   }
 
+  &__headers-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  &__add-header-btn {
+    margin-top: 8px;
+    align-self: flex-start;
+  }
+
   &__response-title {
     font-weight: 700;
     margin-bottom: 12px;

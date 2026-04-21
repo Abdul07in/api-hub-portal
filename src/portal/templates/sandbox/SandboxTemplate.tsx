@@ -5,18 +5,19 @@ import {
   Chip,
   CircularProgress,
   FormControl,
-  FormControlLabel,
+  IconButton,
   InputLabel,
   MenuItem,
   Paper,
   Select,
   Stack,
-  Switch,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutlined";
 import SendIcon from "@mui/icons-material/Send";
 
 import type { ApiModule, ApiSpec } from "@/common/interfaces/api";
@@ -36,11 +37,11 @@ export interface SandboxTemplateProps {
   currentModule: ApiModule;
   currentApi: ApiSpec;
   payload: Record<string, unknown>;
-  rawMode: boolean;
-  setRawMode: (val: boolean) => void;
   rawText: string;
   setRawText: (val: string) => void;
   rawError: string | null;
+  headers: Array<{ key: string; value: string }>;
+  setHeaders: (val: Array<{ key: string; value: string }>) => void;
   loading: boolean;
   result: SandboxResult | null;
   handleField: (name: string, value: unknown) => void;
@@ -56,11 +57,11 @@ export default function SandboxTemplate({
   currentModule,
   currentApi,
   payload,
-  rawMode,
-  setRawMode,
   rawText,
   setRawText,
   rawError,
+  headers,
+  setHeaders,
   loading,
   result,
   handleField,
@@ -123,93 +124,71 @@ export default function SandboxTemplate({
           </Box>
         </Paper>
 
+        {/* Headers + Request stacked in one grid cell */}
+        <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+
+        {/* Headers */}
+        <Paper variant="outlined" className="sandbox-template__paper">
+          <Typography className="sandbox-template__section-title">{CONTENT.headers.title}</Typography>
+          <Stack spacing={1}>
+            {headers.map((h, i) => (
+              <Box key={i} className="sandbox-template__headers-row">
+                <TextField
+                  size="small"
+                  placeholder={CONTENT.headers.keyPlaceholder}
+                  value={h.key}
+                  onChange={(e) => {
+                    const next = headers.map((r, idx) => idx === i ? { ...r, key: e.target.value } : r);
+                    setHeaders(next);
+                  }}
+                  sx={{ flex: 1 }}
+                />
+                <TextField
+                  size="small"
+                  placeholder={CONTENT.headers.valuePlaceholder}
+                  value={h.value}
+                  onChange={(e) => {
+                    const next = headers.map((r, idx) => idx === i ? { ...r, value: e.target.value } : r);
+                    setHeaders(next);
+                  }}
+                  sx={{ flex: 1 }}
+                />
+                {headers.length > 1 && (
+                  <IconButton
+                    size="small"
+                    aria-label="remove header"
+                    onClick={() => setHeaders(headers.filter((_, idx) => idx !== i))}
+                  >
+                    <RemoveCircleOutlineIcon fontSize="small" />
+                  </IconButton>
+                )}
+              </Box>
+            ))}
+          </Stack>
+          <Button
+            size="small"
+            startIcon={<AddIcon />}
+            onClick={() => setHeaders([...headers, { key: "", value: "" }])}
+            className="sandbox-template__add-header-btn"
+          >
+            {CONTENT.headers.addBtn}
+          </Button>
+        </Paper>
+
         {/* Request builder */}
         <Paper variant="outlined" className="sandbox-template__paper">
-          <Stack direction="row" className="sandbox-template__request-header">
-            <Typography className="sandbox-template__section-title">{CONTENT.request.title}</Typography>
-            <FormControlLabel
-              control={<Switch checked={rawMode} onChange={(_, v) => setRawMode(v)} />}
-              label={<Typography variant="caption">{CONTENT.request.rawJsonToggle}</Typography>}
-            />
-          </Stack>
+          <Typography className="sandbox-template__section-title">{CONTENT.request.title}</Typography>
 
-          {rawMode ? (
-            <>
-              <TextField
-                fullWidth
-                multiline
-                minRows={10}
-                value={rawText}
-                onChange={(e) => setRawText(e.target.value)}
-                error={!!rawError}
-                helperText={rawError ?? CONTENT.request.rawJsonHelper}
-                className="sandbox-template__raw-text-field"
-              />
-            </>
-          ) : (
-            <Stack spacing={2}>
-              {currentApi?.requestFields?.map((f) => {
-                const value = payload[f.name];
-                if (f.type === FieldType.ENUM && f.enumValues) {
-                  return (
-                    <FormControl key={f.name} fullWidth size="small">
-                      <InputLabel>
-                        {f.name}
-                        {f.required ? " *" : ""}
-                      </InputLabel>
-                      <Select
-                        label={f.name}
-                        value={value as string}
-                        onChange={(e) => handleField(f.name, e.target.value)}
-                      >
-                        {f.enumValues.map((v) => (
-                          <MenuItem key={v} value={v}>
-                            {v}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  );
-                }
-                if (f.type === FieldType.BOOLEAN) {
-                  return (
-                    <ToggleButtonGroup
-                      key={f.name}
-                      exclusive
-                      size="small"
-                      value={String(value)}
-                      onChange={(_, v) => v !== null && handleField(f.name, v === "true")}
-                    >
-                      <ToggleButton value="true">{f.name}: true</ToggleButton>
-                      <ToggleButton value="false">{f.name}: false</ToggleButton>
-                    </ToggleButtonGroup>
-                  );
-                }
-                return (
-                  <TextField
-                    key={f.name}
-                    label={`${f.name}${f.required ? " *" : ""}`}
-                    fullWidth
-                    size="small"
-                    type={f.type === FieldType.NUMBER ? "number" : "text"}
-                    value={value ?? ""}
-                    onChange={(e) =>
-                      handleField(
-                        f.name,
-                        f.type === FieldType.NUMBER ? Number(e.target.value) : e.target.value,
-                      )
-                    }
-                    helperText={f.description}
-                  />
-                );
-              })}
-              {(!currentApi?.requestFields || currentApi.requestFields.length === 0) && (
-                <Typography color="text.secondary" variant="body2">
-                  {CONTENT.request.noBodyRequired}
-                </Typography>
-              )}
-            </Stack>
-          )}
+          <TextField
+            fullWidth
+            multiline
+            minRows={10}
+            value={rawText}
+            onChange={(e) => setRawText(e.target.value)}
+            error={!!rawError}
+            helperText={rawError ?? CONTENT.request.rawJsonHelper}
+            className="sandbox-template__raw-text-field"
+          />
 
           <Button
             onClick={handleSend}
@@ -223,6 +202,8 @@ export default function SandboxTemplate({
             {loading ? CONTENT.request.sendingBtn : CONTENT.request.sendBtn}
           </Button>
         </Paper>
+
+        </Box>{/* end Headers + Request wrapper */}
 
         {/* Response */}
         <Paper variant="outlined" className="sandbox-template__paper">

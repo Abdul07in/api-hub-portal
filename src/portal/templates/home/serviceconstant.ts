@@ -7,8 +7,8 @@ export const CONTENT = {
     secondaryBtn: "Open Sandbox",
   },
   intro: {
-    title: "What is API Banking?",
-    description: "APIs allow seamless integration of mutual fund services into partner applications. With ICICI Prudential AMC's APIs, partners can onboard investors, validate KYC, create folios, and enable instant redemptions — all securely and in real time.",
+    title: "What is API Invest?",
+    description: "APIs allow seamless integration of mutual fund services into partner applications. With ICICI Prudential AMC's APIs, partners can validate KYC, onboard investors, create folios, and enable instant redemptions — all securely and in real time.",
   },
   benefits: {
     title: "Benefits",

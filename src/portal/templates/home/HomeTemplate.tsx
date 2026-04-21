@@ -8,7 +8,7 @@ import IntegrationInstructionsIcon from "@mui/icons-material/IntegrationInstruct
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SecurityIcon from "@mui/icons-material/Security";
 import SavingsIcon from "@mui/icons-material/Savings";
-import { MdViewList, MdLayers, MdSecurity, MdBarChart, MdHeadset } from "react-icons/md";
+import { MdViewList, MdLayers, MdSecurity, MdBarChart, MdHeadset, MdVerifiedUser, MdCreateNewFolder, MdAccountBalanceWallet, MdTrendingUp } from "react-icons/md";
 
 import type { ApiModule } from "@/common/interfaces/api";
 import { CONTENT } from "./serviceconstant";
@@ -47,6 +47,32 @@ function useReveal(threshold = 0.15) {
   return { ref, visible };
 }
 
+// ─── Flow (horizontal slide-in) card wrapper ─────────────────────────────────
+function FlowReveal({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const { ref, visible } = useReveal();
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        transition: `opacity 0.66s ease ${delay}ms, transform 0.66s cubic-bezier(0.34, 1.56, 0.64, 1) ${delay}ms`,
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateX(0) scale(1)" : "translateX(-36px) scale(0.94)",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
 // ─── Reusable animated section wrapper ───────────────────────────────────────
 function RevealSection({
   children,
@@ -65,7 +91,7 @@ function RevealSection({
       ref={ref}
       className={className}
       style={{
-        transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
+        transition: `opacity 0.84s ease ${delay}ms, transform 0.84s ease ${delay}ms`,
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(40px)",
         ...style,
@@ -125,7 +151,7 @@ export default function HomeTemplate({ apiCatalog }: HomeTemplateProps) {
         <Container maxWidth="xl" className="home-template__hero-container">
           <Box
             style={{
-              transition: "opacity 0.9s ease, transform 0.9s ease",
+              transition: "opacity 1.08s ease, transform 1.08s ease",
               opacity: heroLoaded ? 1 : 0,
               transform: heroLoaded ? "translateY(0)" : "translateY(30px)",
             }}
@@ -137,7 +163,7 @@ export default function HomeTemplate({ apiCatalog }: HomeTemplateProps) {
               variant="h1"
               className="home-template__hero-title"
               style={{
-                transition: "opacity 0.9s ease 0.1s, transform 0.9s ease 0.1s",
+                transition: "opacity 1.08s ease 0.12s, transform 1.08s ease 0.12s",
                 opacity: heroLoaded ? 1 : 0,
                 transform: heroLoaded ? "translateY(0)" : "translateY(20px)",
               }}
@@ -147,7 +173,7 @@ export default function HomeTemplate({ apiCatalog }: HomeTemplateProps) {
             <Typography
               className="home-template__hero-desc"
               style={{
-                transition: "opacity 0.9s ease 0.25s, transform 0.9s ease 0.25s",
+                transition: "opacity 1.08s ease 0.30s, transform 1.08s ease 0.30s",
                 opacity: heroLoaded ? 0.9 : 0,
                 transform: heroLoaded ? "translateY(0)" : "translateY(20px)",
               }}
@@ -157,7 +183,7 @@ export default function HomeTemplate({ apiCatalog }: HomeTemplateProps) {
             <Box
               className="home-template__hero-btns"
               style={{
-                transition: "opacity 0.9s ease 0.4s, transform 0.9s ease 0.4s",
+                transition: "opacity 1.08s ease 0.48s, transform 1.08s ease 0.48s",
                 opacity: heroLoaded ? 1 : 0,
                 transform: heroLoaded ? "translateY(0)" : "translateY(20px)",
               }}
@@ -275,35 +301,48 @@ export default function HomeTemplate({ apiCatalog }: HomeTemplateProps) {
       {/* ── API CATEGORIES ──────────────────────────────────────────── */}
       <Container maxWidth="xl" className="home-template__section-container">
         <RevealSection>
-          <Typography variant="overline" className="home-template__cats-overline">
-            {CONTENT.categories.overline}
-          </Typography>
-          <Typography variant="h3" className="home-template__cats-title">
-            {CONTENT.categories.title}
+          <Typography variant="h4" className="home-template__section-heading">
+            API Categories
           </Typography>
         </RevealSection>
         <Box className="home-template__cats-grid">
-          {apiCatalog.map((m: ApiModule, i: number) => (
-            <RevealSection key={m.id} delay={i * 80} className="home-template__cat-card-container">
+          {[
+            {
+              icon: <MdVerifiedUser size={40} color="#004C97" />,
+              name: "CheckKYC",
+              desc: "Validate PAN instantly.",
+            },
+            {
+              icon: <MdCreateNewFolder size={40} color="#F36F21" />,
+              name: "Folio Creation",
+              desc: "Instant folio creation via CAMS.",
+            },
+            {
+              icon: <MdAccountBalanceWallet size={40} color="#004C97" />,
+              name: "Instant Redemption",
+              desc: "Enable IMPS‑based real‑time redemptions.",
+            },
+            {
+              icon: <MdTrendingUp size={40} color="#F36F21" />,
+              name: "NAV Data",
+              desc: "Daily NAV values for all funds.",
+            },
+          ].map((card, i) => (
+            <FlowReveal key={card.name} delay={i * 110} className="home-template__cat-card-container">
               <Box
                 component={RouterLink}
                 to="/api-products"
                 className="home-template__cat-card"
               >
-                <Typography className="home-template__cat-count">
-                  {m.apis.length} {m.apis.length === 1 ? CONTENT.categories.endpointSingular : CONTENT.categories.endpointPlural}
-                </Typography>
+                <Box className="home-template__card-icon">{card.icon}</Box>
                 <Typography variant="h6" className="home-template__cat-name">
-                  {m.name}
+                  {card.name}
                 </Typography>
                 <Typography variant="body2" className="home-template__cat-desc">
-                  {m.description}
+                  {card.desc}
                 </Typography>
-                <Box className="home-template__cat-explore">
-                  {CONTENT.categories.exploreBtn} <Box component="span" className="home-template__cat-explore-arrow">→</Box>
-                </Box>
               </Box>
-            </RevealSection>
+            </FlowReveal>
           ))}
         </Box>
       </Container>
