@@ -1,0 +1,254 @@
+$header-bg-start: rgba(255, 250, 246, 0.58);
+$header-bg-end: rgba(255, 255, 255, 0.34);
+$header-border: rgba(21, 86, 134, 0.1);
+$header-shadow: rgba(17, 47, 76, 0.1);
+$nav-shell-start: rgba(21, 86, 134, 0.08);
+$nav-shell-end: rgba(225, 83, 37, 0.05);
+$nav-hover: rgba(21, 86, 134, 0.08);
+$nav-active-start: rgba(255, 255, 255, 0.6);
+$nav-active-end: rgba(255, 250, 246, 0.4);
+$nav-active-shadow: rgba(17, 47, 76, 0.06);
+$chip-start: rgba(21, 86, 134, 0.08);
+$chip-end: rgba(255, 250, 246, 0.3);
+$secondary-button-start: rgba(255, 255, 255, 0.32);
+$secondary-button-end: rgba(255, 250, 246, 0.48);
+$menu-button-start: rgba(255, 255, 255, 0.34);
+$menu-button-end: rgba(255, 250, 246, 0.5);
+$drawer-active: rgba(21, 86, 134, 0.08);
+$text-primary: #1f2937;
+$text-secondary: #5b6472;
+$brand-primary: #e15325;
+$brand-secondary: #155686;
+
+.header {
+  background-color: transparent;
+  box-shadow: none;
+  padding-top: 10px;
+
+  @media (min-width: 900px) {
+    padding-top: 14px;
+  }
+
+  &__toolbar {
+    min-height: 72px;
+    padding-inline: 10px;
+    border-radius: 22px;
+    border: 1px solid $header-border;
+    background: linear-gradient(135deg, $header-bg-start, $header-bg-end);
+    backdrop-filter: blur(24px) saturate(150%);
+    box-shadow: 0 18px 42px $header-shadow;
+    gap: 8px;
+
+    @media (min-width: 600px) {
+      padding-inline: 16px;
+    }
+
+    @media (min-width: 900px) {
+      min-height: 84px;
+      padding-inline: 20px;
+      gap: 16px;
+    }
+  }
+
+  &__brand-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: inherit;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  &__brand-logo {
+    height: 40px;
+    width: auto;
+    border-radius: 4px;
+    object-fit: contain;
+
+    @media (min-width: 900px) {
+      height: 52px;
+    }
+  }
+
+  &__brand-copy {
+    display: none;
+
+    @media (min-width: 600px) {
+      display: block;
+    }
+  }
+
+  &__brand-title {
+    color: $brand-secondary;
+    font-weight: 800;
+    font-size: 15px;
+    line-height: 1.1;
+
+    @media (min-width: 900px) {
+      font-size: 16px;
+    }
+  }
+
+  &__brand-tagline {
+    margin-top: 2px;
+    color: $text-secondary;
+    font-size: 12px;
+  }
+
+  &__spacer {
+    flex-grow: 1;
+  }
+
+  &__nav-shell {
+    display: none;
+
+    @media (min-width: 1200px) {
+      display: flex;
+      padding: 6px;
+      border-radius: 16px;
+      border: 1px solid $header-border;
+      background: linear-gradient(135deg, $nav-shell-start, $nav-shell-end);
+    }
+  }
+
+  &__nav-button {
+    min-width: 0;
+    padding: 8px 14px;
+    border-radius: 12px;
+    color: $text-primary;
+    font-weight: 600;
+
+    &:hover {
+      background: $nav-hover;
+    }
+  }
+
+  &__nav-button--active {
+    color: $brand-secondary;
+    background: linear-gradient(135deg, $nav-active-start, $nav-active-end);
+    box-shadow: 0 6px 18px $nav-active-shadow;
+
+    &:hover {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 250, 246, 0.34));
+    }
+  }
+
+  &__chip {
+    display: none;
+    border-radius: 12px;
+    border-color: rgba(21, 86, 134, 0.16);
+    background: linear-gradient(135deg, $chip-start, $chip-end);
+    color: $brand-secondary;
+    font-weight: 700;
+
+    @media (min-width: 900px) and (max-width: 1199px) {
+      display: inline-flex;
+    }
+  }
+
+  &__secondary-action {
+    display: none;
+    border-radius: 14px;
+    padding-inline: 18px;
+    border-color: rgba(21, 86, 134, 0.16);
+    background: linear-gradient(135deg, $secondary-button-start, $secondary-button-end);
+
+    @media (min-width: 900px) {
+      display: inline-flex;
+    }
+  }
+
+  &__primary-action {
+    display: none;
+    border-radius: 14px;
+    padding-inline: 19px;
+
+    @media (min-width: 900px) {
+      display: inline-flex;
+    }
+  }
+
+  &__menu-button {
+    display: inline-flex;
+    margin-left: auto;
+    width: 46px;
+    height: 46px;
+    border: 1px solid rgba(21, 86, 134, 0.12);
+    background: linear-gradient(135deg, $menu-button-start, $menu-button-end);
+    backdrop-filter: blur(18px);
+
+    @media (min-width: 1200px) {
+      display: none;
+    }
+  }
+
+  &__drawer {
+    width: 320px;
+    padding: 18px;
+  }
+
+  &__drawer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  &__drawer-avatar {
+    width: 48px;
+    height: 48px;
+    background-color: #ffffff;
+  }
+
+  &__drawer-title {
+    color: $brand-secondary;
+    font-weight: 800;
+  }
+
+  &__drawer-subtitle {
+    color: $text-secondary;
+    font-size: 13px;
+  }
+
+  &__drawer-divider {
+    margin-bottom: 12px;
+  }
+
+  &__drawer-item {
+    margin-bottom: 4px;
+    border-radius: 12px;
+  }
+
+  &__drawer-item--active {
+    background-color: $drawer-active;
+  }
+
+  &__drawer-text {
+    color: $text-primary;
+    font-weight: 500;
+  }
+
+  &__drawer-text--active {
+    color: $brand-secondary;
+    font-weight: 700;
+  }
+
+  &__drawer-caption {
+    margin-top: 2px;
+    color: $text-secondary;
+    font-size: 12px;
+  }
+
+  &__drawer-actions {
+    margin-top: 16px;
+  }
+
+  &__drawer-button {
+    border-radius: 14px;
+    min-height: 46px;
+  }
+
+  &__drawer-action--secondary {
+    margin-top: 12px;
+  }
+}

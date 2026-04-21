@@ -3,99 +3,95 @@ import { Link as RouterLink } from "react-router-dom";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+import {
+  FOOTER_CONTENT,
+  FOOTER_EXPLORE_LINKS,
+  FOOTER_LEGAL_LINKS,
+  FOOTER_RESOURCE_LINKS,
+  FOOTER_SOCIAL_LINKS,
+} from "./serviceconstant";
+import "./Footer.scss";
 
 export default function Footer() {
+  const socialIcons = {
+    LinkedIn: <LinkedInIcon />,
+    Twitter: <TwitterIcon />,
+    YouTube: <YouTubeIcon />,
+  };
+
   return (
-    <Box component="footer" sx={{ bgcolor: "secondary.main", color: "#e7eef6", mt: 8 }}>
-      <Container maxWidth="xl" sx={{ py: 6 }}>
-        <Box
-          sx={{
-            display: "grid",
-            gap: 4,
-            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "1.6fr 1fr 1.2fr 1fr" },
-          }}
-        >
+    <Box component="footer" className="footer">
+      <Container maxWidth="xl" className="footer__container">
+        <Box className="footer__grid">
           <Box>
-            <Typography sx={{ fontWeight: 800, fontSize: 18, color: "#fff" }}>
-              ICICI Pru AMC · PartnerHub
-            </Typography>
-            <Typography sx={{ mt: 1, fontSize: 14, opacity: 0.85 }}>
-              The developer portal for our distribution partners. Build, test and integrate with our
-              APIs in minutes.
+            <Typography className="footer__brand-title">{FOOTER_CONTENT.brandTitle}</Typography>
+            <Typography className="footer__brand-copy">
+              {FOOTER_CONTENT.brandDescription}
             </Typography>
           </Box>
           <Box>
-            <Typography sx={{ fontWeight: 700, color: "#fff", mb: 1 }}>Explore</Typography>
-            <Stack spacing={0.5}>
-              <Link component={RouterLink} to="/api-products" color="inherit" underline="hover">
-                API Products
-              </Link>
-              <Link component={RouterLink} to="/sandbox" color="inherit" underline="hover">
-                Sandbox
-              </Link>
-              <Link component={RouterLink} to="/faqs" color="inherit" underline="hover">
-                FAQs
-              </Link>
-              <Link component={RouterLink} to="/contact" color="inherit" underline="hover">
-                Contact Us
-              </Link>
+            <Typography className="footer__section-title">{FOOTER_CONTENT.exploreTitle}</Typography>
+            <Stack className="footer__link-stack">
+              {FOOTER_EXPLORE_LINKS.map((link) => (
+                <Link
+                  key={link.label}
+                  component={RouterLink}
+                  to={link.to!}
+                  underline="hover"
+                  className="footer__link"
+                >
+                  {link.label}
+                </Link>
+              ))}
             </Stack>
           </Box>
           <Box>
-            <Typography sx={{ fontWeight: 700, color: "#fff", mb: 1 }}>Resources</Typography>
-            <Stack spacing={0.5}>
-              <Link href="#" color="inherit" underline="hover">
-                Authentication Guide
-              </Link>
-              <Link href="#" color="inherit" underline="hover">
-                Status Page
-              </Link>
-              <Link href="#" color="inherit" underline="hover">
-                Changelog
-              </Link>
-              <Link href="#" color="inherit" underline="hover">
-                SLA
-              </Link>
-            </Stack>
-          </Box>
-          <Box>
-            <Typography sx={{ fontWeight: 700, color: "#fff", mb: 1 }}>Connect</Typography>
-            <Stack direction="row" spacing={1}>
-              <IconButton size="small" sx={{ color: "#fff" }}>
-                <LinkedInIcon />
-              </IconButton>
-              <IconButton size="small" sx={{ color: "#fff" }}>
-                <TwitterIcon />
-              </IconButton>
-              <IconButton size="small" sx={{ color: "#fff" }}>
-                <YouTubeIcon />
-              </IconButton>
-            </Stack>
-            <Typography sx={{ mt: 2, fontSize: 13, opacity: 0.85 }}>
-              partnerhub.support@icicipruamc.com
+            <Typography className="footer__section-title">
+              {FOOTER_CONTENT.resourcesTitle}
             </Typography>
+            <Stack className="footer__link-stack">
+              {FOOTER_RESOURCE_LINKS.map((link) => (
+                <Link key={link.label} href={link.href} underline="hover" className="footer__link">
+                  {link.label}
+                </Link>
+              ))}
+            </Stack>
+          </Box>
+          <Box>
+            <Typography className="footer__section-title">{FOOTER_CONTENT.connectTitle}</Typography>
+            <Stack direction="row" className="footer__social-stack">
+              {FOOTER_SOCIAL_LINKS.map((item) => (
+                <IconButton
+                  key={item.label}
+                  size="small"
+                  href={item.href}
+                  aria-label={item.label}
+                  className="footer__social-button"
+                >
+                  {socialIcons[item.label as keyof typeof socialIcons]}
+                </IconButton>
+              ))}
+            </Stack>
+            <Typography className="footer__support-email">{FOOTER_CONTENT.supportEmail}</Typography>
           </Box>
         </Box>
-        <Divider sx={{ my: 3, borderColor: "rgba(255,255,255,0.18)" }} />
-        <Stack
-          direction={{ xs: "column", md: "row" }}
-          spacing={2}
-          sx={{ justifyContent: "space-between", alignItems: { xs: "flex-start", md: "center" } }}
-        >
-          <Typography sx={{ fontSize: 12, opacity: 0.8 }}>
+        <Divider className="footer__divider" />
+        <Stack direction={{ xs: "column", md: "row" }} className="footer__meta">
+          <Typography className="footer__copyright">
             © {new Date().getFullYear()} ICICI Prudential Asset Management Company Ltd. All rights
             reserved.
           </Typography>
-          <Stack direction="row" spacing={2} sx={{ flexWrap: "wrap" }}>
-            <Link href="#" color="inherit" underline="hover" sx={{ fontSize: 12 }}>
-              Privacy Policy
-            </Link>
-            <Link href="#" color="inherit" underline="hover" sx={{ fontSize: 12 }}>
-              Terms of Use
-            </Link>
-            <Link href="#" color="inherit" underline="hover" sx={{ fontSize: 12 }}>
-              Disclaimer
-            </Link>
+          <Stack direction="row" className="footer__legal-stack">
+            {FOOTER_LEGAL_LINKS.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                underline="hover"
+                className="footer__legal-link"
+              >
+                {link.label}
+              </Link>
+            ))}
           </Stack>
         </Stack>
       </Container>

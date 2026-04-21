@@ -2,29 +2,26 @@ import { useState } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
+  Chip,
   Container,
   Drawer,
+  Divider,
   IconButton,
   List,
   ListItem,
   ListItemButton,
-  ListItemText,
-  Stack,
   Toolbar,
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import LoginIcon from "@mui/icons-material/Login";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import iciciLogo from "@/common/assets/ICICI_Prudential_Mutual_Fund_Official_Logo.jpg";
-
-const NAV: { label: string; to: string }[] = [
-  { label: "API Products", to: "/api-products" },
-  { label: "Sandbox", to: "/sandbox" },
-  { label: "FAQs", to: "/faqs" },
-  { label: "Contact Us", to: "/contact" },
-];
+import { HEADER_CONTENT, HEADER_NAV } from "./serviceconstant";
+import "./Header.scss";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -34,67 +31,70 @@ export default function Header() {
     location.pathname === to || (to !== "/" && location.pathname.startsWith(to));
 
   return (
-    <AppBar position="sticky" elevation={0}>
+    <AppBar position="fixed" elevation={0} color="transparent" className="header">
       <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ minHeight: { xs: 56, md: 64 }, gap: { xs: 1, md: 2 } }}>
-          <Box
-            component={RouterLink}
-            to="/"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1.25,
-              textDecoration: "none",
-              color: "inherit",
-              flexShrink: 0,
-            }}
-          >
+        <Toolbar disableGutters className="header__toolbar">
+          <Box component={RouterLink} to="/" className="header__brand-link">
             <Box
               component="img"
               src={iciciLogo}
               alt="ICICI Prudential Mutual Fund"
-              sx={{
-                height: { xs: 40, md: 52 },
-                width: "auto",
-                borderRadius: 1,
-                objectFit: "contain",
-              }}
+              className="header__brand-logo"
             />
+            <Box className="header__brand-copy">
+              <Typography className="header__brand-title">{HEADER_CONTENT.brandTitle}</Typography>
+              <Typography className="header__brand-tagline">
+                {HEADER_CONTENT.brandTagline}
+              </Typography>
+            </Box>
           </Box>
 
-          <Box sx={{ flexGrow: 1 }} />
+          <Box className="header__spacer" />
 
-          <Stack direction="row" spacing={1} sx={{ display: { xs: "none", md: "flex" } }}>
-            {NAV.map((n) => (
+          <Box className="header__nav-shell">
+            {HEADER_NAV.map((item) => (
               <Button
-                key={n.to}
+                key={item.to}
                 component={RouterLink}
-                to={n.to}
-                sx={{
-                  color: isActive(n.to) ? "primary.main" : "text.primary",
-                  fontWeight: 600,
-                  borderBottom: 2,
-                  borderColor: isActive(n.to) ? "primary.main" : "transparent",
-                  borderRadius: 0,
-                  px: 1.5,
-                }}
+                to={item.to}
+                className={`header__nav-button${isActive(item.to) ? " header__nav-button--active" : ""}`}
               >
-                {n.label}
+                {item.label}
               </Button>
             ))}
-          </Stack>
+          </Box>
+
+          <Chip
+            label={HEADER_CONTENT.secureAccessLabel}
+            color="secondary"
+            variant="outlined"
+            className="header__chip"
+          />
 
           <Button
+            component={RouterLink}
+            to="/signup"
+            variant="outlined"
+            color="secondary"
+            startIcon={<PersonAddAlt1Icon />}
+            className="header__secondary-action"
+          >
+            {HEADER_CONTENT.signupLabel}
+          </Button>
+
+          <Button
+            component={RouterLink}
+            to="/login"
             variant="contained"
             color="primary"
             startIcon={<LoginIcon />}
-            sx={{ display: { xs: "none", md: "inline-flex" } }}
+            className="header__primary-action"
           >
-            Login
+            {HEADER_CONTENT.loginLabel}
           </Button>
 
           <IconButton
-            sx={{ display: { md: "none" }, ml: "auto" }}
+            className="header__menu-button"
             onClick={() => setOpen(true)}
             aria-label="open menu"
             edge="end"
@@ -105,28 +105,70 @@ export default function Header() {
       </Container>
 
       <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
-        <Box sx={{ width: 280, pt: 2 }} role="presentation" onClick={() => setOpen(false)}>
+        <Box className="header__drawer" role="presentation" onClick={() => setOpen(false)}>
+          <Box className="header__drawer-brand">
+            <Avatar
+              src={iciciLogo}
+              alt="ICICI Prudential Mutual Fund"
+              className="header__drawer-avatar"
+            />
+            <Box>
+              <Typography className="header__drawer-title">
+                {HEADER_CONTENT.mobileDrawerTitle}
+              </Typography>
+              <Typography className="header__drawer-subtitle">
+                {HEADER_CONTENT.mobileDrawerSubtitle}
+              </Typography>
+            </Box>
+          </Box>
+          <Divider className="header__drawer-divider" />
           <List>
-            {NAV.map((n) => (
-              <ListItem key={n.to} disablePadding>
-                <ListItemButton component={RouterLink} to={n.to}>
-                  <ListItemText
-                    primary={n.label}
-                    slotProps={{
-                      primary: {
-                        sx: {
-                          fontWeight: isActive(n.to) ? 700 : 500,
-                          color: isActive(n.to) ? "primary.main" : "text.primary",
-                        },
-                      },
-                    }}
-                  />
+            {HEADER_NAV.map((item) => (
+              <ListItem key={item.to} disablePadding>
+                <ListItemButton
+                  component={RouterLink}
+                  to={item.to}
+                  className={`header__drawer-item${isActive(item.to) ? " header__drawer-item--active" : ""}`}
+                >
+                  <Box>
+                    <Typography
+                      className={`header__drawer-text${isActive(item.to) ? " header__drawer-text--active" : ""}`}
+                    >
+                      {item.label}
+                    </Typography>
+                    {isActive(item.to) ? (
+                      <Typography className="header__drawer-caption">
+                        {HEADER_CONTENT.activeSectionLabel}
+                      </Typography>
+                    ) : null}
+                  </Box>
                 </ListItemButton>
               </ListItem>
             ))}
-            <ListItem sx={{ mt: 2, px: 2 }}>
-              <Button fullWidth variant="contained" color="primary" startIcon={<LoginIcon />}>
-                Login
+            <ListItem disablePadding className="header__drawer-actions">
+              <Button
+                component={RouterLink}
+                to="/signup"
+                fullWidth
+                variant="outlined"
+                color="secondary"
+                startIcon={<PersonAddAlt1Icon />}
+                className="header__drawer-button"
+              >
+                {HEADER_CONTENT.signupLabel}
+              </Button>
+            </ListItem>
+            <ListItem disablePadding className="header__drawer-action--secondary">
+              <Button
+                component={RouterLink}
+                to="/login"
+                fullWidth
+                variant="contained"
+                color="primary"
+                startIcon={<LoginIcon />}
+                className="header__drawer-button"
+              >
+                {HEADER_CONTENT.loginLabel}
               </Button>
             </ListItem>
           </List>

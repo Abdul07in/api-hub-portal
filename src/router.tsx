@@ -6,6 +6,8 @@ import SandboxPage from "@/portal/pages/sandbox/SandboxPage";
 import ApiProductsPage from "@/portal/pages/apiProducts/ApiProductsPage";
 import FaqsPage from "@/portal/pages/faqs/FaqsPage";
 import ContactPage from "@/portal/pages/contactUs/ContactPage";
+import LoginPage from "@/portal/pages/login/LoginPage";
+import SignupPage from "@/portal/pages/signup/SignupPage";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +47,22 @@ export const router = createBrowserRouter([
         element: (
           <PageShell maxWidth="xl">
             <ContactPage />
+          </PageShell>
+        ),
+      },
+      {
+        path: "login",
+        element: (
+          <PageShell maxWidth="xl">
+            <LoginPage />
+          </PageShell>
+        ),
+      },
+      {
+        path: "signup",
+        element: (
+          <PageShell maxWidth="xl">
+            <SignupPage />
           </PageShell>
         ),
       },

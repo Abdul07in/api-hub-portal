@@ -1,0 +1,20 @@
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: inherit;
+  overflow-x: hidden;
+
+  &__header-spacer {
+    flex-shrink: 0;
+    height: var(--app-layout-header-spacer-mobile, 88px);
+
+    @media (min-width: 900px) {
+      height: var(--app-layout-header-spacer-desktop, 108px);
+    }
+  }
+
+  &__content {
+    flex: 1;
+  }
+}
