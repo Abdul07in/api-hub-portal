@@ -1,0 +1,176 @@
+$primary: #e15325;
+$secondary: #155686;
+$text-primary: #1f2937;
+$text-secondary: #5b6472;
+$border: #f0e3d8;
+$surface: #ffffff;
+
+.partner-dashboard {
+  &__hero {
+    position: relative;
+    overflow: hidden;
+    padding: 28px;
+    border-radius: 28px;
+    background: linear-gradient(140deg, rgba(21, 86, 134, 0.96), rgba(225, 83, 37, 0.88));
+    color: #fff;
+
+    @media (min-width: 900px) {
+      padding: 40px;
+    }
+  }
+
+  &__hero-overline {
+    color: rgba(255, 255, 255, 0.82);
+    letter-spacing: 2px;
+    font-size: 11px;
+  }
+
+  &__hero-title {
+    margin-top: 10px;
+    max-width: 12ch;
+    color: #fff;
+  }
+
+  &__hero-description {
+    margin-top: 12px;
+    max-width: 640px;
+    color: rgba(255, 255, 255, 0.84);
+    line-height: 1.75;
+  }
+
+  &__hero-metrics {
+    display: grid;
+    gap: 16px;
+    margin-top: 28px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  &__metric-card {
+    padding: 16px 18px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(12px);
+  }
+
+  &__metric-value {
+    font-size: 1.6rem;
+    font-weight: 800;
+  }
+
+  &__metric-label {
+    margin-top: 6px;
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 0.9rem;
+  }
+
+  &__grid {
+    display: grid;
+    gap: 24px;
+    margin-top: 28px;
+
+    @media (min-width: 1200px) {
+      grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.9fr);
+      align-items: start;
+    }
+  }
+
+  &__cards {
+    display: grid;
+    gap: 20px;
+
+    @media (min-width: 900px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  &__card {
+    padding: 24px;
+    border-radius: 24px;
+    border: 1px solid $border;
+    background: linear-gradient(180deg, rgba(255, 250, 246, 0.7), $surface 24%);
+    box-shadow: 0 18px 32px rgba(31, 41, 55, 0.06);
+  }
+
+  &__card-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: rgba(225, 83, 37, 0.12);
+    color: $primary;
+  }
+
+  &__card-title {
+    margin-top: 18px;
+    color: $secondary;
+    font-weight: 700;
+  }
+
+  &__card-description {
+    margin-top: 10px;
+    color: $text-secondary;
+    line-height: 1.7;
+  }
+
+  &__card-button {
+    margin-top: 18px;
+  }
+
+  &__sidebar {
+    padding: 24px;
+    border-radius: 24px;
+    border: 1px solid $border;
+    background: $surface;
+  }
+
+  &__sidebar-title {
+    color: $secondary;
+    font-weight: 800;
+  }
+
+  &__sidebar-copy {
+    margin-top: 8px;
+    color: $text-secondary;
+    line-height: 1.7;
+  }
+
+  &__status-chip {
+    margin-top: 14px;
+    font-weight: 700;
+  }
+
+  &__checklist {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  &__checklist-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  &__checklist-index {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: rgba(21, 86, 134, 0.1);
+    color: $secondary;
+    font-size: 0.9rem;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  &__checklist-copy {
+    color: $text-primary;
+    line-height: 1.65;
+  }
+}

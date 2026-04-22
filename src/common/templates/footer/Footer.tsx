@@ -1,4 +1,5 @@
 import { Box, Container, Divider, IconButton, Link, Stack, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
@@ -10,14 +11,21 @@ import {
   FOOTER_RESOURCE_LINKS,
   FOOTER_SOCIAL_LINKS,
 } from "./serviceconstant";
+import { selectIsAuthenticated } from "@/store/slices/authSlice";
 import "./Footer.scss";
 
 export default function Footer() {
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const socialIcons = {
     LinkedIn: <LinkedInIcon />,
     Twitter: <TwitterIcon />,
     YouTube: <YouTubeIcon />,
   };
+  const exploreLinks = FOOTER_EXPLORE_LINKS.filter((link) => {
+    if (link.authRequired && !isAuthenticated) return false;
+    if (link.guestOnly && isAuthenticated) return false;
+    return true;
+  });
 
   return (
     <Box component="footer" className="footer">
@@ -32,7 +40,7 @@ export default function Footer() {
           <Box>
             <Typography className="footer__section-title">{FOOTER_CONTENT.exploreTitle}</Typography>
             <Stack className="footer__link-stack">
-              {FOOTER_EXPLORE_LINKS.map((link) => (
+              {exploreLinks.map((link) => (
                 <Link
                   key={link.label}
                   component={RouterLink}

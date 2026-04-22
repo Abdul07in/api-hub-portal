@@ -8,6 +8,9 @@ import FaqsPage from "@/portal/pages/faqs/FaqsPage";
 import ContactPage from "@/portal/pages/contactUs/ContactPage";
 import LoginPage from "@/portal/pages/login/LoginPage";
 import SignupPage from "@/portal/pages/signup/SignupPage";
+import PartnerDashboardPage from "@/portal/pages/partnerDashboard/PartnerDashboardPage";
+import ProtectedRoute from "@/portal/components/auth/ProtectedRoute";
+import GuestRoute from "@/portal/components/auth/GuestRoute";
 
 export const router = createBrowserRouter([
   {
@@ -17,22 +20,6 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
-      },
-      {
-        path: "sandbox",
-        element: (
-          <PageShell maxWidth="xl">
-            <SandboxPage />
-          </PageShell>
-        ),
-      },
-      {
-        path: "api-products",
-        element: (
-          <PageShell maxWidth="xl">
-            <ApiProductsPage />
-          </PageShell>
-        ),
       },
       {
         path: "faqs",
@@ -51,20 +38,54 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "login",
-        element: (
-          <PageShell maxWidth="xl">
-            <LoginPage />
-          </PageShell>
-        ),
+        element: <GuestRoute />,
+        children: [
+          {
+            path: "login",
+            element: (
+              <PageShell maxWidth="xl">
+                <LoginPage />
+              </PageShell>
+            ),
+          },
+          {
+            path: "signup",
+            element: (
+              <PageShell maxWidth="xl">
+                <SignupPage />
+              </PageShell>
+            ),
+          },
+        ],
       },
       {
-        path: "signup",
-        element: (
-          <PageShell maxWidth="xl">
-            <SignupPage />
-          </PageShell>
-        ),
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "partner/dashboard",
+            element: (
+              <PageShell maxWidth="xl">
+                <PartnerDashboardPage />
+              </PageShell>
+            ),
+          },
+          {
+            path: "sandbox",
+            element: (
+              <PageShell maxWidth="xl">
+                <SandboxPage />
+              </PageShell>
+            ),
+          },
+          {
+            path: "api-products",
+            element: (
+              <PageShell maxWidth="xl">
+                <ApiProductsPage />
+              </PageShell>
+            ),
+          },
+        ],
       },
     ],
   },

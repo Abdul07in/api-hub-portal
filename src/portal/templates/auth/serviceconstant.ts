@@ -32,12 +32,14 @@ export const AUTH_CONTENT = {
     description:
       "Use your registered business email to continue managing API access, sandbox runs, and product documentation.",
     primaryAction: "Login",
+    loadingAction: "Signing in...",
     secondaryAction: "Need help signing in?",
     secondaryHref: "/contact",
     successMessage: "Login form validated successfully. Auth API integration can plug in next.",
     switchPrompt: "New to PartnerHub?",
     switchAction: "Create an account",
     switchHref: "/signup",
+    errorTitle: "Unable to sign in",
   },
   signup: {
     overline: "GET STARTED",
@@ -45,11 +47,13 @@ export const AUTH_CONTENT = {
     description:
       "Register your team to request sandbox credentials, track onboarding status, and explore available APIs.",
     primaryAction: "Create account",
+    loadingAction: "Creating account...",
     successMessage:
       "Signup request validated successfully. The next step is wiring it to the auth service.",
     switchPrompt: "Already have access?",
     switchAction: "Sign in instead",
     switchHref: "/login",
     termsLabel: "I confirm that I am authorized to request access on behalf of my organization.",
+    errorTitle: "Unable to create account",
   },
 };

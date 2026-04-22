@@ -2,13 +2,17 @@ export const CONTENT = {
   hero: {
     overline: "ICICI PRU AMC · PARTNERHUB",
     title: "The developer portal for our distribution partners.",
-    description: "Browse our API catalog, inspect every request and response, and try endpoints instantly in the in-browser Sandbox — no credentials needed.",
-    primaryBtn: "Explore API Catalog",
-    secondaryBtn: "Open Sandbox",
+    description:
+      "Browse our API catalog, inspect every request and response, and move from onboarding to protected sandbox testing in one workspace.",
+    guestPrimaryBtn: "Partner Login",
+    guestSecondaryBtn: "Create Account",
+    authenticatedPrimaryBtn: "Open Dashboard",
+    authenticatedSecondaryBtn: "Open Sandbox",
   },
   intro: {
     title: "What is API Invest?",
-    description: "APIs allow seamless integration of mutual fund services into partner applications. With ICICI Prudential AMC's APIs, partners can validate KYC, onboard investors, create folios, and enable instant redemptions — all securely and in real time.",
+    description:
+      "APIs allow seamless integration of mutual fund services into partner applications. With ICICI Prudential AMC's APIs, partners can validate KYC, onboard investors, create folios, and enable instant redemptions — all securely and in real time.",
   },
   benefits: {
     title: "Benefits",
@@ -28,8 +32,14 @@ export const CONTENT = {
     items: [
       { title: "API Catalog", desc: "Explore NAV, KYC, Folio, Redemption, and more." },
       { title: "Sandbox Testing", desc: "Test APIs safely with mock data before going live." },
-      { title: "Compliance & Security", desc: "SEBI/AMFI aligned with audit logs and secure access." },
-      { title: "Analytics Dashboard", desc: "Track usage, errors, latency, and performance metrics." },
+      {
+        title: "Compliance & Security",
+        desc: "SEBI/AMFI aligned with audit logs and secure access.",
+      },
+      {
+        title: "Analytics Dashboard",
+        desc: "Track usage, errors, latency, and performance metrics.",
+      },
       { title: "Partner Support", desc: "Dedicated helpdesk, FAQs, and documentation hub." },
     ],
   },
@@ -39,5 +49,6 @@ export const CONTENT = {
     endpointSingular: "ENDPOINT",
     endpointPlural: "ENDPOINTS",
     exploreBtn: "Explore API",
+    guestPrompt: "Sign in to unlock",
   },
 };

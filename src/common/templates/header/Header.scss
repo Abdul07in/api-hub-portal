@@ -146,6 +146,43 @@ $brand-secondary: #155686;
     }
   }
 
+  &__partner-summary {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(21, 86, 134, 0.1), rgba(255, 250, 246, 0.34));
+    border: 1px solid rgba(21, 86, 134, 0.12);
+
+    @media (min-width: 900px) {
+      display: flex;
+    }
+  }
+
+  &__partner-avatar {
+    width: 36px;
+    height: 36px;
+    background: rgba(21, 86, 134, 0.14);
+    color: $brand-secondary;
+    font-size: 0.9rem;
+    font-weight: 800;
+  }
+
+  &__partner-name {
+    color: $brand-secondary;
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  &__partner-role {
+    margin-top: 2px;
+    color: $text-secondary;
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
   &__secondary-action {
     display: none;
     border-radius: 14px;
@@ -162,6 +199,16 @@ $brand-secondary: #155686;
     display: none;
     border-radius: 14px;
     padding-inline: 19px;
+
+    @media (min-width: 900px) {
+      display: inline-flex;
+    }
+  }
+
+  &__logout-action {
+    display: none;
+    border-radius: 14px;
+    padding-inline: 18px;
 
     @media (min-width: 900px) {
       display: inline-flex;
@@ -250,5 +297,26 @@ $brand-secondary: #155686;
 
   &__drawer-action--secondary {
     margin-top: 12px;
+  }
+
+  &__drawer-account {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    padding: 14px;
+    border-radius: 14px;
+    background: rgba(21, 86, 134, 0.06);
+    border: 1px solid rgba(21, 86, 134, 0.08);
+  }
+
+  &__drawer-account-name {
+    color: $brand-secondary;
+    font-weight: 700;
+  }
+
+  &__drawer-account-meta {
+    margin-top: 4px;
+    color: $text-secondary;
+    font-size: 12px;
+    line-height: 1.5;
   }
 }

@@ -35,6 +35,8 @@ export interface LoginTemplateProps {
   handleRememberChange: (event: ChangeEvent<HTMLInputElement>) => void;
   showPassword: boolean;
   setShowPassword: (value: boolean) => void;
+  isSubmitting: boolean;
+  authError: string | null;
 }
 
 export default function LoginTemplate({
@@ -47,6 +49,8 @@ export default function LoginTemplate({
   handleRememberChange,
   showPassword,
   setShowPassword,
+  isSubmitting,
+  authError,
 }: LoginTemplateProps) {
   return (
     <>
@@ -65,6 +69,12 @@ export default function LoginTemplate({
       >
         <Box component="form" onSubmit={handleSubmit} noValidate className="auth-template__form">
           <Stack spacing={2.5}>
+            {authError ? (
+              <Alert severity="error" className="auth-template__alert">
+                <strong>{AUTH_CONTENT.login.errorTitle}</strong> {authError}
+              </Alert>
+            ) : null}
+
             <TextField
               label="Business email"
               type="email"
@@ -139,8 +149,15 @@ export default function LoginTemplate({
               </Button>
             </Stack>
 
-            <Button type="submit" variant="contained" color="primary" size="large" fullWidth>
-              {AUTH_CONTENT.login.primaryAction}
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="large"
+              fullWidth
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? AUTH_CONTENT.login.loadingAction : AUTH_CONTENT.login.primaryAction}
             </Button>
           </Stack>
         </Box>

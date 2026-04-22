@@ -8,7 +8,17 @@ import IntegrationInstructionsIcon from "@mui/icons-material/IntegrationInstruct
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SecurityIcon from "@mui/icons-material/Security";
 import SavingsIcon from "@mui/icons-material/Savings";
-import { MdViewList, MdLayers, MdSecurity, MdBarChart, MdHeadset, MdVerifiedUser, MdCreateNewFolder, MdAccountBalanceWallet, MdTrendingUp } from "react-icons/md";
+import {
+  MdViewList,
+  MdLayers,
+  MdSecurity,
+  MdBarChart,
+  MdHeadset,
+  MdVerifiedUser,
+  MdCreateNewFolder,
+  MdAccountBalanceWallet,
+  MdTrendingUp,
+} from "react-icons/md";
 
 import type { ApiModule } from "@/common/interfaces/api";
 import { CONTENT } from "./serviceconstant";
@@ -39,7 +49,7 @@ function useReveal(threshold = 0.15) {
           obs.disconnect();
         }
       },
-      { threshold }
+      { threshold },
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -104,11 +114,15 @@ function RevealSection({
 
 export interface HomeTemplateProps {
   apiCatalog: ApiModule[];
+  isAuthenticated: boolean;
 }
 
-export default function HomeTemplate({ apiCatalog }: HomeTemplateProps) {
+export default function HomeTemplate({ apiCatalog, isAuthenticated }: HomeTemplateProps) {
   const theme = useTheme();
   const parallaxOffset = useHeroParallax();
+  const heroPrimaryHref = isAuthenticated ? "/partner/dashboard" : "/login";
+  const heroSecondaryHref = isAuthenticated ? "/sandbox" : "/signup";
+  const categoryHref = isAuthenticated ? "/api-products" : "/login";
 
   // Hero load animation
   const [heroLoaded, setHeroLoaded] = useState(false);
@@ -118,18 +132,45 @@ export default function HomeTemplate({ apiCatalog }: HomeTemplateProps) {
   }, []);
 
   const benefitsData = [
-    { ...CONTENT.benefits.items[0], icon: <IntegrationInstructionsIcon sx={{ fontSize: 40, color: "primary.main" }} /> },
-    { ...CONTENT.benefits.items[1], icon: <AccessTimeIcon sx={{ fontSize: 40, color: "secondary.main" }} /> },
-    { ...CONTENT.benefits.items[2], icon: <SecurityIcon sx={{ fontSize: 40, color: "primary.main" }} /> },
-    { ...CONTENT.benefits.items[3], icon: <SavingsIcon sx={{ fontSize: 40, color: "secondary.main" }} /> },
+    {
+      ...CONTENT.benefits.items[0],
+      icon: <IntegrationInstructionsIcon sx={{ fontSize: 40, color: "primary.main" }} />,
+    },
+    {
+      ...CONTENT.benefits.items[1],
+      icon: <AccessTimeIcon sx={{ fontSize: 40, color: "secondary.main" }} />,
+    },
+    {
+      ...CONTENT.benefits.items[2],
+      icon: <SecurityIcon sx={{ fontSize: 40, color: "primary.main" }} />,
+    },
+    {
+      ...CONTENT.benefits.items[3],
+      icon: <SavingsIcon sx={{ fontSize: 40, color: "secondary.main" }} />,
+    },
   ];
 
   const featuresData = [
-    { ...CONTENT.features.items[0], icon: <MdViewList size={40} color={theme.palette.primary.main} /> },
-    { ...CONTENT.features.items[1], icon: <MdLayers size={40} color={theme.palette.secondary.main} /> },
-    { ...CONTENT.features.items[2], icon: <MdSecurity size={40} color={theme.palette.primary.main} /> },
-    { ...CONTENT.features.items[3], icon: <MdBarChart size={40} color={theme.palette.secondary.main} /> },
-    { ...CONTENT.features.items[4], icon: <MdHeadset size={40} color={theme.palette.primary.main} /> },
+    {
+      ...CONTENT.features.items[0],
+      icon: <MdViewList size={40} color={theme.palette.primary.main} />,
+    },
+    {
+      ...CONTENT.features.items[1],
+      icon: <MdLayers size={40} color={theme.palette.secondary.main} />,
+    },
+    {
+      ...CONTENT.features.items[2],
+      icon: <MdSecurity size={40} color={theme.palette.primary.main} />,
+    },
+    {
+      ...CONTENT.features.items[3],
+      icon: <MdBarChart size={40} color={theme.palette.secondary.main} />,
+    },
+    {
+      ...CONTENT.features.items[4],
+      icon: <MdHeadset size={40} color={theme.palette.primary.main} />,
+    },
   ];
 
   return (
@@ -190,24 +231,28 @@ export default function HomeTemplate({ apiCatalog }: HomeTemplateProps) {
             >
               <Button
                 component={RouterLink}
-                to="/api-products"
+                to={heroPrimaryHref}
                 variant="contained"
                 color="primary"
                 size="large"
                 startIcon={<ApiIcon />}
                 className="home-template__btn"
               >
-                {CONTENT.hero.primaryBtn}
+                {isAuthenticated
+                  ? CONTENT.hero.authenticatedPrimaryBtn
+                  : CONTENT.hero.guestPrimaryBtn}
               </Button>
               <Button
                 component={RouterLink}
-                to="/sandbox"
+                to={heroSecondaryHref}
                 variant="outlined"
                 size="large"
                 startIcon={<ScienceIcon />}
                 className="home-template__btn home-template__btn-outline"
               >
-                {CONTENT.hero.secondaryBtn}
+                {isAuthenticated
+                  ? CONTENT.hero.authenticatedSecondaryBtn
+                  : CONTENT.hero.guestSecondaryBtn}
               </Button>
             </Box>
           </Box>
@@ -241,8 +286,12 @@ export default function HomeTemplate({ apiCatalog }: HomeTemplateProps) {
               <RevealSection key={i} delay={i * 100}>
                 <Box className="home-template__benefit-card">
                   <Box className="home-template__card-icon">{b.icon}</Box>
-                  <Typography variant="h6" className="home-template__benefit-title">{b.title}</Typography>
-                  <Typography variant="body2" className="home-template__card-desc">{b.desc}</Typography>
+                  <Typography variant="h6" className="home-template__benefit-title">
+                    {b.title}
+                  </Typography>
+                  <Typography variant="body2" className="home-template__card-desc">
+                    {b.desc}
+                  </Typography>
                 </Box>
               </RevealSection>
             ))}
@@ -262,9 +311,7 @@ export default function HomeTemplate({ apiCatalog }: HomeTemplateProps) {
           {CONTENT.howItWorks.steps.map((step, i) => (
             <RevealSection key={i} delay={i * 120} style={{ zIndex: 1, width: "100%" }}>
               <Box className="home-template__how-step">
-                <Box className="home-template__how-circle">
-                  {i + 1}
-                </Box>
+                <Box className="home-template__how-circle">{i + 1}</Box>
                 <Typography variant="h6" className="home-template__how-title">
                   {step}
                 </Typography>
@@ -288,8 +335,12 @@ export default function HomeTemplate({ apiCatalog }: HomeTemplateProps) {
                 <Box className="home-template__feature-card">
                   <Box className="home-template__feature-icon">{f.icon}</Box>
                   <Box>
-                    <Typography variant="h6" className="home-template__feature-title">{f.title}</Typography>
-                    <Typography variant="body2" className="home-template__card-desc">{f.desc}</Typography>
+                    <Typography variant="h6" className="home-template__feature-title">
+                      {f.title}
+                    </Typography>
+                    <Typography variant="body2" className="home-template__card-desc">
+                      {f.desc}
+                    </Typography>
                   </Box>
                 </Box>
               </RevealSection>
@@ -328,12 +379,12 @@ export default function HomeTemplate({ apiCatalog }: HomeTemplateProps) {
               desc: "Daily NAV values for all funds.",
             },
           ].map((card, i) => (
-            <FlowReveal key={card.name} delay={i * 110} className="home-template__cat-card-container">
-              <Box
-                component={RouterLink}
-                to="/api-products"
-                className="home-template__cat-card"
-              >
+            <FlowReveal
+              key={card.name}
+              delay={i * 110}
+              className="home-template__cat-card-container"
+            >
+              <Box component={RouterLink} to={categoryHref} className="home-template__cat-card">
                 <Box className="home-template__card-icon">{card.icon}</Box>
                 <Typography variant="h6" className="home-template__cat-name">
                   {card.name}
@@ -341,6 +392,11 @@ export default function HomeTemplate({ apiCatalog }: HomeTemplateProps) {
                 <Typography variant="body2" className="home-template__cat-desc">
                   {card.desc}
                 </Typography>
+                {!isAuthenticated ? (
+                  <Typography variant="body2" className="home-template__cat-desc">
+                    {CONTENT.categories.guestPrompt}
+                  </Typography>
+                ) : null}
               </Box>
             </FlowReveal>
           ))}

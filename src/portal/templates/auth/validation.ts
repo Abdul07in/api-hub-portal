@@ -47,8 +47,6 @@ export const validateLoginForm = (form: LoginForm): Partial<Record<keyof LoginFo
 
   if (!form.password.trim()) {
     errors.password = "Password is required";
-  } else if (!isStrongPassword(form.password)) {
-    errors.password = "Use at least 8 characters with letters and numbers";
   }
 
   return errors;

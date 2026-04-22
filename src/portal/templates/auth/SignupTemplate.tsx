@@ -44,6 +44,8 @@ export interface SignupTemplateProps {
   setShowPassword: (value: boolean) => void;
   showConfirmPassword: boolean;
   setShowConfirmPassword: (value: boolean) => void;
+  isSubmitting: boolean;
+  authError: string | null;
 }
 
 export default function SignupTemplate({
@@ -58,6 +60,8 @@ export default function SignupTemplate({
   setShowPassword,
   showConfirmPassword,
   setShowConfirmPassword,
+  isSubmitting,
+  authError,
 }: SignupTemplateProps) {
   return (
     <>
@@ -76,6 +80,12 @@ export default function SignupTemplate({
       >
         <Box component="form" onSubmit={handleSubmit} noValidate className="auth-template__form">
           <Stack spacing={2.5}>
+            {authError ? (
+              <Alert severity="error" className="auth-template__alert">
+                <strong>{AUTH_CONTENT.signup.errorTitle}</strong> {authError}
+              </Alert>
+            ) : null}
+
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
               <TextField
                 label="Full name"
@@ -239,8 +249,15 @@ export default function SignupTemplate({
               ) : null}
             </Box>
 
-            <Button type="submit" variant="contained" color="primary" size="large" fullWidth>
-              {AUTH_CONTENT.signup.primaryAction}
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="large"
+              fullWidth
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? AUTH_CONTENT.signup.loadingAction : AUTH_CONTENT.signup.primaryAction}
             </Button>
           </Stack>
         </Box>

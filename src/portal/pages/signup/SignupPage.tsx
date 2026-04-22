@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import SignupTemplate from "@/portal/templates/auth/SignupTemplate";
 import {
@@ -6,8 +8,19 @@ import {
   type SignupForm,
   validateSignupForm,
 } from "@/portal/templates/auth/validation";
+import {
+  clearAuthError,
+  registerPartnerThunk,
+  selectAuthError,
+  selectAuthStatus,
+} from "@/store/slices/authSlice";
+import type { AppDispatch } from "@/store";
 
 export default function SignupPage() {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const authStatus = useSelector(selectAuthStatus);
+  const authError = useSelector(selectAuthError);
   const [form, setForm] = useState<SignupForm>(EMPTY_SIGNUP_FORM);
   const [errors, setErrors] = useState<Partial<Record<keyof SignupForm, string>>>({});
   const [snack, setSnack] = useState(false);
@@ -20,13 +33,26 @@ export default function SignupPage() {
     return Object.keys(nextErrors).length === 0;
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!validate()) return;
-    setSnack(true);
-    setForm(EMPTY_SIGNUP_FORM);
-    setShowPassword(false);
-    setShowConfirmPassword(false);
+
+    try {
+      dispatch(clearAuthError());
+      await dispatch(
+        registerPartnerThunk({
+          fullName: form.fullName,
+          workEmail: form.workEmail,
+          company: form.company,
+          role: form.role,
+          password: form.password,
+        }),
+      ).unwrap();
+      setSnack(true);
+      navigate("/partner/dashboard", { replace: true });
+    } catch {
+      setSnack(false);
+    }
   };
 
   const setField =
@@ -37,6 +63,9 @@ export default function SignupPage() {
       >,
     ) =>
     (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (authError) {
+        dispatch(clearAuthError());
+      }
       setForm((current) => ({ ...current, [field]: event.target.value }));
     };
 
@@ -57,6 +86,8 @@ export default function SignupPage() {
       setShowPassword={setShowPassword}
       showConfirmPassword={showConfirmPassword}
       setShowConfirmPassword={setShowConfirmPassword}
+      isSubmitting={authStatus === "loading"}
+      authError={authError}
     />
   );
 }
