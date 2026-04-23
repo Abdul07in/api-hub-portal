@@ -13,11 +13,12 @@ $spotlight-card: rgba(255, 255, 255, 0.1);
   gap: 24px;
   align-items: stretch;
 
-  @media (min-width: 1200px) {
+  @media (min-width: 1024px) {
     grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
   }
 
   &__spotlight {
+    display: none;
     position: relative;
     overflow: hidden;
     min-height: 100%;
@@ -29,6 +30,10 @@ $spotlight-card: rgba(255, 255, 255, 0.1);
 
     @media (min-width: 900px) {
       padding: 40px;
+    }
+
+    @media (min-width: 1024px) {
+      display: block;
     }
 
     &::before,

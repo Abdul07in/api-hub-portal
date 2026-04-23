@@ -39,7 +39,7 @@ export default function Header() {
   const isActive = (to: string) =>
     location.pathname === to || (to !== "/" && location.pathname.startsWith(to));
 
-  const initials = partner?.fullName
+  const initials = partner?.company
     .split(" ")
     .filter(Boolean)
     .slice(0, 2)
@@ -92,7 +92,7 @@ export default function Header() {
               <Box className="header__partner-summary">
                 <Avatar className="header__partner-avatar">{initials}</Avatar>
                 <Box>
-                  <Typography className="header__partner-name">{partner.fullName}</Typography>
+                  <Typography className="header__partner-name">{partner.company}</Typography>
                   <Typography className="header__partner-role">{partner.role}</Typography>
                 </Box>
               </Box>
@@ -164,9 +164,9 @@ export default function Header() {
           </Box>
           {isAuthenticated && partner ? (
             <Box className="header__drawer-account">
-              <Typography className="header__drawer-account-name">{partner.fullName}</Typography>
+              <Typography className="header__drawer-account-name">{partner.company}</Typography>
               <Typography className="header__drawer-account-meta">
-                {partner.company} · {partner.role}
+                {partner.role}
               </Typography>
             </Box>
           ) : null}

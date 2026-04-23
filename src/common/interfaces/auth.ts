@@ -7,6 +7,7 @@ export interface PartnerUser {
   partnerCode: string;
   onboardingStatus: "pending" | "active" | "review";
   permissions: string[];
+  isSubscribed: boolean;
 }
 
 export interface AuthTokens {

@@ -41,7 +41,7 @@ export default function SignupPage() {
       dispatch(clearAuthError());
       await dispatch(
         registerPartnerThunk({
-          fullName: form.fullName,
+          fullName: form.company,
           workEmail: form.workEmail,
           company: form.company,
           role: form.role,
@@ -59,7 +59,7 @@ export default function SignupPage() {
     (
       field: keyof Pick<
         SignupForm,
-        "fullName" | "workEmail" | "company" | "role" | "password" | "confirmPassword"
+        "workEmail" | "company" | "password" | "confirmPassword"
       >,
     ) =>
     (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -5,7 +5,6 @@ export interface LoginForm {
 }
 
 export interface SignupForm {
-  fullName: string;
   workEmail: string;
   company: string;
   role: string;
@@ -21,10 +20,9 @@ export const EMPTY_LOGIN_FORM: LoginForm = {
 };
 
 export const EMPTY_SIGNUP_FORM: SignupForm = {
-  fullName: "",
   workEmail: "",
   company: "",
-  role: "",
+  role: "partner",
   password: "",
   confirmPassword: "",
   agreeToTerms: false,
@@ -55,10 +53,6 @@ export const validateLoginForm = (form: LoginForm): Partial<Record<keyof LoginFo
 export const validateSignupForm = (form: SignupForm): Partial<Record<keyof SignupForm, string>> => {
   const errors: Partial<Record<keyof SignupForm, string>> = {};
 
-  if (!form.fullName.trim() || form.fullName.trim().length < 2) {
-    errors.fullName = "Enter your full name";
-  }
-
   if (!form.workEmail.trim()) {
     errors.workEmail = "Business email is required";
   } else if (!EMAIL_REGEX.test(form.workEmail)) {
@@ -67,10 +61,6 @@ export const validateSignupForm = (form: SignupForm): Partial<Record<keyof Signu
 
   if (!form.company.trim()) {
     errors.company = "Company name is required";
-  }
-
-  if (!form.role.trim()) {
-    errors.role = "Role or team is required";
   }
 
   if (!form.password.trim()) {

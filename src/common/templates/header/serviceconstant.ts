@@ -22,7 +22,6 @@ export const HEADER_CONTENT = {
 export const HEADER_NAV: HeaderNavItem[] = [
   { label: "Dashboard", to: "/partner/dashboard", authRequired: true },
   { label: "API Products", to: "/api-products", authRequired: true },
-  { label: "Sandbox", to: "/sandbox", authRequired: true },
   { label: "FAQs", to: "/faqs" },
   { label: "Contact Us", to: "/contact" },
 ];

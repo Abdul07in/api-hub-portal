@@ -1,8 +1,10 @@
-import { Box, Button, Chip, Paper, Stack, Typography } from "@mui/material";
+import { useState } from "react";
+import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Stack, Typography } from "@mui/material";
 import DashboardCustomizeOutlinedIcon from "@mui/icons-material/DashboardCustomizeOutlined";
 import HubOutlinedIcon from "@mui/icons-material/HubOutlined";
 import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
 import { Link as RouterLink } from "react-router-dom";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import type { PartnerUser } from "@/common/interfaces/auth";
 import { PARTNER_DASHBOARD_CONTENT } from "./serviceconstant";
@@ -24,6 +26,8 @@ export default function PartnerDashboardTemplate({
   moduleCount,
   apiCount,
 }: PartnerDashboardTemplateProps) {
+  const [subscribeOpen, setSubscribeOpen] = useState(false);
+
   return (
     <Box className="partner-dashboard">
       <Box className="partner-dashboard__hero">
@@ -32,7 +36,7 @@ export default function PartnerDashboardTemplate({
         </Typography>
         <Typography variant="h3" className="partner-dashboard__hero-title">
           {partner
-            ? `Welcome back, ${partner.fullName.split(" ")[0]}`
+            ? `Welcome back, ${partner.company}`
             : PARTNER_DASHBOARD_CONTENT.hero.title}
         </Typography>
         <Typography className="partner-dashboard__hero-description">
@@ -91,46 +95,36 @@ export default function PartnerDashboardTemplate({
               {PARTNER_DASHBOARD_CONTENT.actions.sandbox.description}
             </Typography>
             <Button
-              component={RouterLink}
-              to={PARTNER_DASHBOARD_CONTENT.actions.sandbox.href}
+              {...(partner?.isSubscribed
+                ? { component: RouterLink, to: PARTNER_DASHBOARD_CONTENT.actions.sandbox.href }
+                : { onClick: () => setSubscribeOpen(true) })}
               variant="contained"
               color="primary"
+              endIcon={!partner?.isSubscribed ? <LockOutlinedIcon /> : undefined}
               className="partner-dashboard__card-button"
             >
               {PARTNER_DASHBOARD_CONTENT.actions.sandbox.cta}
             </Button>
           </Paper>
         </Box>
-
-        <Paper className="partner-dashboard__sidebar">
-          <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
-            <DashboardCustomizeOutlinedIcon color="secondary" />
-            <Typography variant="h6" className="partner-dashboard__sidebar-title">
-              Partner workspace
-            </Typography>
-          </Stack>
-          <Typography className="partner-dashboard__sidebar-copy">
-            {partner
-              ? `${partner.company} is signed in as ${partner.role}. This layout is ready for a real Spring Boot JWT backend by replacing the mock auth service with API calls and keeping the Redux session shape the same.`
-              : "Use this space to monitor onboarding and integration activity."}
-          </Typography>
-          <Chip
-            label={getStatusLabel(partner?.onboardingStatus)}
-            color={partner?.onboardingStatus === "active" ? "success" : "warning"}
-            variant="outlined"
-            className="partner-dashboard__status-chip"
-          />
-
-          <Box className="partner-dashboard__checklist">
-            {PARTNER_DASHBOARD_CONTENT.checklist.items.map((item, index) => (
-              <Box key={item} className="partner-dashboard__checklist-item">
-                <Box className="partner-dashboard__checklist-index">{index + 1}</Box>
-                <Typography className="partner-dashboard__checklist-copy">{item}</Typography>
-              </Box>
-            ))}
-          </Box>
-        </Paper>
       </Box>
+
+      <Dialog open={subscribeOpen} onClose={() => setSubscribeOpen(false)}>
+        <DialogTitle>Subscription Required</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To access detailed API specifications, request/response formats, and the interactive sandbox, you must subscribe to our API services.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setSubscribeOpen(false)} color="inherit">
+            Cancel
+          </Button>
+          <Button component={RouterLink} to="/contact" variant="contained" color="primary">
+            Subscribe Now
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

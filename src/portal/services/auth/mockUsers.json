@@ -1,0 +1,18 @@
+[
+  {
+    "email": "premium@partner.com",
+    "password": "password123",
+    "fullName": "Alice Premium",
+    "company": "Premium Partner Inc",
+    "role": "Admin",
+    "isSubscribed": true
+  },
+  {
+    "email": "basic@partner.com",
+    "password": "password123",
+    "fullName": "Bob Basic",
+    "company": "Basic Partner LLC",
+    "role": "Developer",
+    "isSubscribed": false
+  }
+]

@@ -6,6 +6,11 @@ import {
   Box,
   Button,
   Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   InputAdornment,
   Paper,
   Stack,
@@ -23,6 +28,8 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SearchIcon from "@mui/icons-material/Search";
 import LaunchIcon from "@mui/icons-material/Launch";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { Link as RouterLink } from "react-router-dom";
 
 import type { ApiSpec, ApiModule } from "@/common/interfaces/api";
 import MethodBadge from "@/common/atoms/methodBadge/MethodBadge";
@@ -39,22 +46,32 @@ function buildCurl(api: ApiSpec): string {
   return `curl -X ${api.method} https://api.icicipruamc.com${api.path} \\\n${headers}${data}`;
 }
 
-function ApiTabs({ api, onTryInSandbox }: { api: ApiSpec; onTryInSandbox: (id: string) => void }) {
+function ApiTabs({ api, onTryInSandbox, isSubscribed }: { api: ApiSpec; onTryInSandbox: (id: string) => void; isSubscribed: boolean }) {
   const [tab, setTab] = useState(0);
+  const [subscribeOpen, setSubscribeOpen] = useState(false);
+
+  const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
+    if (newValue > 0 && !isSubscribed) {
+      setSubscribeOpen(true);
+    } else {
+      setTab(newValue);
+    }
+  };
+
   return (
     <Box className="api-tabs">
       <Tabs
         value={tab}
-        onChange={(_, v) => setTab(v)}
+        onChange={handleTabChange}
         variant="scrollable"
         scrollButtons="auto"
         allowScrollButtonsMobile
         className="api-tabs__list"
       >
         <Tab label={CONTENT.tabs.overview} />
-        <Tab label={CONTENT.tabs.request} />
-        <Tab label={CONTENT.tabs.response} />
-        <Tab label={CONTENT.tabs.fields} />
+        <Tab label={CONTENT.tabs.request} icon={!isSubscribed ? <LockOutlinedIcon fontSize="small" /> : undefined} iconPosition="end" />
+        <Tab label={CONTENT.tabs.response} icon={!isSubscribed ? <LockOutlinedIcon fontSize="small" /> : undefined} iconPosition="end" />
+        <Tab label={CONTENT.tabs.fields} icon={!isSubscribed ? <LockOutlinedIcon fontSize="small" /> : undefined} iconPosition="end" />
       </Tabs>
 
       {tab === 0 && (
@@ -67,10 +84,10 @@ function ApiTabs({ api, onTryInSandbox }: { api: ApiSpec; onTryInSandbox: (id: s
             <Typography className="api-tabs__overview-path-text">{api.path}</Typography>
           </Stack>
           <Button
-            onClick={() => onTryInSandbox(api.id)}
+            onClick={() => isSubscribed ? onTryInSandbox(api.id) : setSubscribeOpen(true)}
             variant="contained"
             color="primary"
-            endIcon={<LaunchIcon />}
+            endIcon={isSubscribed ? <LaunchIcon /> : <LockOutlinedIcon />}
             className="api-tabs__try-btn"
           >
             {CONTENT.tryInSandbox}
@@ -146,6 +163,23 @@ function ApiTabs({ api, onTryInSandbox }: { api: ApiSpec; onTryInSandbox: (id: s
           </Box>
         </Stack>
       )}
+
+      <Dialog open={subscribeOpen} onClose={() => setSubscribeOpen(false)}>
+        <DialogTitle>Subscription Required</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To access detailed API specifications, request/response formats, and the interactive sandbox, you must subscribe to our API services.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setSubscribeOpen(false)} color="inherit">
+            Cancel
+          </Button>
+          <Button component={RouterLink} to="/contact" variant="contained" color="primary">
+            Subscribe Now
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
@@ -192,6 +226,7 @@ export interface ApiProductsTemplateProps {
   setActiveModuleId: (val: string) => void;
   activeModule: ApiModule | null;
   onTryInSandbox: (id: string) => void;
+  isSubscribed: boolean;
 }
 
 export default function ApiProductsTemplate({
@@ -202,6 +237,7 @@ export default function ApiProductsTemplate({
   setActiveModuleId,
   activeModule,
   onTryInSandbox,
+  isSubscribed,
 }: ApiProductsTemplateProps) {
   return (
     <Box className="api-products-template">
@@ -294,7 +330,7 @@ export default function ApiProductsTemplate({
                     </Stack>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <ApiTabs api={api} onTryInSandbox={onTryInSandbox} />
+                    <ApiTabs api={api} onTryInSandbox={onTryInSandbox} isSubscribed={isSubscribed} />
                   </AccordionDetails>
                 </Accordion>
               ))}

@@ -36,7 +36,7 @@ export interface SignupTemplateProps {
   setField: (
     field: keyof Pick<
       SignupForm,
-      "fullName" | "workEmail" | "company" | "role" | "password" | "confirmPassword"
+      "workEmail" | "company" | "password" | "confirmPassword"
     >,
   ) => (event: ChangeEvent<HTMLInputElement>) => void;
   handleTermsChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -88,25 +88,6 @@ export default function SignupTemplate({
 
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
               <TextField
-                label="Full name"
-                fullWidth
-                required
-                value={form.fullName}
-                onChange={setField("fullName")}
-                error={!!errors.fullName}
-                helperText={errors.fullName}
-                slotProps={{
-                  input: {
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <BadgeOutlinedIcon fontSize="small" color="action" />
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-              />
-
-              <TextField
                 label="Business email"
                 type="email"
                 fullWidth
@@ -147,24 +128,6 @@ export default function SignupTemplate({
                 }}
               />
 
-              <TextField
-                label="Role or team"
-                fullWidth
-                required
-                value={form.role}
-                onChange={setField("role")}
-                error={!!errors.role}
-                helperText={errors.role}
-                slotProps={{
-                  input: {
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <WorkOutlineOutlinedIcon fontSize="small" color="action" />
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-              />
             </Stack>
 
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>

@@ -25,3 +25,9 @@ if (!rootElement.innerHTML) {
     </StrictMode>,
   );
 }
+
+if (import.meta.env.DEV) {
+  import("@locator/runtime").then(({ default: setupLocatorUI }) => {
+    setupLocatorUI();
+  });
+}

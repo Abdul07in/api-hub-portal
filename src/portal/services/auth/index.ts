@@ -5,6 +5,7 @@ import type {
   RegisterRequest,
   SpringBootJwtAuthResponse,
 } from "@/common/interfaces/auth";
+import mockUsers from "./mockUsers.json";
 
 export interface LoginPartnerInput extends LoginRequest {
   rememberMe: boolean;
@@ -68,6 +69,7 @@ function createPartnerUser(
     partnerCode: `PH-${companySlug || "ICICI"}-01`,
     onboardingStatus,
     permissions: ["catalog:read", "sandbox:run", "partner:dashboard"],
+    isSubscribed: false,
   };
 }
 
@@ -94,22 +96,39 @@ export async function loginPartner(input: LoginPartnerInput): Promise<AuthServic
     throw new Error("Your partner access is under review. Please contact support.");
   }
 
-  const displayName = input.email.split("@")[0].replace(/[._-]+/g, " ");
-  const fullName = displayName
-    .split(" ")
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
+  const foundMockUser = mockUsers.find(u => u.email === input.email && u.password === input.password);
 
-  const user = createPartnerUser(
-    {
-      fullName: fullName || "Partner User",
-      workEmail: input.email,
-      company: "ICICI Prudential Partner",
-      role: "Integration Manager",
-    },
-    "active",
-  );
+  let user: PartnerUser;
+
+  if (foundMockUser) {
+    user = createPartnerUser(
+      {
+        fullName: foundMockUser.fullName,
+        workEmail: foundMockUser.email,
+        company: foundMockUser.company,
+        role: foundMockUser.role,
+      },
+      "active",
+    );
+    user.isSubscribed = foundMockUser.isSubscribed;
+  } else {
+    const displayName = input.email.split("@")[0].replace(/[._-]+/g, " ");
+    const fullName = displayName
+      .split(" ")
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(" ");
+
+    user = createPartnerUser(
+      {
+        fullName: fullName || "Partner User",
+        workEmail: input.email,
+        company: "ICICI Prudential Partner",
+        role: "Integration Manager",
+      },
+      "active",
+    );
+  }
 
   const response: SpringBootJwtAuthResponse = {
     user,

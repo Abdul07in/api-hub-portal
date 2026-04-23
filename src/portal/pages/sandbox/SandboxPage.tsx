@@ -3,7 +3,9 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { selectModules, selectApiById } from "@/store/slices/apiCatalogSlice";
+import { selectPartnerUser } from "@/store/slices/authSlice";
 import { RootState } from "@/store";
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
 import type { ApiSpec } from "@/common/interfaces/api";
 import { FieldType } from "@/common/enums";
 import { runSandbox, type SandboxResult } from "@/portal/services/sandboxRunner";
@@ -28,6 +30,7 @@ export default function SandboxPage() {
   const foundApi = useSelector((state: RootState) =>
     apiIdParam ? selectApiById(state, apiIdParam) : null,
   );
+  const partnerUser = useSelector(selectPartnerUser);
 
   const initial = foundApi || {
     module: apiCatalog[0],
@@ -92,24 +95,42 @@ export default function SandboxPage() {
   };
 
   return (
-    <SandboxTemplate
-      apiCatalog={apiCatalog}
-      moduleId={moduleId}
-      setModuleId={setModuleId}
-      apiId={apiId}
-      setApiId={setApiId}
-      currentModule={currentModule}
-      currentApi={currentApi}
-      payload={payload}
-      rawText={rawText}
-      setRawText={setRawText}
-      rawError={rawError}
-      loading={loading}
-      result={result}
-      headers={headers}
-      setHeaders={setHeaders}
-      handleField={handleField}
-      handleSend={handleSend}
-    />
+    <>
+      <SandboxTemplate
+        apiCatalog={apiCatalog}
+        moduleId={moduleId}
+        setModuleId={setModuleId}
+        apiId={apiId}
+        setApiId={setApiId}
+        currentModule={currentModule}
+        currentApi={currentApi}
+        payload={payload}
+        rawText={rawText}
+        setRawText={setRawText}
+        rawError={rawError}
+        loading={loading}
+        result={result}
+        headers={headers}
+        setHeaders={setHeaders}
+        handleField={handleField}
+        handleSend={handleSend}
+      />
+      <Dialog open={!partnerUser?.isSubscribed}>
+        <DialogTitle>Subscription Required</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To access detailed API specifications, request/response formats, and the interactive sandbox, you must subscribe to our API services.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => navigate("/partner/dashboard")} color="inherit">
+            Back to Dashboard
+          </Button>
+          <Button onClick={() => navigate("/contact")} variant="contained" color="primary">
+            Subscribe Now
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }

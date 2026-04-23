@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { selectModules } from "@/store/slices/apiCatalogSlice";
+import { selectPartnerUser } from "@/store/slices/authSlice";
 import ApiProductsTemplate from "@/portal/templates/apiProducts/ApiProductsTemplate";
 
 export default function ApiProductsPage() {
   const navigate = useNavigate();
   const apiCatalog = useSelector(selectModules);
+  const partnerUser = useSelector(selectPartnerUser);
+  const isSubscribed = partnerUser?.isSubscribed ?? false;
   const [activeModuleId, setActiveModuleId] = useState(apiCatalog[0]?.id || "");
   const [search, setSearch] = useState("");
 
@@ -46,6 +49,7 @@ export default function ApiProductsPage() {
       setActiveModuleId={setActiveModuleId}
       activeModule={activeModule}
       onTryInSandbox={handleTry}
+      isSubscribed={isSubscribed}
     />
   );
 }
