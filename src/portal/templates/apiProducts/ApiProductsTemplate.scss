@@ -313,3 +313,128 @@ $sidebar-width: 280px;
     max-width: 800px;
   }
 }
+
+/* ── Flow Animation ── */
+.flow-animation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 16px 20px;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: $secondary;
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px 28px;
+    min-width: 110px;
+    text-align: center;
+    transition: box-shadow 0.5s ease, transform 0.4s ease;
+    box-shadow: 0 2px 8px rgba(0, 43, 92, 0.15);
+
+    &--active {
+      box-shadow: 0 0 20px rgba(225, 83, 37, 0.5), 0 0 40px rgba(225, 83, 37, 0.2);
+      transform: scale(1.05);
+    }
+  }
+
+  &__down-connector {
+    display: flex;
+    justify-content: center;
+    height: 32px;
+  }
+
+  &__steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+    row-gap: 16px;
+  }
+
+  &__step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 140px;
+    min-height: 130px;
+    padding: 12px 8px 10px;
+    border: 1.5px solid #dce2ea;
+    border-radius: 10px;
+    background: #fff;
+    position: relative;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+
+    &--active {
+      border-color: $primary;
+      box-shadow: 0 0 16px rgba(225, 83, 37, 0.3), 0 0 32px rgba(225, 83, 37, 0.1);
+      transform: translateY(-4px) scale(1.04);
+      animation: flowPulse 1.2s ease-in-out infinite;
+    }
+
+    &--completed {
+      border-color: $secondary;
+      background: #f0f5fc;
+    }
+  }
+
+  &__step-badge {
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #dce2ea;
+    border-radius: 20px;
+    padding: 1px 10px;
+    font-size: 0.6rem;
+    transition: background 0.4s ease;
+
+    .flow-animation__step--active & {
+      background: $primary;
+    }
+
+    .flow-animation__step--completed & {
+      background: $secondary;
+    }
+  }
+
+  &__connector {
+    display: flex;
+    align-items: center;
+    padding: 0 2px;
+    flex-shrink: 0;
+  }
+
+  &__connector-fill {
+    stroke-dasharray: 40;
+    stroke-dashoffset: 40;
+    transition: stroke-dashoffset 0.8s ease-in-out, opacity 0.3s ease;
+
+    &--animate {
+      stroke-dashoffset: 0 !important;
+    }
+  }
+
+  &__arrow {
+    transition: fill 0.4s ease;
+  }
+
+  &__connector-line {
+    transition: opacity 0.4s ease;
+  }
+}
+
+@keyframes flowPulse {
+  0%, 100% {
+    box-shadow: 0 0 16px rgba(225, 83, 37, 0.3), 0 0 32px rgba(225, 83, 37, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(225, 83, 37, 0.5), 0 0 48px rgba(225, 83, 37, 0.2);
+  }
+}

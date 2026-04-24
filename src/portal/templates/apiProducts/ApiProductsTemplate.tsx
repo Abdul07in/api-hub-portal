@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -40,7 +40,6 @@ import CodeIcon from "@mui/icons-material/Code";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { Link as RouterLink } from "react-router-dom";
 import React from "react";
 
@@ -57,6 +56,107 @@ function buildCurl(api: ApiSpec): string {
   const data =
     api.method === "GET" ? "" : ` \\\n--data-raw '${JSON.stringify(api.sampleRequest, null, 2)}'`;
   return `curl --location --request ${api.method} 'https://api.icicipru.com/v2${api.path}' \\\n${headers}${data}`;
+}
+
+/* ── Animated Flow Component ── */
+function FlowAnimation({ flowSteps }: { flowSteps?: { title: string; desc: string }[] }) {
+  const steps = flowSteps || [];
+  const totalPhases = steps.length * 2; // step highlight + connector animate for each
+  const [phase, setPhase] = useState(0);
+  const PHASE_DURATION = 1200; // ms per phase
+
+  useEffect(() => {
+    if (steps.length === 0) return;
+    const timer = setInterval(() => {
+      setPhase((prev) => (prev + 1) % totalPhases);
+    }, PHASE_DURATION);
+    return () => clearInterval(timer);
+  }, [steps.length, totalPhases]);
+
+  // phase 0 = highlight step 0, phase 1 = animate connector 0→1, phase 2 = highlight step 1, etc.
+  const activeStepIndex = Math.floor(phase / 2);
+  const isConnectorAnimating = phase % 2 === 1;
+
+  if (steps.length === 0) {
+    return <Typography sx={{ p: 2 }}>No flow steps defined.</Typography>;
+  }
+
+  return (
+    <Box className="flow-animation">
+      {/* Partners Header */}
+      <Box className={`flow-animation__header ${activeStepIndex === 0 && !isConnectorAnimating ? 'flow-animation__header--active' : ''}`}>
+        <SettingsSuggestIcon sx={{ fontSize: 24, mb: 0.5 }} />
+        <Typography variant="body2" sx={{ fontWeight: 700, letterSpacing: 0.5 }}>Partners</Typography>
+      </Box>
+
+      {/* Down connector from header to steps */}
+      <Box className="flow-animation__down-connector">
+        <svg width="2" height="32" viewBox="0 0 2 32">
+          <line x1="1" y1="0" x2="1" y2="32" stroke="#c0c8d4" strokeWidth="2" />
+          <line
+            x1="1" y1="0" x2="1" y2="32"
+            stroke="#e15325"
+            strokeWidth="2"
+            className="flow-animation__connector-line"
+            style={{ opacity: activeStepIndex === 0 && !isConnectorAnimating ? 1 : 0.15 }}
+          />
+        </svg>
+      </Box>
+
+      {/* Steps Row */}
+      <Box className="flow-animation__steps">
+        {steps.map((step, i) => {
+          const isActive = activeStepIndex === i && !isConnectorAnimating;
+          const isCompleted = i < activeStepIndex || (i === activeStepIndex && isConnectorAnimating);
+          return (
+            <React.Fragment key={i}>
+              <Box className={`flow-animation__step ${isActive ? 'flow-animation__step--active' : ''} ${isCompleted ? 'flow-animation__step--completed' : ''}`}>
+                <Box className="flow-animation__step-badge">
+                  <Typography variant="caption" sx={{ fontWeight: 700, color: isActive || isCompleted ? '#fff' : '#8a94a6', fontSize: '0.65rem' }}>
+                    STEP {i + 1}
+                  </Typography>
+                </Box>
+                <DescriptionOutlinedIcon sx={{ fontSize: 22, mb: 0.5, color: isActive ? '#e15325' : isCompleted ? '#002B5C' : '#b0b8c4' }} />
+                <Typography variant="caption" sx={{ fontWeight: 700, color: isActive ? '#e15325' : '#002B5C', fontSize: '0.72rem', lineHeight: 1.3 }}>
+                  {step.title}
+                </Typography>
+                <Typography variant="caption" sx={{ color: '#8a94a6', fontSize: '0.62rem', lineHeight: 1.3, mt: 0.25 }}>
+                  {step.desc}
+                </Typography>
+              </Box>
+
+              {/* Connector arrow between steps */}
+              {i < steps.length - 1 && (
+                <Box className="flow-animation__connector">
+                  <svg width="48" height="24" viewBox="0 0 48 24">
+                    {/* Background line */}
+                    <line x1="0" y1="12" x2="40" y2="12" stroke="#d4dae3" strokeWidth="2" strokeLinecap="round" />
+                    {/* Animated fill line */}
+                    <line
+                      x1="0" y1="12" x2="40" y2="12"
+                      stroke="#e15325"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      className={`flow-animation__connector-fill ${activeStepIndex === i && isConnectorAnimating ? 'flow-animation__connector-fill--animate' : ''}`}
+                      style={{
+                        opacity: (isCompleted || (activeStepIndex === i && isConnectorAnimating)) ? 1 : 0,
+                      }}
+                    />
+                    {/* Arrowhead */}
+                    <polygon
+                      points="38,6 48,12 38,18"
+                      fill={(isCompleted || (activeStepIndex === i && isConnectorAnimating)) ? '#e15325' : '#d4dae3'}
+                      className="flow-animation__arrow"
+                    />
+                  </svg>
+                </Box>
+              )}
+            </React.Fragment>
+          );
+        })}
+      </Box>
+    </Box>
+  );
 }
 
 function ModuleOverview({ module, onApiSelect }: { module: ApiModule; onApiSelect: (id: string) => void }) {
@@ -96,28 +196,7 @@ function ModuleOverview({ module, onApiSelect }: { module: ApiModule; onApiSelec
       )}
 
       {tab === 1 && (
-        <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Paper elevation={3} sx={{ p: 2, bgcolor: '#002B5C', color: 'white', mb: 4, borderRadius: 2, textAlign: 'center', width: 200 }}>
-            <SettingsSuggestIcon sx={{ fontSize: 40, mb: 1 }} />
-            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>Corporate ERP</Typography>
-          </Paper>
-
-          <Stack direction="row" spacing={2} useFlexGap sx={{ alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
-            {module.flowSteps?.map((step, i) => (
-              <React.Fragment key={i}>
-                <Paper variant="outlined" sx={{ p: 3, width: 220, height: 220, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', borderColor: '#002B5C', borderRadius: 2 }}>
-                  <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 2 }}>Step {i + 1}</Typography>
-                  <DescriptionOutlinedIcon color="primary" sx={{ fontSize: 40, mb: 1 }} />
-                  <Typography variant="subtitle1" color="#002B5C" sx={{ fontWeight: 600, mb: 1 }}>{step.title}</Typography>
-                  <Typography variant="body2" color="text.secondary">{step.desc}</Typography>
-                </Paper>
-                {i < (module.flowSteps?.length || 0) - 1 && (
-                  <ArrowRightAltIcon color="primary" sx={{ fontSize: 40 }} />
-                )}
-              </React.Fragment>
-            )) || <Typography>No flow steps defined.</Typography>}
-          </Stack>
-        </Box>
+        <FlowAnimation flowSteps={module.flowSteps} />
       )}
 
       {tab === 2 && (
