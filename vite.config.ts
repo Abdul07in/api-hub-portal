@@ -7,11 +7,7 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     tsConfigPaths({ projects: ["./tsconfig.json"] }),
-    viteReact({
-      babel: {
-        plugins: ["@locator/babel-jsx/dist"],
-      },
-    }),
+    viteReact(),
   ],
   resolve: {
     alias: {
