@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -11,7 +11,9 @@ export default function ApiProductsPage() {
   const apiCatalog = useSelector(selectModules);
   const partnerUser = useSelector(selectPartnerUser);
   const isSubscribed = partnerUser?.isSubscribed ?? false;
+  
   const [activeModuleId, setActiveModuleId] = useState(apiCatalog[0]?.id || "");
+  const [activeApiId, setActiveApiId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
 
   const handleTry = (apiId: string) => {
@@ -40,6 +42,8 @@ export default function ApiProductsPage() {
     apiCatalog[0] ??
     null;
 
+  const activeApi = activeModule?.apis.find(a => a.id === activeApiId) ?? null;
+
   return (
     <ApiProductsTemplate
       search={search}
@@ -48,6 +52,9 @@ export default function ApiProductsPage() {
       activeModuleId={activeModuleId}
       setActiveModuleId={setActiveModuleId}
       activeModule={activeModule}
+      activeApiId={activeApiId}
+      setActiveApiId={setActiveApiId}
+      activeApi={activeApi}
       onTryInSandbox={handleTry}
       isSubscribed={isSubscribed}
     />

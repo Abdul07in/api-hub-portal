@@ -35,5 +35,7 @@ export interface ApiModule {
   id: string;
   name: string;
   description: string;
+  features?: string[];
+  flowSteps?: { title: string; desc: string }[];
   apis: ApiSpec[];
 }

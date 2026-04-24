@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { ApiModule } from "@/common/interfaces/api";
-import { parseSwaggerToCatalog } from "@/common/helpers/utils/swaggerParser";
+import { STATIC_MODULES } from "@/portal/templates/apiProducts/serviceconstant";
 
 interface ApiCatalogState {
   modules: ApiModule[];
   activeModuleId: string | null;
 }
 
-const initialModules = parseSwaggerToCatalog();
+const initialModules = STATIC_MODULES;
 
 const initialState: ApiCatalogState = {
   modules: initialModules,
