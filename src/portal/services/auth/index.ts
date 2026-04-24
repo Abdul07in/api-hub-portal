@@ -5,7 +5,6 @@ import type {
   RegisterRequest,
   SpringBootJwtAuthResponse,
 } from "@/common/interfaces/auth";
-import mockUsers from "./mockUsers.json";
 
 export interface LoginPartnerInput extends LoginRequest {
   rememberMe: boolean;
@@ -21,57 +20,12 @@ export interface AuthServiceResult {
 }
 
 export const AUTH_API_ENDPOINTS = {
-  login: "/api/auth/login",
-  register: "/api/auth/register",
-  refresh: "/api/auth/refresh",
-  logout: "/api/auth/logout",
-  me: "/api/partner/me",
+  login: "http://localhost:8080/api/auth/login",
+  register: "http://localhost:8080/api/auth/register",
+  refresh: "http://localhost:8080/api/auth/refresh",
+  logout: "http://localhost:8080/api/auth/logout",
+  me: "http://localhost:8080/api/partner/me",
 };
-
-function base64UrlEncode(value: string) {
-  const encoded = btoa(value);
-  return encoded.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
-}
-
-function createMockJwt(user: PartnerUser) {
-  const header = base64UrlEncode(JSON.stringify({ alg: "HS256", typ: "JWT" }));
-  const payload = base64UrlEncode(
-    JSON.stringify({
-      sub: user.id,
-      email: user.email,
-      company: user.company,
-      role: user.role,
-      permissions: user.permissions,
-      exp: Math.floor(Date.now() / 1000) + 60 * 60,
-    }),
-  );
-
-  return `${header}.${payload}.partnerhub-mock-signature`;
-}
-
-function createPartnerUser(
-  input: Pick<RegisterRequest, "fullName" | "workEmail" | "company" | "role">,
-  onboardingStatus: PartnerUser["onboardingStatus"] = "active",
-): PartnerUser {
-  const nameSlug = input.fullName.trim().toLowerCase().replace(/\s+/g, "-");
-  const companySlug = input.company
-    .trim()
-    .toUpperCase()
-    .replace(/[^A-Z0-9]/g, "")
-    .slice(0, 5);
-
-  return {
-    id: `partner-${nameSlug || "user"}`,
-    fullName: input.fullName.trim(),
-    email: input.workEmail.trim().toLowerCase(),
-    company: input.company.trim(),
-    role: input.role.trim(),
-    partnerCode: `PH-${companySlug || "ICICI"}-01`,
-    onboardingStatus,
-    permissions: ["catalog:read", "sandbox:run", "partner:dashboard"],
-    isSubscribed: false,
-  };
-}
 
 function toSession(response: SpringBootJwtAuthResponse): AuthSession {
   return {
@@ -85,88 +39,67 @@ function toSession(response: SpringBootJwtAuthResponse): AuthSession {
   };
 }
 
-async function simulateNetworkDelay() {
-  await new Promise((resolve) => window.setTimeout(resolve, 650));
+function getLoggerHeaders() {
+  return {
+    "traceId": crypto.randomUUID(),
+    "source": "PortalFrontend",
+    "profileRefNo": "",
+    "whatsAppOptIn": "false",
+  };
 }
 
 export async function loginPartner(input: LoginPartnerInput): Promise<AuthServiceResult> {
-  await simulateNetworkDelay();
+  const response = await fetch(AUTH_API_ENDPOINTS.login, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...getLoggerHeaders(),
+    },
+    body: JSON.stringify({
+      email: input.email,
+      password: input.password,
+      rememberMe: input.rememberMe,
+    }),
+  });
 
-  if (input.email.includes("blocked")) {
-    throw new Error("Your partner access is under review. Please contact support.");
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || "Invalid credentials or account access denied.");
   }
 
-  const foundMockUser = mockUsers.find(u => u.email === input.email && u.password === input.password);
-
-  let user: PartnerUser;
-
-  if (foundMockUser) {
-    user = createPartnerUser(
-      {
-        fullName: foundMockUser.fullName,
-        workEmail: foundMockUser.email,
-        company: foundMockUser.company,
-        role: foundMockUser.role,
-      },
-      "active",
-    );
-    user.isSubscribed = foundMockUser.isSubscribed;
-  } else {
-    const displayName = input.email.split("@")[0].replace(/[._-]+/g, " ");
-    const fullName = displayName
-      .split(" ")
-      .filter(Boolean)
-      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-      .join(" ");
-
-    user = createPartnerUser(
-      {
-        fullName: fullName || "Partner User",
-        workEmail: input.email,
-        company: "ICICI Prudential Partner",
-        role: "Integration Manager",
-      },
-      "active",
-    );
-  }
-
-  const response: SpringBootJwtAuthResponse = {
-    user,
-    accessToken: createMockJwt(user),
-    refreshToken: `refresh-${user.id}-${Date.now()}`,
-    tokenType: "Bearer",
-    expiresAt: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
-  };
+  const data: SpringBootJwtAuthResponse = await response.json();
 
   return {
-    session: toSession(response),
+    session: toSession(data),
     persistence: input.rememberMe ? "local" : "session",
   };
 }
 
 export async function registerPartner(input: RegisterPartnerInput): Promise<AuthServiceResult> {
-  await simulateNetworkDelay();
-
-  const user = createPartnerUser(
-    {
-      fullName: input.fullName,
+  const response = await fetch(AUTH_API_ENDPOINTS.register, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...getLoggerHeaders(),
+    },
+    body: JSON.stringify({
       workEmail: input.workEmail,
       company: input.company,
       role: input.role,
-    },
-    input.autoApprove === false ? "pending" : "active",
-  );
+      password: input.password,
+      autoApprove: input.autoApprove,
+    }),
+  });
 
-  const response: SpringBootJwtAuthResponse = {
-    user,
-    accessToken: createMockJwt(user),
-    refreshToken: `refresh-${user.id}-${Date.now()}`,
-    tokenType: "Bearer",
-    expiresAt: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
-  };
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || "Registration failed. Email might already exist.");
+  }
+
+  const data: SpringBootJwtAuthResponse = await response.json();
 
   return {
-    session: toSession(response),
+    session: toSession(data),
     persistence: "local",
   };
 }

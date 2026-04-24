@@ -41,7 +41,6 @@ export default function SignupPage() {
       dispatch(clearAuthError());
       await dispatch(
         registerPartnerThunk({
-          fullName: form.company,
           workEmail: form.workEmail,
           company: form.company,
           role: form.role,

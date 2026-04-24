@@ -1,6 +1,5 @@
 export interface PartnerUser {
-  id: string;
-  fullName: string;
+  id: number;
   email: string;
   company: string;
   role: string;
@@ -36,7 +35,6 @@ export interface LoginRequest {
 }
 
 export interface RegisterRequest {
-  fullName: string;
   workEmail: string;
   company: string;
   role: string;

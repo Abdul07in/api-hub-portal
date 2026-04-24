@@ -87,6 +87,7 @@ export default function SignupTemplate({
             ) : null}
 
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+
               <TextField
                 label="Business email"
                 type="email"
