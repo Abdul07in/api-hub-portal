@@ -165,9 +165,7 @@ export default function Header() {
           {isAuthenticated && partner ? (
             <Box className="header__drawer-account">
               <Typography className="header__drawer-account-name">{partner.company}</Typography>
-              <Typography className="header__drawer-account-meta">
-                {partner.role}
-              </Typography>
+              <Typography className="header__drawer-account-meta">{partner.role}</Typography>
             </Box>
           ) : null}
           <Divider className="header__drawer-divider" />

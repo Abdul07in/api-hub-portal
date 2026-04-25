@@ -2,7 +2,8 @@ export const CONTENT = {
   hero: {
     overline: "SANDBOX",
     title: "Try our APIs",
-    description: "Pick an endpoint, fill the request, and inspect the mocked response. No credentials required — responses are deterministic mocks generated from the field specifications.",
+    description:
+      "Pick an endpoint, fill the request, and inspect the mocked response. No credentials required — responses are deterministic mocks generated from the field specifications.",
   },
   picker: {
     title: "Endpoint",

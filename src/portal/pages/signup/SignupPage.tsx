@@ -55,12 +55,7 @@ export default function SignupPage() {
   };
 
   const setField =
-    (
-      field: keyof Pick<
-        SignupForm,
-        "workEmail" | "company" | "password" | "confirmPassword"
-      >,
-    ) =>
+    (field: keyof Pick<SignupForm, "workEmail" | "company" | "password" | "confirmPassword">) =>
     (event: React.ChangeEvent<HTMLInputElement>) => {
       if (authError) {
         dispatch(clearAuthError());

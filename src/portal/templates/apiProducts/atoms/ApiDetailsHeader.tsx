@@ -9,18 +9,17 @@ interface ApiDetailsHeaderProps {
   onBackToModule?: () => void;
 }
 
-export default function ApiDetailsHeader({
-  module,
-  api,
-  onBackToModule,
-}: ApiDetailsHeaderProps) {
+export default function ApiDetailsHeader({ module, api, onBackToModule }: ApiDetailsHeaderProps) {
   return (
     <Box sx={{ mb: 3 }}>
       <Breadcrumbs separator={<ChevronRightIcon fontSize="small" />} sx={{ mb: 2 }}>
         <Typography
           color="text.primary"
           variant="body2"
-          sx={{ cursor: onBackToModule ? "pointer" : "default", "&:hover": { textDecoration: "underline" } }}
+          sx={{
+            cursor: onBackToModule ? "pointer" : "default",
+            "&:hover": { textDecoration: "underline" },
+          }}
           onClick={onBackToModule}
         >
           {module.name}

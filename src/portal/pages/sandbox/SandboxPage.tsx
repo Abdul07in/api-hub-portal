@@ -5,7 +5,14 @@ import { useSelector } from "react-redux";
 import { selectModules, selectApiById } from "@/store/slices/apiCatalogSlice";
 import { selectPartnerUser } from "@/store/slices/authSlice";
 import { RootState } from "@/store";
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from "@mui/material";
 import type { ApiSpec } from "@/common/interfaces/api";
 import { FieldType } from "@/common/enums";
 import { runSandbox, type SandboxResult } from "@/portal/services/sandboxRunner";
@@ -46,11 +53,16 @@ export default function SandboxPage() {
     JSON.stringify(defaultPayload(initial.api), null, 2),
   );
   const [rawError, setRawError] = useState<string | null>(null);
-  const [headers, setHeaders] = useState<Array<{ key: string; value: string }>>([{ key: "", value: "" }]);
+  const [headers, setHeaders] = useState<Array<{ key: string; value: string }>>([
+    { key: "", value: "" },
+  ]);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<SandboxResult | null>(null);
 
-  const currentModule = useMemo(() => apiCatalog.find((m) => m.id === moduleId)!, [moduleId, apiCatalog]);
+  const currentModule = useMemo(
+    () => apiCatalog.find((m) => m.id === moduleId)!,
+    [moduleId, apiCatalog],
+  );
   const currentApi = useMemo(
     () => currentModule.apis.find((a) => a.id === apiId) ?? currentModule.apis[0],
     [currentModule, apiId],
@@ -119,7 +131,8 @@ export default function SandboxPage() {
         <DialogTitle>Subscription Required</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To access detailed API specifications, request/response formats, and the interactive sandbox, you must subscribe to our API services.
+            To access detailed API specifications, request/response formats, and the interactive
+            sandbox, you must subscribe to our API services.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

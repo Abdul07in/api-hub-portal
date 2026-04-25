@@ -64,7 +64,11 @@ export default function ApiProductsTemplate({
                       api={activeApi}
                       onBackToModule={() => setActiveApiId?.(null)}
                     />
-                    <ApiTabs api={activeApi} onTryInSandbox={onTryInSandbox} isSubscribed={isSubscribed} />
+                    <ApiTabs
+                      api={activeApi}
+                      onTryInSandbox={onTryInSandbox}
+                      isSubscribed={isSubscribed}
+                    />
                   </>
                 ) : (
                   <ModuleOverview

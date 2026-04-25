@@ -11,7 +11,7 @@ export default function ApiProductsPage() {
   const apiCatalog = useSelector(selectModules);
   const partnerUser = useSelector(selectPartnerUser);
   const isSubscribed = partnerUser?.isSubscribed ?? false;
-  
+
   const [activeModuleId, setActiveModuleId] = useState(apiCatalog[0]?.id || "");
   const [activeApiId, setActiveApiId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
@@ -42,7 +42,7 @@ export default function ApiProductsPage() {
     apiCatalog[0] ??
     null;
 
-  const activeApi = activeModule?.apis.find(a => a.id === activeApiId) ?? null;
+  const activeApi = activeModule?.apis.find((a) => a.id === activeApiId) ?? null;
 
   return (
     <ApiProductsTemplate

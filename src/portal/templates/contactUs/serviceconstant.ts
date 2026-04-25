@@ -2,7 +2,8 @@ export const CONTENT = {
   hero: {
     overline: "GET IN TOUCH",
     title: "Contact Us",
-    description: "Want to integrate with PartnerHub APIs or have a question about onboarding? Send us a message and our developer relations team will respond within one business day.",
+    description:
+      "Want to integrate with PartnerHub APIs or have a question about onboarding? Send us a message and our developer relations team will respond within one business day.",
   },
   reachUs: {
     title: "Reach us directly",

@@ -125,9 +125,7 @@ export default function ApiTabs({ api, isSubscribed, onTryInSandbox }: ApiTabsPr
                             letterSpacing: 0.5,
                             borderRadius: 1,
                           }}
-                          className={
-                            value === "UUID" ? "req-chip-optional" : "req-chip-required"
-                          }
+                          className={value === "UUID" ? "req-chip-optional" : "req-chip-required"}
                         />
                       </TableCell>
                     </TableRow>
@@ -138,7 +136,10 @@ export default function ApiTabs({ api, isSubscribed, onTryInSandbox }: ApiTabsPr
           </Box>
 
           <Box>
-            <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", mb: 1 }}>
+            <Stack
+              direction="row"
+              sx={{ alignItems: "center", justifyContent: "space-between", mb: 1 }}
+            >
               <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
                 <CodeIcon fontSize="small" color="error" />
                 <Typography variant="h6" className="api-tabs__section-title">
@@ -190,11 +191,7 @@ export default function ApiTabs({ api, isSubscribed, onTryInSandbox }: ApiTabsPr
                   label={response.status}
                   size="small"
                   color={
-                    response.status < 300
-                      ? "success"
-                      : response.status < 500
-                        ? "warning"
-                        : "error"
+                    response.status < 300 ? "success" : response.status < 500 ? "warning" : "error"
                   }
                 />
                 <Typography variant="subtitle2">{response.label}</Typography>

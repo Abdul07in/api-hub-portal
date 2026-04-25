@@ -41,10 +41,10 @@ function toSession(response: SpringBootJwtAuthResponse): AuthSession {
 
 function getLoggerHeaders() {
   return {
-    "traceId": crypto.randomUUID(),
-    "source": "PortalFrontend",
-    "profileRefNo": "",
-    "whatsAppOptIn": "false",
+    traceId: crypto.randomUUID(),
+    source: "PortalFrontend",
+    profileRefNo: "",
+    whatsAppOptIn: "false",
   };
 }
 

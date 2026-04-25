@@ -34,10 +34,7 @@ export interface SignupTemplateProps {
   setSnack: (value: boolean) => void;
   handleSubmit: (event: FormEvent) => void;
   setField: (
-    field: keyof Pick<
-      SignupForm,
-      "workEmail" | "company" | "password" | "confirmPassword"
-    >,
+    field: keyof Pick<SignupForm, "workEmail" | "company" | "password" | "confirmPassword">,
   ) => (event: ChangeEvent<HTMLInputElement>) => void;
   handleTermsChange: (event: ChangeEvent<HTMLInputElement>) => void;
   showPassword: boolean;
@@ -87,7 +84,6 @@ export default function SignupTemplate({
             ) : null}
 
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-
               <TextField
                 label="Business email"
                 type="email"
@@ -128,7 +124,6 @@ export default function SignupTemplate({
                   },
                 }}
               />
-
             </Stack>
 
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>

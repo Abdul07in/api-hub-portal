@@ -13,7 +13,9 @@ export interface ContactTemplateProps {
   snack: boolean;
   setSnack: (val: boolean) => void;
   handleSubmit: (ev: React.FormEvent) => void;
-  setField: (k: keyof Form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  setField: (
+    k: keyof Form,
+  ) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
@@ -21,9 +23,7 @@ function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string;
     <Stack direction="row" spacing={1.5} className="contact-template__info-row">
       <Box className="contact-template__info-icon-wrapper">{icon}</Box>
       <Box>
-        <Typography className="contact-template__info-label">
-          {label}
-        </Typography>
+        <Typography className="contact-template__info-label">{label}</Typography>
         <Typography className="contact-template__info-value">{value}</Typography>
       </Box>
     </Stack>
@@ -46,9 +46,7 @@ export default function ContactTemplate({
       <Typography variant="h3" className="contact-template__hero-title">
         {CONTENT.hero.title}
       </Typography>
-      <Typography className="contact-template__hero-desc">
-        {CONTENT.hero.description}
-      </Typography>
+      <Typography className="contact-template__hero-desc">{CONTENT.hero.description}</Typography>
 
       <Box className="contact-template__grid">
         <Paper variant="outlined" className="contact-template__paper">
@@ -82,7 +80,11 @@ export default function ContactTemplate({
         <Paper variant="outlined" className="contact-template__paper">
           <Box component="form" onSubmit={handleSubmit} noValidate>
             <Box className="contact-template__form-stack">
-              <Stack direction={{ xs: "column", sm: "row" }} spacing={2} className="contact-template__form-row">
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                spacing={2}
+                className="contact-template__form-row"
+              >
                 <TextField
                   label={CONTENT.form.fullName}
                   fullWidth
@@ -103,7 +105,11 @@ export default function ContactTemplate({
                   helperText={errors.email}
                 />
               </Stack>
-              <Stack direction={{ xs: "column", sm: "row" }} spacing={2} className="contact-template__form-row">
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                spacing={2}
+                className="contact-template__form-row"
+              >
                 <TextField
                   label={CONTENT.form.company}
                   fullWidth

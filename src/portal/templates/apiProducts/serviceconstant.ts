@@ -5,7 +5,8 @@ export const CONTENT = {
   hero: {
     overline: "API CATALOG",
     title: "Build with PartnerHub APIs",
-    description: "Accelerate your integration journey with our robust, secure, and developer-friendly REST APIs. Seamlessly verify identities and manage policies.",
+    description:
+      "Accelerate your integration journey with our robust, secure, and developer-friendly REST APIs. Seamlessly verify identities and manage policies.",
   },
   searchPlaceholder: "Search API...",
   tabs: {
@@ -47,7 +48,8 @@ export const STATIC_MODULES: ApiModule[] = [
   {
     id: "check-kyc",
     name: "KYC",
-    description: "Validates PAN Number, Aadhaar, and provides tax status details based on customer's IDs.",
+    description:
+      "Validates PAN Number, Aadhaar, and provides tax status details based on customer's IDs.",
     features: [
       "Real-time PAN & Aadhaar validation.",
       "Support for multiple document types.",
@@ -66,16 +68,32 @@ export const STATIC_MODULES: ApiModule[] = [
         method: HttpMethod.POST,
         path: "/checkkyc/verifyPan",
         name: "Check KYC API",
-        description: "Verify customer identity documents through automated workflows. Supports PAN, Aadhaar (Masked), and other Government issued IDs with real-time response from authenticating agencies.",
+        description:
+          "Verify customer identity documents through automated workflows. Supports PAN, Aadhaar (Masked), and other Government issued IDs with real-time response from authenticating agencies.",
         headers: {
           "Content-Type": "application/json",
           "x-api-key": "{{YOUR_API_KEY}}",
           "x-correlation-id": "UUID",
         },
         requestFields: [
-          { name: "Content-Type", type: FieldType.STRING, required: true, description: "application/json" },
-          { name: "x-api-key", type: FieldType.STRING, required: true, description: "{{YOUR_API_KEY}}" },
-          { name: "x-correlation-id", type: FieldType.STRING, required: false, description: "UUID" },
+          {
+            name: "Content-Type",
+            type: FieldType.STRING,
+            required: true,
+            description: "application/json",
+          },
+          {
+            name: "x-api-key",
+            type: FieldType.STRING,
+            required: true,
+            description: "{{YOUR_API_KEY}}",
+          },
+          {
+            name: "x-correlation-id",
+            type: FieldType.STRING,
+            required: false,
+            description: "UUID",
+          },
         ],
         sampleRequest: {
           document_type: "PAN",

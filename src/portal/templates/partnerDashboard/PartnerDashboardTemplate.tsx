@@ -1,5 +1,17 @@
 import { useState } from "react";
-import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
 import DashboardCustomizeOutlinedIcon from "@mui/icons-material/DashboardCustomizeOutlined";
 import HubOutlinedIcon from "@mui/icons-material/HubOutlined";
 import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
@@ -35,9 +47,7 @@ export default function PartnerDashboardTemplate({
           {PARTNER_DASHBOARD_CONTENT.hero.overline}
         </Typography>
         <Typography variant="h3" className="partner-dashboard__hero-title">
-          {partner
-            ? `Welcome back, ${partner.company}`
-            : PARTNER_DASHBOARD_CONTENT.hero.title}
+          {partner ? `Welcome back, ${partner.company}` : PARTNER_DASHBOARD_CONTENT.hero.title}
         </Typography>
         <Typography className="partner-dashboard__hero-description">
           {PARTNER_DASHBOARD_CONTENT.hero.description}
@@ -113,7 +123,8 @@ export default function PartnerDashboardTemplate({
         <DialogTitle>Subscription Required</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To access detailed API specifications, request/response formats, and the interactive sandbox, you must subscribe to our API services.
+            To access detailed API specifications, request/response formats, and the interactive
+            sandbox, you must subscribe to our API services.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

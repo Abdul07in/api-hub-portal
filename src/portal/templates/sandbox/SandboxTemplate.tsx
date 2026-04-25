@@ -75,14 +75,14 @@ export default function SandboxTemplate({
       <Typography variant="h3" className="sandbox-template__hero-title">
         {CONTENT.hero.title}
       </Typography>
-      <Typography className="sandbox-template__hero-desc">
-        {CONTENT.hero.description}
-      </Typography>
+      <Typography className="sandbox-template__hero-desc">{CONTENT.hero.description}</Typography>
 
       <Box className="sandbox-template__grid">
         {/* Picker */}
         <Paper variant="outlined" className="sandbox-template__paper">
-          <Typography className="sandbox-template__section-title">{CONTENT.picker.title}</Typography>
+          <Typography className="sandbox-template__section-title">
+            {CONTENT.picker.title}
+          </Typography>
           <FormControl fullWidth size="small" className="sandbox-template__module-select">
             <InputLabel>{CONTENT.picker.moduleLabel}</InputLabel>
             <Select
@@ -103,7 +103,11 @@ export default function SandboxTemplate({
           </FormControl>
           <FormControl fullWidth size="small">
             <InputLabel>{CONTENT.picker.apiLabel}</InputLabel>
-            <Select label={CONTENT.picker.apiLabel} value={apiId} onChange={(e) => setApiId(e.target.value)}>
+            <Select
+              label={CONTENT.picker.apiLabel}
+              value={apiId}
+              onChange={(e) => setApiId(e.target.value)}
+            >
               {currentModule.apis.map((a) => (
                 <MenuItem key={a.id} value={a.id}>
                   {a.name}
@@ -126,84 +130,91 @@ export default function SandboxTemplate({
 
         {/* Headers + Request stacked in one grid cell */}
         <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-
-        {/* Headers */}
-        <Paper variant="outlined" className="sandbox-template__paper">
-          <Typography className="sandbox-template__section-title">{CONTENT.headers.title}</Typography>
-          <Stack spacing={1}>
-            {headers.map((h, i) => (
-              <Box key={i} className="sandbox-template__headers-row">
-                <TextField
-                  size="small"
-                  placeholder={CONTENT.headers.keyPlaceholder}
-                  value={h.key}
-                  onChange={(e) => {
-                    const next = headers.map((r, idx) => idx === i ? { ...r, key: e.target.value } : r);
-                    setHeaders(next);
-                  }}
-                  sx={{ flex: 1 }}
-                />
-                <TextField
-                  size="small"
-                  placeholder={CONTENT.headers.valuePlaceholder}
-                  value={h.value}
-                  onChange={(e) => {
-                    const next = headers.map((r, idx) => idx === i ? { ...r, value: e.target.value } : r);
-                    setHeaders(next);
-                  }}
-                  sx={{ flex: 1 }}
-                />
-                {headers.length > 1 && (
-                  <IconButton
+          {/* Headers */}
+          <Paper variant="outlined" className="sandbox-template__paper">
+            <Typography className="sandbox-template__section-title">
+              {CONTENT.headers.title}
+            </Typography>
+            <Stack spacing={1}>
+              {headers.map((h, i) => (
+                <Box key={i} className="sandbox-template__headers-row">
+                  <TextField
                     size="small"
-                    aria-label="remove header"
-                    onClick={() => setHeaders(headers.filter((_, idx) => idx !== i))}
-                  >
-                    <RemoveCircleOutlineIcon fontSize="small" />
-                  </IconButton>
-                )}
-              </Box>
-            ))}
-          </Stack>
-          <Button
-            size="small"
-            startIcon={<AddIcon />}
-            onClick={() => setHeaders([...headers, { key: "", value: "" }])}
-            className="sandbox-template__add-header-btn"
-          >
-            {CONTENT.headers.addBtn}
-          </Button>
-        </Paper>
+                    placeholder={CONTENT.headers.keyPlaceholder}
+                    value={h.key}
+                    onChange={(e) => {
+                      const next = headers.map((r, idx) =>
+                        idx === i ? { ...r, key: e.target.value } : r,
+                      );
+                      setHeaders(next);
+                    }}
+                    sx={{ flex: 1 }}
+                  />
+                  <TextField
+                    size="small"
+                    placeholder={CONTENT.headers.valuePlaceholder}
+                    value={h.value}
+                    onChange={(e) => {
+                      const next = headers.map((r, idx) =>
+                        idx === i ? { ...r, value: e.target.value } : r,
+                      );
+                      setHeaders(next);
+                    }}
+                    sx={{ flex: 1 }}
+                  />
+                  {headers.length > 1 && (
+                    <IconButton
+                      size="small"
+                      aria-label="remove header"
+                      onClick={() => setHeaders(headers.filter((_, idx) => idx !== i))}
+                    >
+                      <RemoveCircleOutlineIcon fontSize="small" />
+                    </IconButton>
+                  )}
+                </Box>
+              ))}
+            </Stack>
+            <Button
+              size="small"
+              startIcon={<AddIcon />}
+              onClick={() => setHeaders([...headers, { key: "", value: "" }])}
+              className="sandbox-template__add-header-btn"
+            >
+              {CONTENT.headers.addBtn}
+            </Button>
+          </Paper>
 
-        {/* Request builder */}
-        <Paper variant="outlined" className="sandbox-template__paper">
-          <Typography className="sandbox-template__section-title">{CONTENT.request.title}</Typography>
+          {/* Request builder */}
+          <Paper variant="outlined" className="sandbox-template__paper">
+            <Typography className="sandbox-template__section-title">
+              {CONTENT.request.title}
+            </Typography>
 
-          <TextField
-            fullWidth
-            multiline
-            minRows={10}
-            value={rawText}
-            onChange={(e) => setRawText(e.target.value)}
-            error={!!rawError}
-            helperText={rawError ?? CONTENT.request.rawJsonHelper}
-            className="sandbox-template__raw-text-field"
-          />
+            <TextField
+              fullWidth
+              multiline
+              minRows={10}
+              value={rawText}
+              onChange={(e) => setRawText(e.target.value)}
+              error={!!rawError}
+              helperText={rawError ?? CONTENT.request.rawJsonHelper}
+              className="sandbox-template__raw-text-field"
+            />
 
-          <Button
-            onClick={handleSend}
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={loading ? <CircularProgress size={18} color="inherit" /> : <SendIcon />}
-            disabled={loading}
-            className="sandbox-template__send-btn"
-          >
-            {loading ? CONTENT.request.sendingBtn : CONTENT.request.sendBtn}
-          </Button>
-        </Paper>
-
-        </Box>{/* end Headers + Request wrapper */}
+            <Button
+              onClick={handleSend}
+              variant="contained"
+              color="primary"
+              size="large"
+              startIcon={loading ? <CircularProgress size={18} color="inherit" /> : <SendIcon />}
+              disabled={loading}
+              className="sandbox-template__send-btn"
+            >
+              {loading ? CONTENT.request.sendingBtn : CONTENT.request.sendBtn}
+            </Button>
+          </Paper>
+        </Box>
+        {/* end Headers + Request wrapper */}
 
         {/* Response */}
         <Paper variant="outlined" className="sandbox-template__paper">
@@ -212,7 +223,14 @@ export default function SandboxTemplate({
           </Typography>
           {!result && !loading && (
             <Alert severity="info" variant="outlined">
-              <span dangerouslySetInnerHTML={{ __html: CONTENT.response.emptyAlert.replace('**Send Request**', '<strong>Send Request</strong>') }} />
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: CONTENT.response.emptyAlert.replace(
+                    "**Send Request**",
+                    "<strong>Send Request</strong>",
+                  ),
+                }}
+              />
             </Alert>
           )}
           {loading && (
