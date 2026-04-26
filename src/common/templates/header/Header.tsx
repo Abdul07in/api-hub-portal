@@ -23,7 +23,7 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import iciciLogo from "@/common/assets/ICICI_Prudential_Mutual_Fund_Official_Logo.jpg";
 import { HEADER_CONTENT, HEADER_NAV } from "./serviceconstant";
-import { logoutPartner, selectIsAuthenticated, selectPartnerUser } from "@/store/slices/authSlice";
+import { logoutPartnerThunk, selectIsAuthenticated, selectPartnerUser } from "@/store/slices/authSlice";
 import type { AppDispatch } from "@/store";
 import "./Header.scss";
 
@@ -101,7 +101,7 @@ export default function Header() {
                 color="secondary"
                 startIcon={<LogoutOutlinedIcon />}
                 className="header__logout-action"
-                onClick={() => dispatch(logoutPartner())}
+                onClick={() => dispatch(logoutPartnerThunk())}
               >
                 {HEADER_CONTENT.logoutLabel}
               </Button>
@@ -200,7 +200,7 @@ export default function Header() {
                   color="secondary"
                   startIcon={<LogoutOutlinedIcon />}
                   className="header__drawer-button"
-                  onClick={() => dispatch(logoutPartner())}
+                  onClick={() => dispatch(logoutPartnerThunk())}
                 >
                   {HEADER_CONTENT.logoutLabel}
                 </Button>

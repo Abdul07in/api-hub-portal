@@ -5,6 +5,7 @@ import { loadStoredAuthSession } from "@/portal/services/auth/storage";
 import {
   loginPartner,
   registerPartner,
+  logoutPartnerSession,
   type LoginPartnerInput,
   type RegisterPartnerInput,
 } from "@/portal/services/auth";
@@ -55,6 +56,23 @@ export const registerPartnerThunk = createAsyncThunk(
   },
 );
 
+export const logoutPartnerThunk = createAsyncThunk(
+  "auth/logoutPartnerThunk",
+  async (_, thunkApi) => {
+    try {
+      const state = thunkApi.getState() as RootState;
+      const refreshToken = state.auth.session?.tokens?.refreshToken;
+      if (refreshToken) {
+        await logoutPartnerSession(refreshToken);
+      }
+      return true;
+    } catch (error) {
+      console.error("Logout error", error);
+      return true; // Still logout locally
+    }
+  },
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -98,6 +116,12 @@ const authSlice = createSlice({
       .addCase(registerPartnerThunk.rejected, (state, action) => {
         state.status = "idle";
         state.error = (action.payload as string) ?? "Unable to create the account right now.";
+      })
+      .addCase(logoutPartnerThunk.fulfilled, (state) => {
+        state.status = "idle";
+        state.session = null;
+        state.persistence = null;
+        state.error = null;
       });
   },
 });

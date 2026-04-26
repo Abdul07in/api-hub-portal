@@ -130,3 +130,45 @@ export async function registerPartner(input: RegisterPartnerInput): Promise<Auth
     persistence: "local",
   };
 }
+
+export async function refreshPartner(refreshToken: string): Promise<AuthServiceResult> {
+  const response = await fetch(AUTH_API_ENDPOINTS.refresh, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...getLoggerHeaders(),
+    },
+    body: JSON.stringify({ refreshToken }),
+  });
+
+  if (!response.ok) {
+    const errorData: ApiResponse<any> | any = await response.json().catch(() => ({}));
+    throw new Error(errorData?.error?.message || errorData?.message || "Session expired or invalid. Please login again.");
+  }
+
+  const resData: ApiResponse<SpringBootJwtAuthResponse> = await response.json();
+  if (!resData.success?.data) {
+    throw new Error("Invalid response format received from server.");
+  }
+  const data: SpringBootJwtAuthResponse = resData.success.data;
+
+  return {
+    session: toSession(data),
+    persistence: "local",
+  };
+}
+
+export async function logoutPartnerSession(refreshToken: string): Promise<void> {
+  const response = await fetch(AUTH_API_ENDPOINTS.logout, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...getLoggerHeaders(),
+    },
+    body: JSON.stringify({ refreshToken }),
+  });
+
+  if (!response.ok) {
+    console.warn("Logout failed on server. Proceeding with local logout.");
+  }
+}
