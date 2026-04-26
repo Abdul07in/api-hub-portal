@@ -223,14 +223,11 @@ export default function SandboxTemplate({
           </Typography>
           {!result && !loading && (
             <Alert severity="info" variant="outlined">
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: CONTENT.response.emptyAlert.replace(
-                    "**Send Request**",
-                    "<strong>Send Request</strong>",
-                  ),
-                }}
-              />
+              <span>
+                {CONTENT.response.emptyAlert.split('**')[0]}
+                <strong>{CONTENT.response.emptyAlert.split('**')[1]}</strong>
+                {CONTENT.response.emptyAlert.split('**')[2]}
+              </span>
             </Alert>
           )}
           {loading && (

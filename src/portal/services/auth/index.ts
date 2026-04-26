@@ -19,12 +19,31 @@ export interface AuthServiceResult {
   persistence: "local" | "session";
 }
 
+export interface ApiResponse<T> {
+  status: number;
+  code: string;
+  success?: {
+    message: string;
+    data: T;
+  };
+  error?: {
+    message: string;
+    data: any;
+  };
+  metadata?: {
+    timestamp: string;
+    traceId: string;
+  };
+}
+
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
+
 export const AUTH_API_ENDPOINTS = {
-  login: "http://localhost:8080/api/auth/login",
-  register: "http://localhost:8080/api/auth/register",
-  refresh: "http://localhost:8080/api/auth/refresh",
-  logout: "http://localhost:8080/api/auth/logout",
-  me: "http://localhost:8080/api/partner/me",
+  login: `${BASE_URL}/auth/login`,
+  register: `${BASE_URL}/auth/register`,
+  refresh: `${BASE_URL}/auth/refresh`,
+  logout: `${BASE_URL}/auth/logout`,
+  me: `${BASE_URL}/partner/me`,
 };
 
 function toSession(response: SpringBootJwtAuthResponse): AuthSession {
@@ -63,11 +82,15 @@ export async function loginPartner(input: LoginPartnerInput): Promise<AuthServic
   });
 
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || "Invalid credentials or account access denied.");
+    const errorData: ApiResponse<any> | any = await response.json().catch(() => ({}));
+    throw new Error(errorData?.error?.message || errorData?.message || "Invalid credentials or account access denied.");
   }
 
-  const data: SpringBootJwtAuthResponse = await response.json();
+  const resData: ApiResponse<SpringBootJwtAuthResponse> = await response.json();
+  if (!resData.success?.data) {
+    throw new Error("Invalid response format received from server.");
+  }
+  const data: SpringBootJwtAuthResponse = resData.success.data;
 
   return {
     session: toSession(data),
@@ -92,11 +115,15 @@ export async function registerPartner(input: RegisterPartnerInput): Promise<Auth
   });
 
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || "Registration failed. Email might already exist.");
+    const errorData: ApiResponse<any> | any = await response.json().catch(() => ({}));
+    throw new Error(errorData?.error?.message || errorData?.message || "Registration failed. Email might already exist.");
   }
 
-  const data: SpringBootJwtAuthResponse = await response.json();
+  const resData: ApiResponse<SpringBootJwtAuthResponse> = await response.json();
+  if (!resData.success?.data) {
+    throw new Error("Invalid response format received from server.");
+  }
+  const data: SpringBootJwtAuthResponse = resData.success.data;
 
   return {
     session: toSession(data),

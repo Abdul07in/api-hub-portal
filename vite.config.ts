@@ -18,4 +18,7 @@ export default defineConfig({
       "@tanstack/query-core",
     ],
   },
+  server: {
+    port: 3000,
+  },
 });
