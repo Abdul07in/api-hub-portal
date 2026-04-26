@@ -17,6 +17,13 @@ import {
 } from "recharts";
 import AddIcon from "@mui/icons-material/Add";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
+import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
+import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
+import AnalyticsOutlinedIcon from "@mui/icons-material/AnalyticsOutlined";
+import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
+import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
+import WorkspacePremiumOutlinedIcon from "@mui/icons-material/WorkspacePremiumOutlined";
 import { Link as RouterLink } from "react-router-dom";
 
 import type { PartnerUser } from "@/common/interfaces/auth";
@@ -152,52 +159,108 @@ function SubscribedDashboard() {
 }
 
 function BasicDashboard({ partner }: { partner: PartnerUser | null }) {
-  const { basicDashboard, header } = PARTNER_DASHBOARD_CONTENT;
+  const { basicDashboard } = PARTNER_DASHBOARD_CONTENT;
+
+  const getCardIcon = (label: string) => {
+    switch (label) {
+      case "ONBOARDING STATUS":
+        return <CheckCircleOutlinedIcon />;
+      case "PARTNER CODE":
+        return <VpnKeyOutlinedIcon />;
+      case "COMPANY":
+        return <BusinessOutlinedIcon />;
+      default:
+        return null;
+    }
+  };
+
+  const getBenefitIcon = (iconName: string) => {
+    switch (iconName) {
+      case "analytics": return <AnalyticsOutlinedIcon />;
+      case "support": return <SupportAgentOutlinedIcon />;
+      case "sandbox": return <ScienceOutlinedIcon />;
+      case "security": return <LockOutlinedIcon />;
+      case "feature": return <WorkspacePremiumOutlinedIcon />;
+      default: return null;
+    }
+  };
 
   return (
     <>
       <Box className="partner-dashboard__header">
         <Box>
-          <Typography variant="h4" className="partner-dashboard__title">
-            {partner ? `Welcome, ${partner.company}` : basicDashboard.title}
-          </Typography>
-          <Typography className="partner-dashboard__subtitle">
-            {basicDashboard.subtitle}
+          <Typography variant="h4" className="partner-dashboard__title" sx={{ color: "#003366", mb: 3 }}>
+            {basicDashboard.title}{partner?.company || "Partner"}
           </Typography>
         </Box>
       </Box>
 
-      <Box className="partner-dashboard__stats-grid">
+      <Box className="partner-dashboard__info-grid">
         {basicDashboard.infoCards.map((card) => (
-          <Paper key={card.label} className="partner-dashboard__stat-card" elevation={0}>
-            <Typography className="partner-dashboard__stat-title">{card.label}</Typography>
-            <Typography variant="h5" className="partner-dashboard__stat-value">
-              {partner?.[card.valueKey] ?? "—"}
-            </Typography>
+          <Paper key={card.label} className="partner-dashboard__info-card" elevation={0}>
+            <Box className="partner-dashboard__info-icon-wrapper">
+              {getCardIcon(card.label)}
+            </Box>
+            <Box>
+              <Typography className="partner-dashboard__info-label">{card.label}</Typography>
+              <Typography variant="h6" className="partner-dashboard__info-value">
+                {(card.valueKey === "company" && partner?.company) || partner?.[card.valueKey] || card.default}
+              </Typography>
+            </Box>
           </Paper>
         ))}
       </Box>
 
-      <Paper className="partner-dashboard__upgrade-card" elevation={0}>
-        <Box className="partner-dashboard__upgrade-content">
-          <LockOutlinedIcon className="partner-dashboard__upgrade-icon" />
-          <Typography variant="h6" className="partner-dashboard__upgrade-title">
-            Unlock Advanced Dashboard
+      <Box className="partner-dashboard__middle-section">
+        {/* Subscription Benefits */}
+        <Paper className="partner-dashboard__benefits-card" elevation={0}>
+          <Typography variant="h5" className="partner-dashboard__benefits-title">
+            {basicDashboard.subscriptionBenefits.title}
           </Typography>
-          <Typography className="partner-dashboard__upgrade-desc">
-            Subscribe to access real-time API analytics, request trends, secure credentials, and more.
-          </Typography>
-          <Button
-            component={RouterLink}
-            to={basicDashboard.subscribeHref}
-            variant="contained"
-            className="partner-dashboard__generate-btn"
-            disableElevation
-          >
-            {basicDashboard.subscribeLabel}
-          </Button>
-        </Box>
-      </Paper>
+          <Stack spacing={3} className="partner-dashboard__benefits-list">
+            {basicDashboard.subscriptionBenefits.benefits.map((benefit, index) => (
+              <Box key={index} className="partner-dashboard__benefit-item">
+                <Box className="partner-dashboard__benefit-icon-wrapper">
+                  {getBenefitIcon(benefit.icon)}
+                </Box>
+                <Box>
+                  <Typography variant="subtitle1" className="partner-dashboard__benefit-name">
+                    {benefit.title}
+                  </Typography>
+                  <Typography variant="body2" className="partner-dashboard__benefit-desc">
+                    {benefit.description}
+                  </Typography>
+                </Box>
+              </Box>
+            ))}
+          </Stack>
+        </Paper>
+
+        {/* Premium Upgrade */}
+        <Paper className="partner-dashboard__upgrade-card-dark" elevation={0}>
+          <Box className="partner-dashboard__upgrade-content-dark">
+            <Box className="partner-dashboard__upgrade-icon-wrapper-dark">
+              <LockOutlinedIcon fontSize="large" />
+            </Box>
+            <Typography variant="h5" className="partner-dashboard__upgrade-title-dark">
+              {basicDashboard.premiumUpgrade.title}
+            </Typography>
+            <Typography className="partner-dashboard__upgrade-desc-dark" sx={{ whiteSpace: "pre-line" }}>
+              {basicDashboard.premiumUpgrade.description}
+            </Typography>
+            <Button
+              component={RouterLink}
+              to={basicDashboard.subscribeHref}
+              variant="contained"
+              className="partner-dashboard__subscribe-btn-dark"
+              fullWidth
+              disableElevation
+            >
+              {basicDashboard.subscribeLabel}
+            </Button>
+          </Box>
+        </Paper>
+      </Box>
     </>
   );
 }

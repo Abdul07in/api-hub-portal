@@ -171,6 +171,171 @@
     line-height: 1.7;
     margin-bottom: 8px;
   }
+
+  &__info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+
+  &__info-card {
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    background: var(--color-card);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  &__info-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: rgba(230, 81, 0, 0.1); /* light primary */
+    color: var(--color-primary);
+    
+    svg {
+      font-size: 24px;
+    }
+  }
+
+  &__info-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-muted-foreground);
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  &__info-value {
+    color: var(--color-secondary);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  &__middle-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    
+    @media (min-width: 900px) {
+      grid-template-columns: 1.2fr 1fr;
+    }
+  }
+
+  &__benefits-card {
+    padding: 40px;
+    border-radius: 16px;
+    border: 1px solid var(--color-border);
+    background: var(--color-card);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  }
+
+  &__benefits-title {
+    color: var(--color-secondary);
+    font-weight: 700;
+    margin-bottom: 32px;
+  }
+
+  &__benefit-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  &__benefit-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: rgba(230, 81, 0, 0.1);
+    color: var(--color-primary);
+    flex-shrink: 0;
+
+    svg {
+      font-size: 22px;
+    }
+  }
+
+  &__benefit-name {
+    color: var(--color-secondary);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  &__benefit-desc {
+    color: var(--color-muted-foreground);
+    line-height: 1.5;
+  }
+
+  &__upgrade-card-dark {
+    padding: 48px;
+    border-radius: 16px;
+    background-color: #1a202c; /* Or var(--color-secondary) if it matches better, but image shows very dark slate */
+    background-image: linear-gradient(180deg, #161e2e, #0f172a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  &__upgrade-content-dark {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 380px;
+  }
+
+  &__upgrade-icon-wrapper-dark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    background-color: #F8E2D2;
+    color: #A04000;
+    margin-bottom: 32px;
+    
+    svg {
+      font-size: 32px;
+    }
+  }
+
+  &__upgrade-title-dark {
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  &__upgrade-desc-dark {
+    color: #94a3b8; /* slate-400 */
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+
+  &__subscribe-btn-dark {
+    background-color: var(--color-primary);
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 12px 24px;
+    text-transform: none;
+    font-size: 1rem;
+    
+    &:hover {
+      background-color: #cc4800; /* darker primary */
+    }
+  }
 }
 
 

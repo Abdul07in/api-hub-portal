@@ -36,15 +36,49 @@ export const PARTNER_DASHBOARD_CONTENT = {
     },
   },
   basicDashboard: {
-    title: "Welcome to the Partner Portal",
+    title: "Welcome, ",
     subtitle: "Complete your subscription to unlock advanced analytics, secure credentials, and API management tools.",
     subscribeLabel: "Subscribe Now",
     subscribeHref: "/contact",
     infoCards: [
-      { label: "Onboarding Status", valueKey: "onboardingStatus" as const },
-      { label: "Partner Code", valueKey: "partnerCode" as const },
-      { label: "Company", valueKey: "company" as const },
+      { label: "ONBOARDING STATUS", valueKey: "onboardingStatus" as const, default: "Active" },
+      { label: "PARTNER CODE", valueKey: "partnerCode" as const, default: "-" },
+      { label: "COMPANY", valueKey: "company" as const, default: "" },
     ],
+    subscriptionBenefits: {
+      title: "Subscription Benefits",
+      benefits: [
+        {
+          title: "Real-time API Analytics",
+          description: "Gain deep insights into your integration performance.",
+          icon: "analytics"
+        },
+        {
+          title: "Advanced Support",
+          description: "Direct access to our senior engineering team.",
+          icon: "support"
+        },
+        {
+          title: "Unlimited Sandbox Access",
+          description: "Test extensively without hitting rate limits.",
+          icon: "sandbox"
+        },
+        {
+          title: "Secure Credentials Management",
+          description: "Enhanced security protocols for API keys.",
+          icon: "security"
+        },
+        {
+          title: "Priority Feature Request",
+          description: "Influence our product roadmap directly.",
+          icon: "feature"
+        }
+      ]
+    },
+    premiumUpgrade: {
+      title: "Premium Upgrade",
+      description: "Upgrade to access premium features\nand dedicated support."
+    }
   },
 };
 
