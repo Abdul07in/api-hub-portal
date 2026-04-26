@@ -4,173 +4,221 @@ $text-primary: #1f2937;
 $text-secondary: #5b6472;
 $border: #f0e3d8;
 $surface: #ffffff;
+$success: #10b981;
+$warning: #f59e0b;
+$gray-100: #f3f4f6;
+$gray-200: #e5e7eb;
+$gray-300: #d1d5db;
+$gray-400: #9ca3af;
+$gray-500: #6b7280;
 
 .partner-dashboard {
-  &__hero {
-    position: relative;
-    overflow: hidden;
-    padding: 28px;
-    border-radius: 28px;
-    background: linear-gradient(140deg, rgba(21, 86, 134, 0.96), rgba(225, 83, 37, 0.88));
-    color: #fff;
-
-    @media (min-width: 900px) {
-      padding: 40px;
-    }
-  }
-
-  &__hero-overline {
-    color: rgba(255, 255, 255, 0.82);
-    letter-spacing: 2px;
-    font-size: 11px;
-  }
-
-  &__hero-title {
-    margin-top: 10px;
-    max-width: 12ch;
-    color: #fff;
-  }
-
-  &__hero-description {
-    margin-top: 12px;
-    max-width: 640px;
-    color: rgba(255, 255, 255, 0.84);
-    line-height: 1.75;
-  }
-
-  &__hero-metrics {
-    display: grid;
+  padding: 0 0 40px 0;
+  
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
     gap: 16px;
-    margin-top: 28px;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
 
-  &__metric-card {
-    padding: 16px 18px;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    backdrop-filter: blur(12px);
-  }
-
-  &__metric-value {
-    font-size: 1.6rem;
+  &__title {
+    color: $secondary;
     font-weight: 800;
   }
 
-  &__metric-label {
-    margin-top: 6px;
-    color: rgba(255, 255, 255, 0.76);
-    font-size: 0.9rem;
-  }
-
-  &__grid {
-    display: grid;
-    gap: 24px;
-    margin-top: 28px;
-
-    @media (min-width: 1200px) {
-      grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.9fr);
-      align-items: start;
-    }
-  }
-
-  &__cards {
-    display: grid;
-    gap: 20px;
-
-    @media (min-width: 900px) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  &__card {
-    padding: 24px;
-    border-radius: 24px;
-    border: 1px solid $border;
-    background: linear-gradient(180deg, rgba(255, 250, 246, 0.7), $surface 24%);
-    box-shadow: 0 18px 32px rgba(31, 41, 55, 0.06);
-  }
-
-  &__card-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 52px;
-    height: 52px;
-    border-radius: 16px;
-    background: rgba(225, 83, 37, 0.12);
-    color: $primary;
-  }
-
-  &__card-title {
-    margin-top: 18px;
-    color: $secondary;
-    font-weight: 700;
-  }
-
-  &__card-description {
-    margin-top: 10px;
+  &__subtitle {
     color: $text-secondary;
-    line-height: 1.7;
+    margin-top: 4px;
   }
 
-  &__card-button {
-    margin-top: 18px;
+  &__generate-btn {
+    background-color: rgba($primary, 0.1);
+    color: $primary;
+    font-weight: 600;
+    text-transform: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    &:hover {
+      background-color: rgba($primary, 0.2);
+    }
   }
 
-  &__sidebar {
+  &__chart-card {
     padding: 24px;
-    border-radius: 24px;
+    border-radius: 16px;
     border: 1px solid $border;
     background: $surface;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   }
 
-  &__sidebar-title {
+  &__chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  &__chart-title {
     color: $secondary;
-    font-weight: 800;
-  }
-
-  &__sidebar-copy {
-    margin-top: 8px;
-    color: $text-secondary;
-    line-height: 1.7;
-  }
-
-  &__status-chip {
-    margin-top: 14px;
     font-weight: 700;
   }
 
-  &__checklist {
-    margin-top: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+  &__filter-active {
+    background-color: rgba($secondary, 0.1);
+    color: $secondary;
+    font-weight: 600;
+    border-radius: 16px;
   }
 
-  &__checklist-item {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
+  &__filter {
+    border-color: $border;
+    color: $text-secondary;
+    font-weight: 500;
+    border-radius: 16px;
   }
 
-  &__checklist-index {
+  &__chart-container {
+    width: 100%;
+  }
+
+  &__stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  &__stat-card {
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid $border;
+    background: $surface;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  }
+
+  &__stat-title {
+    color: $text-secondary;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  &__stat-value-container {
+    margin-top: 8px;
+  }
+
+  &__stat-value {
+    color: $secondary;
+    font-weight: 800;
+  }
+
+  &__stat-indicator {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 999px;
-    background: rgba(21, 86, 134, 0.1);
-    color: $secondary;
-    font-size: 0.9rem;
-    font-weight: 800;
-    flex-shrink: 0;
+    gap: 4px;
+    
+    &--success {
+      color: $success;
+    }
+    
+    &--warning {
+      color: $primary;
+    }
   }
 
-  &__checklist-copy {
-    color: $text-primary;
-    line-height: 1.65;
+  &__section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 32px 0 16px 0;
+  }
+
+  &__section-title {
+    color: $secondary;
+    font-weight: 700;
+    margin: 32px 0 16px 0;
+    
+    &--no-margin {
+      margin: 0;
+    }
+  }
+
+  &__credentials-card {
+    padding: 24px;
+    border-radius: 16px;
+    background-color: $text-secondary;
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    
+    // overrides for text fields inside dark card
+    .MuiOutlinedInput-root {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+      border-radius: 8px;
+      fieldset {
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+      &:hover fieldset {
+        border-color: rgba(255, 255, 255, 0.4);
+      }
+      &.Mui-focused fieldset {
+        border-color: rgba(255, 255, 255, 0.6);
+      }
+    }
+  }
+
+  &__credential-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+
+  &__filter-active,
+  &__filter {
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  &__upgrade-card {
+    padding: 48px 32px;
+    border-radius: 16px;
+    border: 1px solid $border;
+    background: linear-gradient(135deg, rgba($secondary, 0.04), rgba($primary, 0.04));
+    text-align: center;
+  }
+
+  &__upgrade-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    max-width: 460px;
+    margin: 0 auto;
+  }
+
+  &__upgrade-icon {
+    font-size: 48px;
+    color: $secondary;
+    opacity: 0.6;
+    margin-bottom: 8px;
+  }
+
+  &__upgrade-title {
+    color: $secondary;
+    font-weight: 700;
+  }
+
+  &__upgrade-desc {
+    color: $text-secondary;
+    line-height: 1.7;
+    margin-bottom: 8px;
   }
 }
