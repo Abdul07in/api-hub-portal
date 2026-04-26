@@ -40,6 +40,8 @@ export default function ApiProductsTemplate({
 }: ApiProductsTemplateProps) {
   return (
     <Box className="api-products-page">
+      <ApiProductsHero />
+
       <Box className="api-products-page__layout">
         <ApiProductsSidebar
           search={search}
@@ -52,7 +54,6 @@ export default function ApiProductsTemplate({
         />
 
         <Box className="api-products-page__main">
-          <ApiProductsHero />
 
           {activeModule && (
             <Box className="api-details-grid">

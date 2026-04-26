@@ -18,6 +18,13 @@ export default defineConfig({
       "@tanstack/query-core",
     ],
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "@/common/styles/scss/variables" as *;\n@use "@/common/styles/scss/mixins" as *;\n`,
+      },
+    },
+  },
   server: {
     port: 3000,
   },

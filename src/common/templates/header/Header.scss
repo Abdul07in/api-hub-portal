@@ -1,25 +1,3 @@
-$header-bg-start: rgba(255, 250, 246, 0.58);
-$header-bg-end: rgba(255, 255, 255, 0.34);
-$header-border: rgba(21, 86, 134, 0.1);
-$header-shadow: rgba(17, 47, 76, 0.1);
-$nav-shell-start: rgba(21, 86, 134, 0.08);
-$nav-shell-end: rgba(225, 83, 37, 0.05);
-$nav-hover: rgba(21, 86, 134, 0.08);
-$nav-active-start: rgba(255, 255, 255, 0.6);
-$nav-active-end: rgba(255, 250, 246, 0.4);
-$nav-active-shadow: rgba(17, 47, 76, 0.06);
-$chip-start: rgba(21, 86, 134, 0.08);
-$chip-end: rgba(255, 250, 246, 0.3);
-$secondary-button-start: rgba(255, 255, 255, 0.32);
-$secondary-button-end: rgba(255, 250, 246, 0.48);
-$menu-button-start: rgba(255, 255, 255, 0.34);
-$menu-button-end: rgba(255, 250, 246, 0.5);
-$drawer-active: rgba(21, 86, 134, 0.08);
-$text-primary: #1f2937;
-$text-secondary: #5b6472;
-$brand-primary: #e15325;
-$brand-secondary: #155686;
-
 .header {
   background-color: transparent;
   box-shadow: none;
@@ -79,7 +57,7 @@ $brand-secondary: #155686;
   }
 
   &__brand-title {
-    color: $brand-secondary;
+    color: $secondary;
     font-weight: 800;
     font-size: 15px;
     line-height: 1.1;
@@ -124,7 +102,7 @@ $brand-secondary: #155686;
   }
 
   &__nav-button--active {
-    color: $brand-secondary;
+    color: $secondary;
     background: linear-gradient(135deg, $nav-active-start, $nav-active-end);
     box-shadow: 0 6px 18px $nav-active-shadow;
 
@@ -138,7 +116,7 @@ $brand-secondary: #155686;
     border-radius: 12px;
     border-color: rgba(21, 86, 134, 0.16);
     background: linear-gradient(135deg, $chip-start, $chip-end);
-    color: $brand-secondary;
+    color: $secondary;
     font-weight: 700;
 
     @media (min-width: 900px) and (max-width: 1199px) {
@@ -164,13 +142,13 @@ $brand-secondary: #155686;
     width: 36px;
     height: 36px;
     background: rgba(21, 86, 134, 0.14);
-    color: $brand-secondary;
+    color: $secondary;
     font-size: 0.9rem;
     font-weight: 800;
   }
 
   &__partner-name {
-    color: $brand-secondary;
+    color: $secondary;
     font-size: 0.92rem;
     font-weight: 700;
     line-height: 1.2;
@@ -248,7 +226,7 @@ $brand-secondary: #155686;
   }
 
   &__drawer-title {
-    color: $brand-secondary;
+    color: $secondary;
     font-weight: 800;
   }
 
@@ -276,7 +254,7 @@ $brand-secondary: #155686;
   }
 
   &__drawer-text--active {
-    color: $brand-secondary;
+    color: $secondary;
     font-weight: 700;
   }
 
@@ -309,7 +287,7 @@ $brand-secondary: #155686;
   }
 
   &__drawer-account-name {
-    color: $brand-secondary;
+    color: $secondary;
     font-weight: 700;
   }
 
@@ -320,3 +298,4 @@ $brand-secondary: #155686;
     line-height: 1.5;
   }
 }
+

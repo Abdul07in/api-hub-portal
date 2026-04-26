@@ -1,0 +1,64 @@
+// Brand Colors
+$primary: #E65100;
+$secondary: #003366; // primary text color
+$tertiary: #fffaf6;  // primary background color
+$primary-dark: #b9421d;
+
+// Text Colors
+$text-primary: $secondary; // standardizing text to use secondary
+$text-secondary: #5b6472;
+$text-muted: #9ca3af;
+
+// Interface Colors
+$border: #f0e3d8;
+$surface: #ffffff;
+$bg-light: #f9f9f9;
+$dark-bg: #1c2128;
+
+// State Colors
+$success: #10b981;
+$warning: #f59e0b;
+$error: #ef4444;
+$info: #3b82f6;
+
+// Grays
+$gray-100: #f3f4f6;
+$gray-200: #e5e7eb;
+$gray-300: #d1d5db;
+$gray-400: #9ca3af;
+$gray-500: #6b7280;
+
+// Layout
+$sidebar-width: 280px;
+
+// Component Specific Variables (Header)
+$header-bg-start: rgba(255, 250, 246, 0.58);
+$header-bg-end: rgba(255, 255, 255, 0.34);
+$header-border: rgba(21, 86, 134, 0.1);
+$header-shadow: rgba(17, 47, 76, 0.1);
+$nav-shell-start: rgba(21, 86, 134, 0.08);
+$nav-shell-end: rgba(225, 83, 37, 0.05);
+$nav-hover: rgba(21, 86, 134, 0.08);
+$nav-active-start: rgba(255, 255, 255, 0.6);
+$nav-active-end: rgba(255, 250, 246, 0.4);
+$nav-active-shadow: rgba(17, 47, 76, 0.06);
+$chip-start: rgba(21, 86, 134, 0.08);
+$chip-end: rgba(255, 250, 246, 0.3);
+$secondary-button-start: rgba(255, 255, 255, 0.32);
+$secondary-button-end: rgba(255, 250, 246, 0.48);
+$menu-button-start: rgba(255, 255, 255, 0.34);
+$menu-button-end: rgba(255, 250, 246, 0.5);
+$drawer-active: rgba(21, 86, 134, 0.08);
+
+// Component Specific Variables (Sandbox)
+$background-default: #fffaf6;
+
+// Component Specific Variables (Auth)
+$spotlight-bg: linear-gradient(145deg, rgba(21, 86, 134, 0.96), rgba(11, 49, 78, 0.98));
+$spotlight-card: rgba(255, 255, 255, 0.1);
+
+// Component Specific Variables (Footer)
+$footer-bg: $secondary;
+$footer-text: #e7eef6;
+$footer-white: #ffffff;
+$footer-divider: rgba(255, 255, 255, 0.18);

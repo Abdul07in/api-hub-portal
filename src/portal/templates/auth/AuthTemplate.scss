@@ -1,13 +1,3 @@
-$primary: #e15325;
-$secondary: #155686;
-$primary-dark: #b9421d;
-$surface: #ffffff;
-$text-primary: #1f2937;
-$text-secondary: #5b6472;
-$border: #f0e3d8;
-$spotlight-bg: linear-gradient(145deg, rgba(21, 86, 134, 0.96), rgba(11, 49, 78, 0.98));
-$spotlight-card: rgba(255, 255, 255, 0.1);
-
 .auth-template {
   display: grid;
   gap: 24px;
@@ -209,3 +199,4 @@ $spotlight-card: rgba(255, 255, 255, 0.1);
     }
   }
 }
+
