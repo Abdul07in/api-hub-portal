@@ -11,6 +11,7 @@ applyTo: "**"
 **Stack:** React 19, TypeScript 5, Vite 7, TailwindCSS 4, Redux Toolkit, React Router DOM 7, TanStack Query, Zod, React Hook Form, shadcn/ui (Radix UI primitives), MUI (Material UI), SCSS (sass-embedded), Recharts, Lucide React.
 
 **Key commands (run in Command Prompt — PowerShell is disabled):**
+
 ```cmd
 npm run dev           :: Start dev server on port 3000
 npm run build         :: Production build
@@ -57,9 +58,11 @@ src/
 ## Coding Guidelines
 
 ### 0. Terminal / Shell
+
 - **Do NOT run PowerShell commands** — it is disabled for security. Provide Command Prompt (`cmd`) commands only when shell commands are needed.
 
 ### 1. TypeScript
+
 - All new files must be `.ts` or `.tsx`. Never use `.js` or `.jsx`.
 - Define explicit types/interfaces for all props, function signatures, API responses, and state shapes.
 - Place shared interfaces in `src/common/interfaces/`, feature-specific types close to the feature.
@@ -67,6 +70,7 @@ src/
 - Avoid `any`; use `unknown` with type guards when the type cannot be determined statically.
 
 ### 2. Project Structure & File Placement
+
 - **Atoms** (`src/common/atoms/`): stateless, generic, no business logic.
 - **Templates** (`src/common/templates/` and `src/portal/templates/`): layout and composition components.
 - **Pages** (`src/portal/pages/`): route-level components — thin orchestration only, delegate to templates/services.
@@ -75,11 +79,13 @@ src/
 - Co-locate component SCSS (`.scss`) with its component file.
 
 ### 3. Code Style (ESLint + Prettier)
+
 - Follow the existing ESLint config (`eslint.config.js`) and Prettier config without overriding rules.
 - No unused variables, no `console.log` left in committed code.
 - Single quotes for strings, trailing commas (ES5), 2-space indentation.
 
 ### 4. React Patterns
+
 - **Functional components only** — no class components.
 - Prefer named exports for components.
 - Use React's built-in hooks (`useState`, `useEffect`, `useReducer`, `useCallback`, `useMemo`, `useRef`).
@@ -89,6 +95,7 @@ src/
 - Use `React.memo` only for components that receive stable props and re-render frequently.
 
 ### 5. State Management
+
 - **Local UI state:** `useState` or `useReducer`.
 - **Server/async state:** TanStack Query (`@tanstack/react-query`) — for all data fetching, caching, and synchronization.
 - **Global client state:** Redux Toolkit — `src/store/slices/`. Keep Redux state minimal (auth session, catalog metadata).
@@ -96,10 +103,12 @@ src/
 - Never store derived data in Redux; compute it with selectors.
 
 ### 6. Forms
+
 - Use React Hook Form (`react-hook-form`) with `@hookform/resolvers` and Zod schemas for all form validation.
 - Never access `document` directly or use uncontrolled inputs outside of RHF.
 
 ### 7. UI Components
+
 - Use shadcn/ui components from `src/components/ui/` as the primary UI kit.
 - Use MUI (`@mui/material`) only where shadcn/ui lacks a required component.
 - Do not mix shadcn and MUI for the same UI pattern — prefer shadcn/ui.
@@ -107,42 +116,50 @@ src/
 - Styling order: TailwindCSS utility classes → SCSS modules (co-located `.scss`) → inline styles (avoid).
 
 ### 8. Routing
+
 - All routes are defined in `src/router.tsx`. Add new routes there.
 - Use `ProtectedRoute` for authenticated pages and `GuestRoute` for unauthenticated-only pages (login, signup).
 - Use `PageShell` with an appropriate `maxWidth` for consistent page padding.
 
 ### 9. Performance & Code Splitting
+
 - Every new route-level page should be lazy-loaded with `React.lazy`.
 - Keep bundle chunks focused; avoid importing entire libraries when tree-shaking is possible (e.g., import individual MUI icons).
 
 ### 10. Error Handling
+
 - Wrap route subtrees in React error boundaries to prevent full-page crashes.
 - Handle async errors explicitly with `try/catch` in service functions; surface errors via TanStack Query's error state or Redux state — never swallow them silently.
 - Integrate error monitoring (e.g., Sentry) at the application boundary in `main.tsx`.
 
 ### 11. Accessibility (a11y)
+
 - Use semantic HTML elements (`<nav>`, `<main>`, `<article>`, `<section>`, `<button>`, etc.).
 - Every interactive element must be keyboard-navigable and have a visible focus indicator.
 - Provide `aria-label` / `aria-describedby` where text is not self-descriptive.
 - All images must have meaningful `alt` text.
 
 ### 12. Security
+
 - Never hard-code secrets, API keys, or credentials. Use environment variables (`import.meta.env`).
 - Validate and sanitize all user inputs with Zod before use.
 - Avoid `dangerouslySetInnerHTML`; if unavoidable, sanitize with DOMPurify first.
 - Follow OWASP Top 10 guidelines — guard against XSS, CSRF, and injection attacks.
 
 ### 13. Testing
+
 - Write unit tests (Jest + React Testing Library) for all atoms, hooks, and service utilities.
 - Write integration tests for full user flows in pages and templates.
 - E2E tests (Playwright) for critical journeys: login, sandbox execution, API product browsing.
 - Aim for ≥80% coverage on business logic in `src/portal/services/` and `src/store/slices/`.
 
 ### 14. Internationalization (i18n)
+
 - Do not hard-code user-visible strings directly in JSX. Use an i18n solution or centralize strings in constants when full i18n is not yet wired up.
 - Design layouts to accommodate text expansion (common in translations).
 
 ### 15. Git & Collaboration
+
 - Do not commit `.env` files or secrets.
 - Follow the established branch model; use PR templates and code reviews before merging.
 - Do not bypass ESLint/Prettier with `--no-verify`.
@@ -151,17 +168,17 @@ src/
 
 ## Bonus: Quick Reference
 
-| Concern | Tool / Pattern |
-|---|---|
-| Type safety | TypeScript + Zod |
-| Styling | TailwindCSS + SCSS |
-| UI primitives | shadcn/ui (Radix UI) |
-| Icons | lucide-react |
-| Forms | React Hook Form + Zod |
-| Server state | TanStack Query |
-| Global state | Redux Toolkit |
-| Routing | React Router DOM v7 |
-| Build | Vite 7 |
-| Linting | ESLint + Prettier |
-| Testing | Jest + RTL + Playwright |
-| Path alias | `@` → `src/` |
+| Concern       | Tool / Pattern          |
+| ------------- | ----------------------- |
+| Type safety   | TypeScript + Zod        |
+| Styling       | TailwindCSS + SCSS      |
+| UI primitives | shadcn/ui (Radix UI)    |
+| Icons         | lucide-react            |
+| Forms         | React Hook Form + Zod   |
+| Server state  | TanStack Query          |
+| Global state  | Redux Toolkit           |
+| Routing       | React Router DOM v7     |
+| Build         | Vite 7                  |
+| Linting       | ESLint + Prettier       |
+| Testing       | Jest + RTL + Playwright |
+| Path alias    | `@` → `src/`            |

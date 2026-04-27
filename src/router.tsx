@@ -9,6 +9,7 @@ import ContactPage from "@/portal/pages/contactUs/ContactPage";
 import LoginPage from "@/portal/pages/login/LoginPage";
 import SignupPage from "@/portal/pages/signup/SignupPage";
 import PartnerDashboardPage from "@/portal/pages/partnerDashboard/PartnerDashboardPage";
+import ProfilePage from "@/portal/pages/profile/ProfilePage";
 import ProtectedRoute from "@/portal/components/auth/ProtectedRoute";
 import GuestRoute from "@/portal/components/auth/GuestRoute";
 
@@ -66,6 +67,14 @@ export const router = createBrowserRouter([
             element: (
               <PageShell maxWidth="xl">
                 <PartnerDashboardPage />
+              </PageShell>
+            ),
+          },
+          {
+            path: "partner/profile",
+            element: (
+              <PageShell maxWidth="xl">
+                <ProfilePage />
               </PageShell>
             ),
           },

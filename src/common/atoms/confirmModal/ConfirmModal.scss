@@ -1,0 +1,11 @@
+@use "sass:color";
+
+.confirm-modal {
+  .MuiDialogTitle-root {
+    padding-bottom: 0.5rem;
+  }
+  .MuiDialogContentText-root {
+    color: var(--color-foreground);
+    opacity: 0.8;
+  }
+}

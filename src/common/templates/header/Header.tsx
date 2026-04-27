@@ -93,7 +93,17 @@ export default function Header() {
 
           {isAuthenticated && partner ? (
             <>
-              <Box className="header__partner-summary">
+              <Box
+                component={RouterLink}
+                to="/partner/profile"
+                className="header__partner-summary"
+                sx={{
+                  textDecoration: "none",
+                  color: "inherit",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
                 <Avatar className="header__partner-avatar">{initials}</Avatar>
                 <Box>
                   <Typography className="header__partner-name">{partner.company}</Typography>

@@ -1,0 +1,287 @@
+@use "sass:color";
+
+.profile-template {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  @media (max-width: 600px) {
+    padding: 1rem;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+
+  &__hero-title {
+    font-weight: 600 !important;
+    color: $text-primary !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  &__hero-desc {
+    color: $text-secondary !important;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  &__discard-btn {
+    border-color: $secondary !important;
+    color: $secondary !important;
+    transition: all 0.2s ease !important;
+
+    &:hover {
+      background-color: rgba($secondary, 0.06) !important;
+    }
+
+    &.Mui-disabled {
+      border-color: rgba($secondary, 0.3) !important;
+      color: rgba($secondary, 0.5) !important;
+    }
+  }
+
+  &__save-btn {
+    background-color: $primary !important;
+    color: #fff !important;
+    transition: all 0.2s ease !important;
+
+    &:hover {
+      background-color: $primary-dark !important;
+    }
+
+    &.Mui-disabled {
+      background-color: rgba($primary, 0.5) !important;
+      color: rgba(255, 255, 255, 0.8) !important;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__card {
+    height: 100%;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+    &--dark {
+      background-color: $text-primary !important;
+      color: $surface !important;
+    }
+  }
+
+  &__card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  &__card-title {
+    color: $text-primary !important;
+    font-weight: 600 !important;
+
+    &--dark {
+      color: $surface !important;
+    }
+  }
+
+  &__card-desc {
+    color: $text-secondary !important;
+  }
+
+  &__avatar {
+    width: 64px !important;
+    height: 64px !important;
+    margin-right: 1rem !important;
+    background-color: $text-primary !important;
+  }
+
+  &__icon-box {
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin-right: 1rem;
+
+    &--security {
+      background-color: rgba($warning, 0.2);
+      color: $error;
+    }
+
+    &--notifications {
+      background-color: rgba($info, 0.15);
+      color: $text-primary;
+    }
+  }
+
+  &__field-label {
+    font-weight: 600 !important;
+    color: $text-secondary !important;
+    margin-bottom: 0.5rem !important;
+    display: block !important;
+  }
+
+  &__fields-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__overview-item {
+    margin-bottom: 0.75rem;
+  }
+
+  &__overview-label {
+    color: rgba($surface, 0.7) !important;
+    letter-spacing: 1px !important;
+  }
+
+  &__overview-value {
+    font-weight: 700 !important;
+    margin-top: 0.25rem !important;
+    &--large {
+      letter-spacing: 2px !important;
+    }
+  }
+
+  &__status-badge {
+    background-color: $success;
+    color: $surface;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 0.5rem;
+  }
+
+  &__divider {
+    border-color: rgba($surface, 0.2) !important;
+    margin-top: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  &__download-btn {
+    color: $surface !important;
+    justify-content: center !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    &:hover {
+      background-color: rgba($surface, 0.1) !important;
+    }
+  }
+
+  &__notification-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  &__notification-label {
+    color: $text-primary;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  &__notification-desc {
+    color: $text-secondary;
+    font-size: 0.75rem;
+  }
+
+  &__footer-note {
+    background-color: $bg-light;
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+    font-style: italic;
+    color: $text-secondary;
+    font-size: 0.75rem;
+  }
+
+  &__support-banner {
+    margin-top: 2rem;
+    background-color: rgba($warning, 0.1);
+    padding: 1.5rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba($warning, 0.3);
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+  }
+
+  &__support-content {
+    display: flex;
+    align-items: center;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+    }
+  }
+
+  &__support-icon-wrapper {
+    background-color: $surface;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-right: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+    @media (max-width: 600px) {
+      margin-right: 0;
+      margin-bottom: 1rem;
+    }
+  }
+
+  &__support-icon {
+    color: $error;
+    font-weight: bold;
+    font-size: 24px;
+  }
+
+  &__support-title {
+    color: $text-primary !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  &__support-btn {
+    background-color: $secondary !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+    transition: all 0.2s ease !important;
+
+    &:hover {
+      background-color: color.adjust($secondary, $lightness: -10%) !important;
+    }
+  }
+
+  &__loading {
+    padding: 2rem;
+  }
+}
