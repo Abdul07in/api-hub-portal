@@ -135,13 +135,13 @@ export default function FlowAnimation({ flowSteps }: FlowAnimationProps) {
                       strokeWidth="2.5"
                       strokeLinecap="round"
                       className={`flow-animation__connector-fill ${
-                        activeStepIndex === index && isConnectorAnimating
+                        (activeStepIndex === index && isConnectorAnimating) || isCompleted
                           ? "flow-animation__connector-fill--animate"
                           : ""
                       }`}
                       style={{
                         opacity:
-                          isCompleted || (activeStepIndex === index && isConnectorAnimating)
+                          (activeStepIndex === index && isConnectorAnimating) || isCompleted
                             ? 1
                             : 0,
                       }}
@@ -149,7 +149,7 @@ export default function FlowAnimation({ flowSteps }: FlowAnimationProps) {
                     <polygon
                       points="38,6 48,12 38,18"
                       fill={
-                        isCompleted || (activeStepIndex === index && isConnectorAnimating)
+                        (activeStepIndex === index && isConnectorAnimating) || isCompleted
                           ? "#e15325"
                           : "#d4dae3"
                       }

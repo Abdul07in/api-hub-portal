@@ -69,14 +69,14 @@
   --card-foreground: #003366;
   --popover: #ffffff;
   --popover-foreground: #003366;
-  --primary: #E65100;
+  --primary: #e65100;
   --primary-foreground: #ffffff;
   --secondary: #003366;
   --secondary-foreground: #ffffff;
   --muted: oklch(0.968 0.007 247.896);
   --muted-foreground: oklch(0.554 0.046 257.417);
   --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: #E65100;
+  --accent-foreground: #e65100;
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
   --border: oklch(0.929 0.013 255.508);

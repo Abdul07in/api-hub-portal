@@ -10,7 +10,11 @@ export interface SecureCredentialFieldProps {
   masked?: boolean;
 }
 
-export default function SecureCredentialField({ label, value, masked = false }: SecureCredentialFieldProps) {
+export default function SecureCredentialField({
+  label,
+  value,
+  masked = false,
+}: SecureCredentialFieldProps) {
   const [revealed, setRevealed] = useState(false);
 
   const handleCopy = () => {
@@ -40,7 +44,11 @@ export default function SecureCredentialField({ label, value, masked = false }: 
                     onClick={() => setRevealed(!revealed)}
                     sx={{ color: "rgba(255,255,255,0.7)", mr: 0.5 }}
                   >
-                    {revealed ? <VisibilityOffIcon fontSize="small" /> : <VisibilityIcon fontSize="small" />}
+                    {revealed ? (
+                      <VisibilityOffIcon fontSize="small" />
+                    ) : (
+                      <VisibilityIcon fontSize="small" />
+                    )}
                   </IconButton>
                 )}
                 <IconButton

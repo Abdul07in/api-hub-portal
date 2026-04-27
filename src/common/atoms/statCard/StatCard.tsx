@@ -31,9 +31,7 @@ export default function StatCard({
         <Typography variant="h4" className="stat-card__value">
           {value}
         </Typography>
-        <Box
-          className={`stat-card__indicator stat-card__indicator--${indicatorVariant}`}
-        >
+        <Box className={`stat-card__indicator stat-card__indicator--${indicatorVariant}`}>
           {indicatorIcon}
           <Typography component="span" variant="body2" sx={{ fontWeight: 700 }}>
             {indicatorLabel}

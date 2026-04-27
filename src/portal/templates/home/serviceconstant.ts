@@ -30,7 +30,7 @@ export const CONTENT = {
   features: {
     title: "Portal Features",
     items: [
-      { title: "API Catalog", desc: "Explore NAV, KYC, Folio, Redemption, and more." },
+      { title: "API Catalog", desc: "Explore KYC, Folio, Redemption, and more." },
       { title: "Sandbox Testing", desc: "Test APIs safely with mock data before going live." },
       {
         title: "Compliance & Security",
@@ -50,5 +50,10 @@ export const CONTENT = {
     endpointPlural: "ENDPOINTS",
     exploreBtn: "Explore API",
     guestPrompt: "Sign in to unlock",
+    items: [
+      { name: "CheckKYC", desc: "Validate PAN instantly." },
+      { name: "Folio Creation", desc: "Instant folio creation via CAMS." },
+      { name: "Instant Redemption", desc: "Enable IMPS\u2011based real\u2011time redemptions." },
+    ],
   },
 };

@@ -1,20 +1,6 @@
 import { useState } from "react";
-import {
-  Box,
-  Button,
-  Chip,
-  Paper,
-  Stack,
-  Typography,
-} from "@mui/material";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
-} from "recharts";
+import { Box, Button, Chip, Paper, Stack, Typography } from "@mui/material";
+import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import AddIcon from "@mui/icons-material/Add";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
@@ -56,9 +42,7 @@ function SubscribedDashboard() {
           <Typography variant="h4" className="partner-dashboard__title">
             {header.title}
           </Typography>
-          <Typography className="partner-dashboard__subtitle">
-            {header.subtitle}
-          </Typography>
+          <Typography className="partner-dashboard__subtitle">{header.subtitle}</Typography>
         </Box>
         <Button
           variant="contained"
@@ -176,12 +160,18 @@ function BasicDashboard({ partner }: { partner: PartnerUser | null }) {
 
   const getBenefitIcon = (iconName: string) => {
     switch (iconName) {
-      case "analytics": return <AnalyticsOutlinedIcon />;
-      case "support": return <SupportAgentOutlinedIcon />;
-      case "sandbox": return <ScienceOutlinedIcon />;
-      case "security": return <LockOutlinedIcon />;
-      case "feature": return <WorkspacePremiumOutlinedIcon />;
-      default: return null;
+      case "analytics":
+        return <AnalyticsOutlinedIcon />;
+      case "support":
+        return <SupportAgentOutlinedIcon />;
+      case "sandbox":
+        return <ScienceOutlinedIcon />;
+      case "security":
+        return <LockOutlinedIcon />;
+      case "feature":
+        return <WorkspacePremiumOutlinedIcon />;
+      default:
+        return null;
     }
   };
 
@@ -189,8 +179,13 @@ function BasicDashboard({ partner }: { partner: PartnerUser | null }) {
     <>
       <Box className="partner-dashboard__header">
         <Box>
-          <Typography variant="h4" className="partner-dashboard__title" sx={{ color: "#003366", mb: 3 }}>
-            {basicDashboard.title}{partner?.company || "Partner"}
+          <Typography
+            variant="h4"
+            className="partner-dashboard__title"
+            sx={{ color: "#003366", mb: 3 }}
+          >
+            {basicDashboard.title}
+            {partner?.company || "Partner"}
           </Typography>
         </Box>
       </Box>
@@ -198,13 +193,13 @@ function BasicDashboard({ partner }: { partner: PartnerUser | null }) {
       <Box className="partner-dashboard__info-grid">
         {basicDashboard.infoCards.map((card) => (
           <Paper key={card.label} className="partner-dashboard__info-card" elevation={0}>
-            <Box className="partner-dashboard__info-icon-wrapper">
-              {getCardIcon(card.label)}
-            </Box>
+            <Box className="partner-dashboard__info-icon-wrapper">{getCardIcon(card.label)}</Box>
             <Box>
               <Typography className="partner-dashboard__info-label">{card.label}</Typography>
               <Typography variant="h6" className="partner-dashboard__info-value">
-                {(card.valueKey === "company" && partner?.company) || partner?.[card.valueKey] || card.default}
+                {(card.valueKey === "company" && partner?.company) ||
+                  partner?.[card.valueKey] ||
+                  card.default}
               </Typography>
             </Box>
           </Paper>
@@ -245,7 +240,10 @@ function BasicDashboard({ partner }: { partner: PartnerUser | null }) {
             <Typography variant="h5" className="partner-dashboard__upgrade-title-dark">
               {basicDashboard.premiumUpgrade.title}
             </Typography>
-            <Typography className="partner-dashboard__upgrade-desc-dark" sx={{ whiteSpace: "pre-line" }}>
+            <Typography
+              className="partner-dashboard__upgrade-desc-dark"
+              sx={{ whiteSpace: "pre-line" }}
+            >
               {basicDashboard.premiumUpgrade.description}
             </Typography>
             <Button
@@ -265,16 +263,10 @@ function BasicDashboard({ partner }: { partner: PartnerUser | null }) {
   );
 }
 
-export default function PartnerDashboardTemplate({
-  partner,
-}: PartnerDashboardTemplateProps) {
+export default function PartnerDashboardTemplate({ partner }: PartnerDashboardTemplateProps) {
   return (
     <Box className="partner-dashboard">
-      {partner?.isSubscribed ? (
-        <SubscribedDashboard />
-      ) : (
-        <BasicDashboard partner={partner} />
-      )}
+      {partner?.isSubscribed ? <SubscribedDashboard /> : <BasicDashboard partner={partner} />}
     </Box>
   );
 }

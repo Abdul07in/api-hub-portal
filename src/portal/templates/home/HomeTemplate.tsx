@@ -353,30 +353,19 @@ export default function HomeTemplate({ apiCatalog, isAuthenticated }: HomeTempla
       <Container maxWidth="xl" className="home-template__section-container">
         <RevealSection>
           <Typography variant="h4" className="home-template__section-heading">
-            API Categories
+            {CONTENT.categories.title}
           </Typography>
         </RevealSection>
         <Box className="home-template__cats-grid">
           {[
+            { ...CONTENT.categories.items[0], icon: <MdVerifiedUser size={40} color="#004C97" /> },
             {
-              icon: <MdVerifiedUser size={40} color="#004C97" />,
-              name: "CheckKYC",
-              desc: "Validate PAN instantly.",
-            },
-            {
+              ...CONTENT.categories.items[1],
               icon: <MdCreateNewFolder size={40} color="#F36F21" />,
-              name: "Folio Creation",
-              desc: "Instant folio creation via CAMS.",
             },
             {
+              ...CONTENT.categories.items[2],
               icon: <MdAccountBalanceWallet size={40} color="#004C97" />,
-              name: "Instant Redemption",
-              desc: "Enable IMPS‑based real‑time redemptions.",
-            },
-            {
-              icon: <MdTrendingUp size={40} color="#F36F21" />,
-              name: "NAV Data",
-              desc: "Daily NAV values for all funds.",
             },
           ].map((card, i) => (
             <FlowReveal

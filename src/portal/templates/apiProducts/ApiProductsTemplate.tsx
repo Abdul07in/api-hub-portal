@@ -54,7 +54,6 @@ export default function ApiProductsTemplate({
         />
 
         <Box className="api-products-page__main">
-
           {activeModule && (
             <Box className="api-details-grid">
               <Box className="api-details-main">

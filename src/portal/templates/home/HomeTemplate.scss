@@ -354,13 +354,14 @@
     display: grid;
     gap: 24px;
     grid-template-columns: 1fr;
+    justify-content: center;
 
     @media (min-width: 600px) {
       grid-template-columns: 1fr 1fr;
     }
 
     @media (min-width: 900px) {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 
@@ -414,4 +415,3 @@
     margin-left: 8px;
   }
 }
-

@@ -28,7 +28,7 @@ export interface ApiResponse<T> {
   };
   error?: {
     message: string;
-    data: any;
+    data: unknown;
   };
   metadata?: {
     timestamp: string;
@@ -82,8 +82,12 @@ export async function loginPartner(input: LoginPartnerInput): Promise<AuthServic
   });
 
   if (!response.ok) {
-    const errorData: ApiResponse<any> | any = await response.json().catch(() => ({}));
-    throw new Error(errorData?.error?.message || errorData?.message || "Invalid credentials or account access denied.");
+    const errorData: ApiResponse<unknown> | unknown = await response.json().catch(() => ({}));
+    throw new Error(
+      (errorData as ApiResponse<unknown>)?.error?.message ||
+        (errorData as { message?: string })?.message ||
+        "Invalid credentials or account access denied.",
+    );
   }
 
   const resData: ApiResponse<SpringBootJwtAuthResponse> = await response.json();
@@ -115,8 +119,12 @@ export async function registerPartner(input: RegisterPartnerInput): Promise<Auth
   });
 
   if (!response.ok) {
-    const errorData: ApiResponse<any> | any = await response.json().catch(() => ({}));
-    throw new Error(errorData?.error?.message || errorData?.message || "Registration failed. Email might already exist.");
+    const errorData: ApiResponse<unknown> | unknown = await response.json().catch(() => ({}));
+    throw new Error(
+      (errorData as ApiResponse<unknown>)?.error?.message ||
+        (errorData as { message?: string })?.message ||
+        "Registration failed. Email might already exist.",
+    );
   }
 
   const resData: ApiResponse<SpringBootJwtAuthResponse> = await response.json();
@@ -142,8 +150,12 @@ export async function refreshPartner(refreshToken: string): Promise<AuthServiceR
   });
 
   if (!response.ok) {
-    const errorData: ApiResponse<any> | any = await response.json().catch(() => ({}));
-    throw new Error(errorData?.error?.message || errorData?.message || "Session expired or invalid. Please login again.");
+    const errorData: ApiResponse<unknown> | unknown = await response.json().catch(() => ({}));
+    throw new Error(
+      (errorData as ApiResponse<unknown>)?.error?.message ||
+        (errorData as { message?: string })?.message ||
+        "Session expired or invalid. Please login again.",
+    );
   }
 
   const resData: ApiResponse<SpringBootJwtAuthResponse> = await response.json();

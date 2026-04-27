@@ -49,7 +49,7 @@ export const STATIC_MODULES: ApiModule[] = [
     id: "check-kyc",
     name: "KYC",
     description:
-      "Validates PAN Number, Aadhaar, and provides tax status details based on customer's IDs.",
+      "The KYC Verification Module API allows users to check the status of their KYC (Know Your Customer) compliance. This API is essential for ensuring that investors meet regulatory requirements before initiating any financial transactions, such as mutual fund purchases. It provides a straight forward way to verify whether a user's KYC is completed and valid.",
     features: [
       "Real-time PAN & Aadhaar validation.",
       "Support for multiple document types.",
@@ -72,8 +72,9 @@ export const STATIC_MODULES: ApiModule[] = [
           "Verify customer identity documents through automated workflows. Supports PAN, Aadhaar (Masked), and other Government issued IDs with real-time response from authenticating agencies.",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": "{{YOUR_API_KEY}}",
-          "x-correlation-id": "UUID",
+          RequestID: "{{YOUR_API_KEY}}",
+          ClientID: "UUID [Provided by ICICI Prudential AMC]",
+          Authorization: "Bearer {{ACCESS_TOKEN}}",
         },
         requestFields: [
           {
@@ -83,7 +84,7 @@ export const STATIC_MODULES: ApiModule[] = [
             description: "application/json",
           },
           {
-            name: "x-api-key",
+            name: "RequestID",
             type: FieldType.STRING,
             required: true,
             description: "{{YOUR_API_KEY}}",
@@ -134,7 +135,8 @@ export const STATIC_MODULES: ApiModule[] = [
   {
     id: "prospect-folio",
     name: "PROSPECT FOLIO",
-    description: "Manage and create prospect folios.",
+    description:
+      "This API enables partners to instantly create new investor folios via CAMS, simplifying the onboarding process. It supports real-time KYC validation and seamless integration with mutual fund platforms, ensuring a smooth and efficient investor experience.",
     features: [
       "Streamlined folio creation.",
       "Seamless integration with customer records.",
@@ -164,7 +166,8 @@ export const STATIC_MODULES: ApiModule[] = [
   {
     id: "instant-redemption",
     name: "INSTANT REDEMPTION",
-    description: "Facilitate immediate redemption workflows.",
+    description:
+      "The Instant Redemption API allows investors to redeem their mutual fund units instantly. It provides real-time processing, secure transaction handling, and immediate credit of funds to the investor’s account, enhancing liquidity and user satisfaction.",
     features: [
       "Real-time balance checks.",
       "Secure OTP verification.",

@@ -224,9 +224,9 @@ export default function SandboxTemplate({
           {!result && !loading && (
             <Alert severity="info" variant="outlined">
               <span>
-                {CONTENT.response.emptyAlert.split('**')[0]}
-                <strong>{CONTENT.response.emptyAlert.split('**')[1]}</strong>
-                {CONTENT.response.emptyAlert.split('**')[2]}
+                {CONTENT.response.emptyAlert.split("**")[0]}
+                <strong>{CONTENT.response.emptyAlert.split("**")[1]}</strong>
+                {CONTENT.response.emptyAlert.split("**")[2]}
               </span>
             </Alert>
           )}
