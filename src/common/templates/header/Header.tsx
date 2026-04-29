@@ -6,7 +6,6 @@ import {
   Avatar,
   Box,
   Button,
-  Chip,
   Container,
   Drawer,
   Divider,
@@ -83,13 +82,6 @@ export default function Header() {
               </Button>
             ))}
           </Box>
-
-          <Chip
-            label={HEADER_CONTENT.secureAccessLabel}
-            color="secondary"
-            variant="outlined"
-            className="header__chip"
-          />
 
           {isAuthenticated && partner ? (
             <>

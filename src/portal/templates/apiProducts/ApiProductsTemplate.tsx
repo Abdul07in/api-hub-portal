@@ -7,6 +7,7 @@ import {
   ApiProductsSidebar,
   ApiTabs,
   EndpointsInGroupCard,
+  IntroductionOverview,
   ModuleOverview,
 } from "./atoms";
 import "./ApiProductsTemplate.scss";
@@ -54,40 +55,50 @@ export default function ApiProductsTemplate({
         />
 
         <Box className="api-products-page__main">
-          {activeModule && (
-            <Box className="api-details-grid">
-              <Box className="api-details-main">
-                {activeApi ? (
-                  <>
-                    <ApiDetailsHeader
+          {activeModuleId === "introduction" ? (
+            <IntroductionOverview
+              modules={filteredModules}
+              onModuleSelect={(id) => {
+                setActiveModuleId(id);
+                setActiveApiId?.(null);
+              }}
+            />
+          ) : (
+            activeModule && (
+              <Box className="api-details-grid">
+                <Box className="api-details-main">
+                  {activeApi ? (
+                    <>
+                      <ApiDetailsHeader
+                        module={activeModule}
+                        api={activeApi}
+                        onBackToModule={() => setActiveApiId?.(null)}
+                      />
+                      <ApiTabs
+                        api={activeApi}
+                        onTryInSandbox={onTryInSandbox}
+                        isSubscribed={isSubscribed}
+                      />
+                    </>
+                  ) : (
+                    <ModuleOverview
                       module={activeModule}
-                      api={activeApi}
-                      onBackToModule={() => setActiveApiId?.(null)}
+                      onApiSelect={(id) => setActiveApiId && setActiveApiId(id)}
                     />
-                    <ApiTabs
-                      api={activeApi}
-                      onTryInSandbox={onTryInSandbox}
-                      isSubscribed={isSubscribed}
+                  )}
+                </Box>
+
+                {activeApi && (
+                  <Box className="api-details-side">
+                    <EndpointsInGroupCard
+                      module={activeModule}
+                      activeApi={activeApi}
+                      onSelectApi={setActiveApiId}
                     />
-                  </>
-                ) : (
-                  <ModuleOverview
-                    module={activeModule}
-                    onApiSelect={(id) => setActiveApiId && setActiveApiId(id)}
-                  />
+                  </Box>
                 )}
               </Box>
-
-              {activeApi && (
-                <Box className="api-details-side">
-                  <EndpointsInGroupCard
-                    module={activeModule}
-                    activeApi={activeApi}
-                    onSelectApi={setActiveApiId}
-                  />
-                </Box>
-              )}
-            </Box>
+            )
           )}
         </Box>
       </Box>

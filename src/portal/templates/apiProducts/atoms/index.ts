@@ -5,4 +5,5 @@ export { default as ApiTabs } from "./ApiTabs";
 export { default as EndpointsInGroupCard } from "./EndpointsInGroupCard";
 export { default as FieldTable } from "./FieldTable";
 export { default as FlowAnimation } from "./FlowAnimation";
+export { default as IntroductionOverview } from "./IntroductionOverview";
 export { default as ModuleOverview } from "./ModuleOverview";

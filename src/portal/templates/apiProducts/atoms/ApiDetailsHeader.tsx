@@ -32,7 +32,7 @@ export default function ApiDetailsHeader({ module, api, onBackToModule }: ApiDet
         <Typography variant="h4" className="api-title">
           {api.name}
         </Typography>
-        <Chip label="V2.4.0-STABLE" size="small" className="version-chip" />
+        <Chip label="V1" size="small" className="version-chip" />
       </Stack>
       <Typography className="api-desc">{api.description}</Typography>
     </Box>

@@ -12,7 +12,7 @@ export default function ApiProductsPage() {
   const partnerUser = useSelector(selectPartnerUser);
   const isSubscribed = partnerUser?.isSubscribed ?? false;
 
-  const [activeModuleId, setActiveModuleId] = useState(apiCatalog[0]?.id || "");
+  const [activeModuleId, setActiveModuleId] = useState("introduction");
   const [activeApiId, setActiveApiId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
 

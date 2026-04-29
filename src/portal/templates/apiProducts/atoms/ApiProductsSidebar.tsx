@@ -59,6 +59,17 @@ export default function ApiProductsSidebar({
       />
 
       <Box className="api-products-page__menu">
+        {/* Introduction nav item */}
+        <Box
+          className={`sidebar-intro-item ${activeModuleId === "introduction" ? "sidebar-intro-item--active" : ""}`}
+          onClick={() => {
+            setActiveModuleId("introduction");
+            setActiveApiId?.(null);
+          }}
+        >
+          <Typography className="sidebar-intro-item__label">Introduction</Typography>
+        </Box>
+
         {filteredModules.map((module) => {
           const isModuleActive = activeModuleId === module.id;
 
@@ -69,10 +80,12 @@ export default function ApiProductsSidebar({
               elevation={0}
               expanded={isModuleActive}
               onChange={(_, expanded) => {
-                setActiveModuleId(module.id);
-
-                if (expanded && setActiveApiId) {
-                  setActiveApiId(null);
+                if (expanded) {
+                  setActiveModuleId(module.id);
+                  setActiveApiId?.(null);
+                } else {
+                  setActiveModuleId("introduction");
+                  setActiveApiId?.(null);
                 }
               }}
               className="sidebar-module"

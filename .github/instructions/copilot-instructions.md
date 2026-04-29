@@ -71,6 +71,14 @@ src/
 
 ### 2. Project Structure & File Placement
 
+> **IMPORTANT:** Before creating any new UI component, always check `src/common/atoms/` for an existing atom that meets the need. Reuse and extend existing atoms rather than duplicating them. Similarly, always review existing pages and templates before adding new ones to avoid redundancy.
+
+> **IMPORTANT:** Strictly follow the layered architecture for all new features:
+> - **Pages** (`src/portal/pages/`) — orchestration only: all API calls, data fetching (TanStack Query), and Redux dispatch live here.
+> - **Templates** (`src/portal/templates/`) — UI only: receive data/callbacks as props, contain all JSX and visual logic, no direct API calls.
+>
+> Never place API calls or async data-fetching logic inside templates or atoms.
+
 - **Atoms** (`src/common/atoms/`): stateless, generic, no business logic.
 - **Templates** (`src/common/templates/` and `src/portal/templates/`): layout and composition components.
 - **Pages** (`src/portal/pages/`): route-level components — thin orchestration only, delegate to templates/services.

@@ -445,3 +445,132 @@
       0 0 48px rgba(225, 83, 37, 0.2);
   }
 }
+
+/* ── Sidebar Introduction Item ── */
+.sidebar-intro-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid $border;
+  transition: background-color 0.15s ease;
+
+  &__icon {
+    color: #6c757d;
+    font-size: 1rem !important;
+  }
+
+  &__label {
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    color: #6c757d;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  &:hover {
+    background-color: rgba(0, 43, 92, 0.04);
+  }
+
+  &--active {
+    background-color: rgba(225, 83, 37, 0.06);
+
+    .sidebar-intro-item__icon {
+      color: $primary;
+    }
+
+    .sidebar-intro-item__label {
+      color: $primary;
+    }
+  }
+}
+
+/* ── Introduction Overview ── */
+.intro-overview {
+  padding: 16px 0;
+
+  &__header {
+    margin-bottom: 32px;
+  }
+
+  &__title {
+    font-weight: 700 !important;
+    color: #002b5c;
+    font-size: 2rem !important;
+    margin-bottom: 8px !important;
+  }
+
+  &__subtitle {
+    color: $text-secondary;
+    max-width: 700px;
+    line-height: 1.7;
+  }
+
+  &__grid {
+    margin-top: 0 !important;
+  }
+}
+
+/* ── Introduction Module Card ── */
+.intro-module-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px !important;
+  overflow: hidden;
+  height: 100%;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  &__body {
+    padding: 20px;
+    flex: 1;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+
+  &__count {
+    border-radius: 6px !important;
+  }
+
+  &__name {
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    margin-bottom: 8px !important;
+  }
+
+  &__desc {
+    color: $text-secondary;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__footer {
+    padding: 8px 12px 12px;
+    border-top: 1px solid $border;
+    margin-top: auto;
+  }
+
+  &__cta {
+    text-transform: none !important;
+    font-size: 0.875rem !important;
+    justify-content: flex-start !important;
+  }
+}
+

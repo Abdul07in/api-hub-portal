@@ -1,6 +1,4 @@
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ShowChartIcon from "@mui/icons-material/ShowChart";
 import { createElement } from "react";
 
 import type { StatCardProps } from "@/common/atoms/statCard/StatCard";
@@ -122,18 +120,16 @@ export const STAT_CARDS: Omit<StatCardProps, "className">[] = [
     indicatorLabel: "12.5%",
     indicatorVariant: "success",
   },
-  {
-    title: "Success Rate",
-    value: "99.98%",
-    indicatorIcon: createElement(CheckCircleIcon, { fontSize: "inherit" }),
-    indicatorLabel: "Stable",
-    indicatorVariant: "success",
-  },
-  {
-    title: "Avg. Latency",
-    value: "42ms",
-    indicatorIcon: createElement(ShowChartIcon, { fontSize: "inherit" }),
-    indicatorLabel: "+3ms",
-    indicatorVariant: "warning",
-  },
+];
+
+export interface ApiHit {
+  api: string;
+  endpoint: string;
+  count: number;
+}
+
+export const TOP_API_HITS: ApiHit[] = [
+  { api: "Check KYC", endpoint: "/api/kyc/verify", count: 482301 },
+  { api: "Prospect Folio", endpoint: "/api/folio/create", count: 321847 },
+  { api: "Instant Redemption", endpoint: "/api/redemption/instant", count: 289644 },
 ];

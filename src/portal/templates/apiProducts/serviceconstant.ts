@@ -2,6 +2,14 @@ import { FieldType, HttpMethod } from "@/common/enums";
 import type { ApiModule } from "@/common/interfaces/api";
 
 export const CONTENT = {
+  intro: {
+    title: "Welcome to PartnerHub APIs",
+    subtitle:
+      "Explore our suite of secure, developer-friendly REST APIs designed to accelerate your integration journey. Select a module below to get started.",
+    exploreBtn: "Explore Module",
+    apiSingular: "API",
+    apiPlural: "APIs",
+  },
   hero: {
     overline: "API CATALOG",
     title: "Build with PartnerHub APIs",
