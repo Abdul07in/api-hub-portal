@@ -419,4 +419,12 @@ $hero-overline-color: #ffd2c2;
   &__cat-explore-arrow {
     margin-left: 0.5rem;
   }
+
+  &__cat-icon--primary {
+    color: $secondary;
+  }
+
+  &__cat-icon--secondary {
+    color: $primary;
+  }
 }

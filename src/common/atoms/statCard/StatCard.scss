@@ -15,7 +15,8 @@
   }
 
   &__value-container {
-    margin-top: 8px;
+    margin-top: 0.5rem;
+    align-items: baseline;
   }
 
   &__value {
@@ -23,10 +24,14 @@
     font-weight: 800;
   }
 
+  &__indicator-label {
+    font-weight: 700;
+  }
+
   &__indicator {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 0.25rem;
 
     &--success {
       color: $success;

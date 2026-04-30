@@ -108,7 +108,7 @@ const FlowAnimation: FC<FlowAnimationProps> = ({ flowSteps }) => {
                 </Typography>
                 <Typography
                   variant="caption"
-                  sx={{ color: "#8a94a6", fontSize: "0.62rem", lineHeight: 1.3, mt: 0.25 }}
+                  className="flow-animation__step-desc"
                 >
                   {step.desc}
                 </Typography>

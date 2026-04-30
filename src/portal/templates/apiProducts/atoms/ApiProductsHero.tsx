@@ -15,7 +15,7 @@ const ApiProductsHero: FC = () => {
         <Typography className="hero-banner__desc">{CONTENT.hero.description}</Typography>
       </Box>
       <Box className="hero-banner__graphic">
-        <CodeIcon sx={{ fontSize: 100, color: "#1B3E7A" }} />
+        <CodeIcon className="hero-banner__graphic-icon" />
       </Box>
     </Paper>
   );

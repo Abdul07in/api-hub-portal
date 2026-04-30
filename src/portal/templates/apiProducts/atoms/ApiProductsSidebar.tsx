@@ -1,8 +1,5 @@
 import { type FC } from "react";
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
   Button,
   InputAdornment,
@@ -11,11 +8,16 @@ import {
   Typography,
 } from "@mui/material";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import SearchIcon from "@mui/icons-material/Search";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import type { ApiModule } from "@/common/interfaces/api";
 import { CONTENT } from "../serviceconstant";
 
@@ -40,26 +42,24 @@ const ApiProductsSidebar: FC<ApiProductsSidebarProps> = ({
 }: ApiProductsSidebarProps) => {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setSearch(event.target.value);
+
   const handleIntroClick = () => {
     setActiveModuleId("introduction");
     setActiveApiId?.(null);
   };
-  const createModuleChangeHandler =
-    (moduleId: string) => (_event: React.SyntheticEvent, expanded: boolean) => {
-      if (expanded) {
-        setActiveModuleId(moduleId);
-        setActiveApiId?.(null);
-      } else {
-        setActiveModuleId("introduction");
-        setActiveApiId?.(null);
-      }
-    };
+
+  const handleAccordionChange = (value: string) => {
+    setActiveModuleId(value || "introduction");
+    setActiveApiId?.(null);
+  };
+
   const createApiClickHandler =
     (moduleId: string, apiId: string) => (event: React.MouseEvent) => {
       event.stopPropagation();
       setActiveModuleId(moduleId);
       setActiveApiId?.(apiId);
     };
+
   return (
     <Box className="api-products-page__sidebar">
       <TextField
@@ -77,8 +77,7 @@ const ApiProductsSidebar: FC<ApiProductsSidebarProps> = ({
             ),
           },
         }}
-        className="api-products-page__search"
-        sx={{ mb: 2 }}
+        className="api-products-page__search api-products-page__search--spaced"
       />
 
       <Box className="api-products-page__menu">
@@ -90,58 +89,58 @@ const ApiProductsSidebar: FC<ApiProductsSidebarProps> = ({
           <Typography className="sidebar-intro-item__label">Introduction</Typography>
         </Box>
 
-        {filteredModules.map((module) => {
-          const isModuleActive = activeModuleId === module.id;
+        <Accordion
+          type="single"
+          collapsible
+          value={activeModuleId !== "introduction" ? activeModuleId : ""}
+          onValueChange={handleAccordionChange}
+        >
+          {filteredModules.map((module) => {
+            const isModuleActive = activeModuleId === module.id;
 
-          return (
-            <Accordion
-              key={module.id}
-              disableGutters
-              elevation={0}
-              expanded={isModuleActive}
-              onChange={createModuleChangeHandler(module.id)}
-              className="sidebar-module"
-            >
-              <AccordionSummary expandIcon={<ExpandMoreIcon fontSize="small" />}>
-                <Typography
-                  className={`sidebar-module__title ${
-                    isModuleActive && !activeApiId ? "sidebar-module__title--active" : ""
-                  }`}
-                >
-                  {module.name}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails className="sidebar-module__details">
-                <Stack spacing={0.5}>
-                  {module.apis.map((api) => {
-                    const isApiActive = activeApiId === api.id;
+            return (
+              <AccordionItem key={module.id} value={module.id} className="sidebar-module">
+                <AccordionTrigger className="sidebar-module__trigger">
+                  <Typography
+                    className={`sidebar-module__title ${
+                      isModuleActive && !activeApiId ? "sidebar-module__title--active" : ""
+                    }`}
+                  >
+                    {module.name}
+                  </Typography>
+                </AccordionTrigger>
+                <AccordionContent className="sidebar-module__details !p-0">
+                  <Stack spacing={0.5}>
+                    {module.apis.map((api) => {
+                      const isApiActive = activeApiId === api.id;
 
-                    return (
-                      <Button
-                        key={api.id}
-                        fullWidth
-                        disableRipple
-                        onClick={createApiClickHandler(module.id, api.id)}
-                        className={`sidebar-api ${isApiActive ? "sidebar-api--active" : ""}`}
-                        startIcon={
-                          isApiActive ? (
-                            <VerifiedUserIcon color="primary" fontSize="small" />
-                          ) : api.id.includes("prospect") ? (
-                            <PersonAddAlt1Icon color="action" fontSize="small" />
-                          ) : (
-                            <DescriptionOutlinedIcon color="action" fontSize="small" />
-                          )
-                        }
-                      >
-                        {api.name}
-                      </Button>
-                    );
-                  })}
-                </Stack>
-              </AccordionDetails>
-            </Accordion>
-          );
-        })}
+                      return (
+                        <Button
+                          key={api.id}
+                          fullWidth
+                          disableRipple
+                          onClick={createApiClickHandler(module.id, api.id)}
+                          className={`sidebar-api ${isApiActive ? "sidebar-api--active" : ""}`}
+                          startIcon={
+                            isApiActive ? (
+                              <VerifiedUserIcon color="primary" fontSize="small" />
+                            ) : api.id.includes("prospect") ? (
+                              <PersonAddAlt1Icon color="action" fontSize="small" />
+                            ) : (
+                              <DescriptionOutlinedIcon color="action" fontSize="small" />
+                            )
+                          }
+                        >
+                          {api.name}
+                        </Button>
+                      );
+                    })}
+                  </Stack>
+                </AccordionContent>
+              </AccordionItem>
+            );
+          })}
+        </Accordion>
       </Box>
     </Box>
   );

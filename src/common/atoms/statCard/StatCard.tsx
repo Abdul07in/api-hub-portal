@@ -25,7 +25,6 @@ const StatCard: FC<StatCardProps> = ({
       <Stack
         direction="row"
         spacing={2}
-        sx={{ alignItems: "baseline" }}
         className="stat-card__value-container"
       >
         <Typography variant="h4" className="stat-card__value">
@@ -33,7 +32,7 @@ const StatCard: FC<StatCardProps> = ({
         </Typography>
         <Box className={`stat-card__indicator stat-card__indicator--${indicatorVariant}`}>
           {indicatorIcon}
-          <Typography component="span" variant="body2" sx={{ fontWeight: 700 }}>
+          <Typography component="span" variant="body2" className="stat-card__indicator-label">
             {indicatorLabel}
           </Typography>
         </Box>

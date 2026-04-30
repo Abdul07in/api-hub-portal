@@ -262,7 +262,6 @@ const BasicDashboard: FC<DashboardSubProps> = ({ partner, modules }) => {
           <Typography
             variant="h4"
             className="partner-dashboard__title"
-            sx={{ color: "#003366", mb: 3 }}
           >
             {basicDashboard.title}
             {partner?.company || "Partner"}

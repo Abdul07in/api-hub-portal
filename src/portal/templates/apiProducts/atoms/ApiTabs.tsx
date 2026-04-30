@@ -3,11 +3,6 @@ import {
   Box,
   Button,
   Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   Paper,
   Stack,
   Tab,
@@ -26,6 +21,13 @@ import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Link as RouterLink } from "react-router-dom";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import CodeBlock from "@/common/atoms/codeBlock/CodeBlock";
 import type { ApiSpec } from "@/common/interfaces/api";
 import FieldTable from "./FieldTable";
@@ -83,7 +85,7 @@ const ApiTabs: FC<ApiTabsProps> = ({ api, isSubscribed, onTryInSandbox }) => {
       </Tabs>
 
       {tab === 0 && (
-        <Stack spacing={1.5} sx={{ p: 3 }}>
+        <Stack spacing={1.5} className="api-tabs__tab-panel">
           <Typography variant="body2" className="api-tabs__overview-desc">
             {api.description}
           </Typography>
@@ -93,7 +95,7 @@ const ApiTabs: FC<ApiTabsProps> = ({ api, isSubscribed, onTryInSandbox }) => {
       {tab === 1 && (
         <Stack spacing={3} className="api-tabs__request-content">
           <Box>
-            <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1 }}>
+            <Stack direction="row" spacing={1} className="api-tabs__section-header">
               <DescriptionOutlinedIcon fontSize="small" color="action" />
               <Typography variant="h6" className="api-tabs__section-title">
                 {CONTENT.request.headers}
@@ -111,7 +113,7 @@ const ApiTabs: FC<ApiTabsProps> = ({ api, isSubscribed, onTryInSandbox }) => {
                 <TableBody>
                   {Object.entries(api.headers).map(([key, value]) => (
                     <TableRow key={key}>
-                      <TableCell sx={{ fontFamily: "monospace", color: "#1a237e" }}>
+                      <TableCell className="api-tabs__header-key">
                         {key}
                       </TableCell>
                       <TableCell>{value}</TableCell>
@@ -121,13 +123,6 @@ const ApiTabs: FC<ApiTabsProps> = ({ api, isSubscribed, onTryInSandbox }) => {
                           size="small"
                           color={value === "UUID" ? "default" : "error"}
                           variant="filled"
-                          sx={{
-                            height: 20,
-                            fontSize: "0.65rem",
-                            fontWeight: 600,
-                            letterSpacing: 0.5,
-                            borderRadius: 1,
-                          }}
                           className={value === "UUID" ? "req-chip-optional" : "req-chip-required"}
                         />
                       </TableCell>
@@ -141,9 +136,9 @@ const ApiTabs: FC<ApiTabsProps> = ({ api, isSubscribed, onTryInSandbox }) => {
           <Box>
             <Stack
               direction="row"
-              sx={{ alignItems: "center", justifyContent: "space-between", mb: 1 }}
+              className="api-tabs__section-header api-tabs__section-header--spaced"
             >
-              <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+              <Stack direction="row" spacing={1} className="api-tabs__section-header">
                 <CodeIcon fontSize="small" color="error" />
                 <Typography variant="h6" className="api-tabs__section-title">
                   {CONTENT.request.sampleBody}
@@ -152,7 +147,7 @@ const ApiTabs: FC<ApiTabsProps> = ({ api, isSubscribed, onTryInSandbox }) => {
               <Button
                 size="small"
                 startIcon={<ContentCopyIcon />}
-                sx={{ color: "#002B5C", fontWeight: 600 }}
+                className="api-tabs__copy-btn"
               >
                 COPY JSON
               </Button>
@@ -163,7 +158,7 @@ const ApiTabs: FC<ApiTabsProps> = ({ api, isSubscribed, onTryInSandbox }) => {
           </Box>
 
           <Box>
-            <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1 }}>
+            <Stack direction="row" spacing={1} className="api-tabs__section-header">
               <CodeIcon fontSize="small" color="action" />
               <Typography variant="h6" className="api-tabs__section-title">
                 {CONTENT.request.curlSample}
@@ -186,10 +181,10 @@ const ApiTabs: FC<ApiTabsProps> = ({ api, isSubscribed, onTryInSandbox }) => {
       )}
 
       {tab === 2 && (
-        <Stack spacing={2} sx={{ p: 3 }}>
+        <Stack spacing={2} className="api-tabs__tab-panel">
           {api.responses.map((response, index) => (
             <Box key={index}>
-              <Stack direction="row" spacing={1} className="api-tabs__response-row" sx={{ mb: 1 }}>
+              <Stack direction="row" spacing={1} className="api-tabs__response-row">
                 <Chip
                   label={response.status}
                   size="small"
@@ -208,7 +203,7 @@ const ApiTabs: FC<ApiTabsProps> = ({ api, isSubscribed, onTryInSandbox }) => {
       )}
 
       {tab === 3 && (
-        <Stack spacing={3} sx={{ p: 3 }}>
+        <Stack spacing={3} className="api-tabs__tab-panel">
           <Box>
             <Typography variant="subtitle2" className="api-tabs__section-title">
               {CONTENT.fields.requestFields}
@@ -224,22 +219,24 @@ const ApiTabs: FC<ApiTabsProps> = ({ api, isSubscribed, onTryInSandbox }) => {
         </Stack>
       )}
 
-      <Dialog open={subscribeOpen} onClose={handleCloseSubscribeDialog}>
-        <DialogTitle>Subscription Required</DialogTitle>
+      <Dialog open={subscribeOpen} onOpenChange={setSubscribeOpen}>
         <DialogContent>
-          <DialogContentText>
+          <DialogHeader>
+            <DialogTitle>Subscription Required</DialogTitle>
+          </DialogHeader>
+          <p className="api-tabs__subscribe-desc">
             To access detailed API specifications, request/response formats, and the interactive
             sandbox, you must subscribe to our API services.
-          </DialogContentText>
+          </p>
+          <DialogFooter>
+            <Button onClick={handleCloseSubscribeDialog} color="inherit">
+              Cancel
+            </Button>
+            <Button component={RouterLink} to="/contact" variant="contained" color="primary">
+              Subscribe Now
+            </Button>
+          </DialogFooter>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseSubscribeDialog} color="inherit">
-            Cancel
-          </Button>
-          <Button component={RouterLink} to="/contact" variant="contained" color="primary">
-            Subscribe Now
-          </Button>
-        </DialogActions>
       </Dialog>
     </Box>
   );

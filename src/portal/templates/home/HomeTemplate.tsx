@@ -9,16 +9,15 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SecurityIcon from "@mui/icons-material/Security";
 import SavingsIcon from "@mui/icons-material/Savings";
 import {
-  MdViewList,
-  MdLayers,
-  MdSecurity,
-  MdBarChart,
-  MdHeadset,
-  MdVerifiedUser,
-  MdCreateNewFolder,
-  MdAccountBalanceWallet,
-  MdTrendingUp,
-} from "react-icons/md";
+  List,
+  Layers,
+  ShieldCheck,
+  BarChart2,
+  Headphones,
+  UserCheck,
+  FolderPlus,
+  Wallet,
+} from "lucide-react";
 
 import type { ApiModule } from "@/common/interfaces/api";
 import { CONTENT } from "./serviceconstant";
@@ -157,23 +156,23 @@ const HomeTemplate: FC<HomeTemplateProps> = ({ apiCatalog, isAuthenticated }) =>
   const featuresData = [
     {
       ...CONTENT.features.items[0],
-      icon: <MdViewList size={40} color={theme.palette.primary.main} />,
+      icon: <List size={40} color={theme.palette.primary.main} />,
     },
     {
       ...CONTENT.features.items[1],
-      icon: <MdLayers size={40} color={theme.palette.secondary.main} />,
+      icon: <Layers size={40} color={theme.palette.secondary.main} />,
     },
     {
       ...CONTENT.features.items[2],
-      icon: <MdSecurity size={40} color={theme.palette.primary.main} />,
+      icon: <ShieldCheck size={40} color={theme.palette.primary.main} />,
     },
     {
       ...CONTENT.features.items[3],
-      icon: <MdBarChart size={40} color={theme.palette.secondary.main} />,
+      icon: <BarChart2 size={40} color={theme.palette.secondary.main} />,
     },
     {
       ...CONTENT.features.items[4],
-      icon: <MdHeadset size={40} color={theme.palette.primary.main} />,
+      icon: <Headphones size={40} color={theme.palette.primary.main} />,
     },
   ];
 
@@ -362,15 +361,9 @@ const HomeTemplate: FC<HomeTemplateProps> = ({ apiCatalog, isAuthenticated }) =>
         </RevealSection>
         <Box className="home-template__cats-grid">
           {[
-            { ...CONTENT.categories.items[0], icon: <MdVerifiedUser size={40} color="#004C97" /> },
-            {
-              ...CONTENT.categories.items[1],
-              icon: <MdCreateNewFolder size={40} color="#F36F21" />,
-            },
-            {
-              ...CONTENT.categories.items[2],
-              icon: <MdAccountBalanceWallet size={40} color="#004C97" />,
-            },
+            { ...CONTENT.categories.items[0], icon: <UserCheck size={40} className="home-template__cat-icon--primary" /> },
+            { ...CONTENT.categories.items[1], icon: <FolderPlus size={40} className="home-template__cat-icon--secondary" /> },
+            { ...CONTENT.categories.items[2], icon: <Wallet size={40} className="home-template__cat-icon--primary" /> },
           ].map((card, i) => (
             <FlowReveal
               key={card.name}

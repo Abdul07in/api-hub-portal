@@ -71,8 +71,7 @@ const SandboxPage: FC = () => {
     if (apiIdParam !== currentApi?.id && currentApi) {
       navigate(`/sandbox?apiId=${currentApi.id}`, { replace: true });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentApi?.id]);
+  }, [currentApi, apiIdParam, navigate]);
 
   const handleField = (name: string, value: unknown) => {
     setPayload((p) => {

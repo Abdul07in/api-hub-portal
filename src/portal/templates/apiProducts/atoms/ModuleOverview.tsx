@@ -46,8 +46,7 @@ const ModuleOverview: FC<ModuleOverviewProps> = ({ module, onApiSelect }) => {
 
       <Typography
         variant="h4"
-        className="module-overview__title"
-        sx={{ mb: 1, color: "#002B5C", fontWeight: 700 }}
+        className="module-overview__title module-overview__title--colored"
       >
         {module.name}
       </Typography>
@@ -81,7 +80,7 @@ const ModuleOverview: FC<ModuleOverviewProps> = ({ module, onApiSelect }) => {
           <TableContainer component={Paper} variant="outlined">
             <Table size="small">
               <TableHead>
-                <TableRow sx={{ bgcolor: "#f8f9fa" }}>
+                <TableRow sx={{ bgcolor: "transparent" }} className="module-overview__table-header">
                   <TableCell sx={{ fontWeight: 700 }}>API Name</TableCell>
                   <TableCell sx={{ fontWeight: 700 }}>Method</TableCell>
                   <TableCell sx={{ fontWeight: 700 }}>Path</TableCell>
@@ -98,7 +97,7 @@ const ModuleOverview: FC<ModuleOverviewProps> = ({ module, onApiSelect }) => {
                     onClick={createApiSelectHandler(api.id)}
                     sx={{ cursor: "pointer" }}
                   >
-                    <TableCell sx={{ fontWeight: 600, color: "#002B5C" }}>{api.name}</TableCell>
+                    <TableCell className="module-overview__api-name">{api.name}</TableCell>
                     <TableCell>
                       <MethodBadge method={api.method} />
                     </TableCell>

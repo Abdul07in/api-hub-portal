@@ -1,11 +1,28 @@
 @use "sass:color";
 
 .confirm-modal {
+  .MuiDialog-paper {
+    border-radius: 0.5rem;
+  }
+
   .MuiDialogTitle-root {
     padding-bottom: 0.5rem;
   }
+
   .MuiDialogContentText-root {
     color: $text-primary;
     opacity: 0.8;
+  }
+
+  &__title {
+    font-weight: 700;
+  }
+
+  &__actions {
+    padding: 0 1.5rem 1.5rem;
+  }
+
+  &__btn {
+    min-width: 5rem;
   }
 }

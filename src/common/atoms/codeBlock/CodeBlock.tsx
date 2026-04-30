@@ -2,6 +2,7 @@ import { useState, type FC } from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CheckIcon from "@mui/icons-material/Check";
+import "./CodeBlock.scss";
 
 interface CodeBlockProps {
   code: string;
@@ -23,30 +24,9 @@ const CodeBlock: FC<CodeBlockProps> = ({ code, language, maxHeight = 360 }) => {
   };
 
   return (
-    <Box
-      sx={{
-        position: "relative",
-        bgcolor: "#0f1b2d",
-        color: "#e6edf6",
-        borderRadius: 2,
-        fontFamily: `"SFMono-Regular","Consolas","Liberation Mono",monospace`,
-        fontSize: 13,
-        lineHeight: 1.55,
-        overflow: "hidden",
-        border: "1px solid #1f2d44",
-      }}
-    >
+    <Box className="code-block">
       {language && (
-        <Box
-          sx={{
-            px: 2,
-            py: 0.5,
-            bgcolor: "#13243d",
-            fontSize: 11,
-            color: "#9fb0c8",
-            letterSpacing: 1,
-          }}
-        >
+        <Box className="code-block__lang-label">
           {language.toUpperCase()}
         </Box>
       )}
@@ -54,27 +34,15 @@ const CodeBlock: FC<CodeBlockProps> = ({ code, language, maxHeight = 360 }) => {
         <IconButton
           onClick={handleCopy}
           size="small"
-          sx={{
-            position: "absolute",
-            top: 6,
-            right: 6,
-            color: "#9fb0c8",
-            "&:hover": { color: "#fff" },
-          }}
+          className="code-block__copy-btn"
         >
           {copied ? <CheckIcon fontSize="small" /> : <ContentCopyIcon fontSize="small" />}
         </IconButton>
       </Tooltip>
       <Box
         component="pre"
-        sx={{
-          m: 0,
-          p: 2,
-          maxHeight,
-          overflow: "auto",
-          whiteSpace: "pre-wrap",
-          wordBreak: "break-word",
-        }}
+        className="code-block__pre"
+        style={{ maxHeight }}
       >
         {code}
       </Box>

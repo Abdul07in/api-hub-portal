@@ -1,5 +1,6 @@
 import { type FC } from "react";
 import { Box, CircularProgress } from "@mui/material";
+import "./Loader.scss";
 
 interface LoaderProps {
   size?: number;
@@ -7,7 +8,7 @@ interface LoaderProps {
 
 const Loader: FC<LoaderProps> = ({ size = 28 }) => {
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", py: 4 }}>
+    <Box className="loader">
       <CircularProgress size={size} />
     </Box>
   );

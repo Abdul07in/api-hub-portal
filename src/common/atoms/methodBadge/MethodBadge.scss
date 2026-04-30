@@ -1,0 +1,20 @@
+$method-get-bg: #155686;
+$method-post-bg: #e15325;
+$method-put-bg: #a16207;
+$method-delete-bg: #b91c1c;
+$method-patch-bg: #0f766e;
+
+.method-badge {
+  font-weight: 700 !important;
+  letter-spacing: 0.03125rem !important;
+  border-radius: 0.25rem !important;
+  color: #fff !important;
+  padding-left: 0.25rem !important;
+  padding-right: 0.25rem !important;
+
+  &--get { background-color: $method-get-bg !important; }
+  &--post { background-color: $method-post-bg !important; }
+  &--put { background-color: $method-put-bg !important; }
+  &--delete { background-color: $method-delete-bg !important; }
+  &--patch { background-color: $method-patch-bg !important; }
+}

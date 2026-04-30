@@ -37,23 +37,22 @@ const ConfirmModal: FC<ConfirmModalProps> = ({
       open={open}
       onClose={!loading ? onCancel : undefined}
       className="confirm-modal"
-      sx={{ "& .MuiDialog-paper": { borderRadius: 2 } }}
     >
       <DialogTitle>
-        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+        <Typography variant="h6" className="confirm-modal__title">
           {title}
         </Typography>
       </DialogTitle>
       <DialogContent>
         <DialogContentText>{message}</DialogContentText>
       </DialogContent>
-      <DialogActions sx={{ px: 3, pb: 3 }}>
+      <DialogActions className="confirm-modal__actions">
         <Button
           onClick={onCancel}
           disabled={loading}
           variant="outlined"
           color="secondary"
-          sx={{ minWidth: 80 }}
+          className="confirm-modal__btn"
         >
           {cancelText}
         </Button>
@@ -62,7 +61,7 @@ const ConfirmModal: FC<ConfirmModalProps> = ({
           disabled={loading}
           variant="contained"
           color="primary"
-          sx={{ minWidth: 80 }}
+          className="confirm-modal__btn"
         >
           {loading ? <CircularProgress size={24} color="inherit" /> : confirmText}
         </Button>

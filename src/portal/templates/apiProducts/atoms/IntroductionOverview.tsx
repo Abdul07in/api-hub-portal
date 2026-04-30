@@ -25,24 +25,24 @@ interface IntroductionOverviewProps {
 const MODULE_META: Record<string, { icon: React.ReactNode; color: string; bg: string }> = {
   "check-kyc": {
     icon: <VerifiedUserIcon sx={{ fontSize: 32 }} />,
-    color: "#003366",
+    color: "var(--secondary)",
     bg: "rgba(225, 83, 37, 0.08)",
   },
   "prospect-folio": {
     icon: <PersonAddAlt1Icon sx={{ fontSize: 32 }} />,
-    color: "#003366",
+    color: "var(--secondary)",
     bg: "rgba(225, 83, 37, 0.08)",
   },
   "instant-redemption": {
     icon: <AccountBalanceWalletOutlinedIcon sx={{ fontSize: 32 }} />,
-    color: "#003366",
+    color: "var(--secondary)",
     bg: "rgba(225, 83, 37, 0.08)",
   },
 };
 
 const DEFAULT_META = {
   icon: <VerifiedUserIcon sx={{ fontSize: 32 }} />,
-  color: "#003366",
+  color: "var(--secondary)",
   bg: "rgba(0, 51, 102, 0.08)",
 };
 

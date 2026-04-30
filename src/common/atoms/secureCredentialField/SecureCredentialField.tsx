@@ -3,6 +3,7 @@ import { Box, IconButton, InputAdornment, TextField, Typography } from "@mui/mat
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import "./SecureCredentialField.scss";
 
 export interface SecureCredentialFieldProps {
   label: string;
@@ -26,7 +27,7 @@ const SecureCredentialField: FC<SecureCredentialFieldProps> = ({
   const displayValue = masked && !revealed ? "••••••••••••••••••••••••••" : value;
 
   return (
-    <Box sx={{ flex: 1 }}>
+    <Box className="secure-credential-field">
       <Typography className="partner-dashboard__credential-label">{label}</Typography>
       <TextField
         fullWidth
@@ -44,7 +45,7 @@ const SecureCredentialField: FC<SecureCredentialFieldProps> = ({
                   <IconButton
                     size="small"
                     onClick={handleToggleRevealed}
-                    sx={{ color: "rgba(255,255,255,0.7)", mr: 0.5 }}
+                    className="secure-credential-field__icon-btn secure-credential-field__icon-btn--spaced"
                   >
                     {revealed ? (
                       <VisibilityOffIcon fontSize="small" />
@@ -56,7 +57,7 @@ const SecureCredentialField: FC<SecureCredentialFieldProps> = ({
                 <IconButton
                   size="small"
                   onClick={handleCopy}
-                  sx={{ color: "rgba(255,255,255,0.7)" }}
+                  className="secure-credential-field__icon-btn"
                 >
                   <ContentCopyIcon fontSize="small" />
                 </IconButton>
