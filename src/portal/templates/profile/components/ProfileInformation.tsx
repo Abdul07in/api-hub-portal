@@ -1,16 +1,16 @@
-import { UseFormRegister, UseFormWatch, FieldErrors } from "react-hook-form";
+import { type FC } from "react";
+import { type UseFormRegister, type UseFormWatch, type FieldErrors } from "react-hook-form";
 import { Card, CardContent, Avatar, TextField, Typography, Box } from "@mui/material";
 import { PROFILE_CONTENT } from "../serviceconstant";
-import { PROFILE_VALIDATION_RULES } from "../profileValidation";
 import type { ProfileUpdateRequest } from "@/portal/services/profile";
 
-interface Props {
+interface ProfileInformationProps {
   register: UseFormRegister<ProfileUpdateRequest>;
   watch: UseFormWatch<ProfileUpdateRequest>;
   errors: FieldErrors<ProfileUpdateRequest>;
 }
 
-export default function ProfileInformation({ register, watch, errors }: Props) {
+const ProfileInformation: FC<ProfileInformationProps> = ({ register, watch, errors }) => {
   return (
     <Card className="profile-template__card">
       <CardContent sx={{ p: 4 }}>
@@ -38,7 +38,7 @@ export default function ProfileInformation({ register, watch, errors }: Props) {
               size="small"
               error={!!errors.fullName}
               helperText={errors.fullName?.message}
-              {...register("fullName", PROFILE_VALIDATION_RULES.fullName)}
+              {...register("fullName")}
             />
           </Box>
           <Box>
@@ -50,7 +50,7 @@ export default function ProfileInformation({ register, watch, errors }: Props) {
               size="small"
               error={!!errors.email}
               helperText={errors.email?.message}
-              {...register("email", PROFILE_VALIDATION_RULES.email)}
+              {...register("email")}
             />
           </Box>
           <Box>
@@ -62,7 +62,7 @@ export default function ProfileInformation({ register, watch, errors }: Props) {
               size="small"
               error={!!errors.phoneNumber}
               helperText={errors.phoneNumber?.message}
-              {...register("phoneNumber", PROFILE_VALIDATION_RULES.phoneNumber)}
+              {...register("phoneNumber")}
             />
           </Box>
           <Box>
@@ -74,11 +74,13 @@ export default function ProfileInformation({ register, watch, errors }: Props) {
               size="small"
               error={!!errors.companyName}
               helperText={errors.companyName?.message}
-              {...register("companyName", PROFILE_VALIDATION_RULES.companyName)}
+              {...register("companyName")}
             />
           </Box>
         </Box>
       </CardContent>
     </Card>
   );
-}
+};
+
+export default ProfileInformation;

@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type FC, type ReactNode } from "react";
 import { Box, Paper, Stack, Typography } from "@mui/material";
 import "./StatCard.scss";
 
@@ -11,14 +11,14 @@ export interface StatCardProps {
   className?: string;
 }
 
-export default function StatCard({
+const StatCard: FC<StatCardProps> = ({
   title,
   value,
   indicatorIcon,
   indicatorLabel,
   indicatorVariant = "success",
   className,
-}: StatCardProps) {
+}: StatCardProps) => {
   return (
     <Paper className={`stat-card ${className ?? ""}`} elevation={0}>
       <Typography className="stat-card__title">{title}</Typography>
@@ -40,4 +40,6 @@ export default function StatCard({
       </Stack>
     </Paper>
   );
-}
+};
+
+export default StatCard;

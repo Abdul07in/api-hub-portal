@@ -46,141 +46,145 @@ export const AUTH_API_ENDPOINTS = {
   me: `${BASE_URL}/partner/me`,
 };
 
-function toSession(response: SpringBootJwtAuthResponse): AuthSession {
-  return {
-    user: response.user,
-    tokens: {
-      accessToken: response.accessToken,
-      refreshToken: response.refreshToken,
-      tokenType: response.tokenType,
-      expiresAt: response.expiresAt,
-    },
-  };
+class AuthService {
+  private static toSession(response: SpringBootJwtAuthResponse): AuthSession {
+    return {
+      user: response.user,
+      tokens: {
+        accessToken: response.accessToken,
+        refreshToken: response.refreshToken,
+        tokenType: response.tokenType,
+        expiresAt: response.expiresAt,
+      },
+    };
+  }
+
+  private static getLoggerHeaders() {
+    return {
+      traceId: crypto.randomUUID(),
+      source: "PortalFrontend",
+      profileRefNo: "",
+      whatsAppOptIn: "false",
+    };
+  }
+
+  static async loginPartner(input: LoginPartnerInput): Promise<AuthServiceResult> {
+    const response = await fetch(AUTH_API_ENDPOINTS.login, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...AuthService.getLoggerHeaders(),
+      },
+      body: JSON.stringify({
+        email: input.email,
+        password: input.password,
+        rememberMe: input.rememberMe,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData: ApiResponse<unknown> | unknown = await response.json().catch(() => ({}));
+      throw new Error(
+        (errorData as ApiResponse<unknown>)?.error?.message ||
+          (errorData as { message?: string })?.message ||
+          "Invalid credentials or account access denied.",
+      );
+    }
+
+    const resData: ApiResponse<SpringBootJwtAuthResponse> = await response.json();
+    if (!resData.success?.data) {
+      throw new Error("Invalid response format received from server.");
+    }
+    const data: SpringBootJwtAuthResponse = resData.success.data;
+
+    return {
+      session: AuthService.toSession(data),
+      persistence: input.rememberMe ? "local" : "session",
+    };
+  }
+
+  static async registerPartner(input: RegisterPartnerInput): Promise<AuthServiceResult> {
+    const response = await fetch(AUTH_API_ENDPOINTS.register, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...AuthService.getLoggerHeaders(),
+      },
+      body: JSON.stringify({
+        workEmail: input.workEmail,
+        company: input.company,
+        role: input.role,
+        password: input.password,
+        autoApprove: input.autoApprove,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData: ApiResponse<unknown> | unknown = await response.json().catch(() => ({}));
+      throw new Error(
+        (errorData as ApiResponse<unknown>)?.error?.message ||
+          (errorData as { message?: string })?.message ||
+          "Registration failed. Email might already exist.",
+      );
+    }
+
+    const resData: ApiResponse<SpringBootJwtAuthResponse> = await response.json();
+    if (!resData.success?.data) {
+      throw new Error("Invalid response format received from server.");
+    }
+    const data: SpringBootJwtAuthResponse = resData.success.data;
+
+    return {
+      session: AuthService.toSession(data),
+      persistence: "local",
+    };
+  }
+
+  static async refreshPartner(refreshToken: string): Promise<AuthServiceResult> {
+    const response = await fetch(AUTH_API_ENDPOINTS.refresh, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...AuthService.getLoggerHeaders(),
+      },
+      body: JSON.stringify({ refreshToken }),
+    });
+
+    if (!response.ok) {
+      const errorData: ApiResponse<unknown> | unknown = await response.json().catch(() => ({}));
+      throw new Error(
+        (errorData as ApiResponse<unknown>)?.error?.message ||
+          (errorData as { message?: string })?.message ||
+          "Session expired or invalid. Please login again.",
+      );
+    }
+
+    const resData: ApiResponse<SpringBootJwtAuthResponse> = await response.json();
+    if (!resData.success?.data) {
+      throw new Error("Invalid response format received from server.");
+    }
+    const data: SpringBootJwtAuthResponse = resData.success.data;
+
+    return {
+      session: AuthService.toSession(data),
+      persistence: "local",
+    };
+  }
+
+  static async logoutPartnerSession(refreshToken: string): Promise<void> {
+    const response = await fetch(AUTH_API_ENDPOINTS.logout, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...AuthService.getLoggerHeaders(),
+      },
+      body: JSON.stringify({ refreshToken }),
+    });
+
+    if (!response.ok) {
+      // Logout failed on server — proceed with local logout regardless
+    }
+  }
 }
 
-function getLoggerHeaders() {
-  return {
-    traceId: crypto.randomUUID(),
-    source: "PortalFrontend",
-    profileRefNo: "",
-    whatsAppOptIn: "false",
-  };
-}
-
-export async function loginPartner(input: LoginPartnerInput): Promise<AuthServiceResult> {
-  const response = await fetch(AUTH_API_ENDPOINTS.login, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...getLoggerHeaders(),
-    },
-    body: JSON.stringify({
-      email: input.email,
-      password: input.password,
-      rememberMe: input.rememberMe,
-    }),
-  });
-
-  if (!response.ok) {
-    const errorData: ApiResponse<unknown> | unknown = await response.json().catch(() => ({}));
-    throw new Error(
-      (errorData as ApiResponse<unknown>)?.error?.message ||
-        (errorData as { message?: string })?.message ||
-        "Invalid credentials or account access denied.",
-    );
-  }
-
-  const resData: ApiResponse<SpringBootJwtAuthResponse> = await response.json();
-  if (!resData.success?.data) {
-    throw new Error("Invalid response format received from server.");
-  }
-  const data: SpringBootJwtAuthResponse = resData.success.data;
-
-  return {
-    session: toSession(data),
-    persistence: input.rememberMe ? "local" : "session",
-  };
-}
-
-export async function registerPartner(input: RegisterPartnerInput): Promise<AuthServiceResult> {
-  const response = await fetch(AUTH_API_ENDPOINTS.register, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...getLoggerHeaders(),
-    },
-    body: JSON.stringify({
-      workEmail: input.workEmail,
-      company: input.company,
-      role: input.role,
-      password: input.password,
-      autoApprove: input.autoApprove,
-    }),
-  });
-
-  if (!response.ok) {
-    const errorData: ApiResponse<unknown> | unknown = await response.json().catch(() => ({}));
-    throw new Error(
-      (errorData as ApiResponse<unknown>)?.error?.message ||
-        (errorData as { message?: string })?.message ||
-        "Registration failed. Email might already exist.",
-    );
-  }
-
-  const resData: ApiResponse<SpringBootJwtAuthResponse> = await response.json();
-  if (!resData.success?.data) {
-    throw new Error("Invalid response format received from server.");
-  }
-  const data: SpringBootJwtAuthResponse = resData.success.data;
-
-  return {
-    session: toSession(data),
-    persistence: "local",
-  };
-}
-
-export async function refreshPartner(refreshToken: string): Promise<AuthServiceResult> {
-  const response = await fetch(AUTH_API_ENDPOINTS.refresh, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...getLoggerHeaders(),
-    },
-    body: JSON.stringify({ refreshToken }),
-  });
-
-  if (!response.ok) {
-    const errorData: ApiResponse<unknown> | unknown = await response.json().catch(() => ({}));
-    throw new Error(
-      (errorData as ApiResponse<unknown>)?.error?.message ||
-        (errorData as { message?: string })?.message ||
-        "Session expired or invalid. Please login again.",
-    );
-  }
-
-  const resData: ApiResponse<SpringBootJwtAuthResponse> = await response.json();
-  if (!resData.success?.data) {
-    throw new Error("Invalid response format received from server.");
-  }
-  const data: SpringBootJwtAuthResponse = resData.success.data;
-
-  return {
-    session: toSession(data),
-    persistence: "local",
-  };
-}
-
-export async function logoutPartnerSession(refreshToken: string): Promise<void> {
-  const response = await fetch(AUTH_API_ENDPOINTS.logout, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...getLoggerHeaders(),
-    },
-    body: JSON.stringify({ refreshToken }),
-  });
-
-  if (!response.ok) {
-    console.warn("Logout failed on server. Proceeding with local logout.");
-  }
-}
+export default AuthService;

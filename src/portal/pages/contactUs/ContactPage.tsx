@@ -1,37 +1,32 @@
-import { useState } from "react";
-import ContactTemplate from "@/portal/templates/contactUs/ContactTemplate";
-import { Form, EMPTY_FORM, validateContactForm } from "@/portal/templates/contactUs/validation";
+import { useState, type FC } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-export default function ContactPage() {
-  const [form, setForm] = useState<Form>(EMPTY_FORM);
-  const [errors, setErrors] = useState<Partial<Record<keyof Form, string>>>({});
+import ContactTemplate from "@/portal/templates/contactUs/ContactTemplate";
+import { contactSchema, type ContactFormData } from "@/portal/templates/contactUs/validation";
+
+const ContactPage: FC = () => {
   const [snack, setSnack] = useState(false);
 
-  const validate = (): boolean => {
-    const e = validateContactForm(form);
-    setErrors(e);
-    return Object.keys(e).length === 0;
-  };
+  const { register, handleSubmit, reset, formState } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: { name: "", email: "", company: "", subject: "", message: "" },
+  });
 
-  const handleSubmit = (ev: React.FormEvent) => {
-    ev.preventDefault();
-    if (!validate()) return;
+  const onFormSubmit = (_data: ContactFormData) => {
     setSnack(true);
-    setForm(EMPTY_FORM);
+    reset();
   };
-
-  const setField =
-    (k: keyof Form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setForm((f) => ({ ...f, [k]: e.target.value }));
 
   return (
     <ContactTemplate
-      form={form}
-      errors={errors}
+      register={register}
+      formState={formState}
+      handleSubmit={handleSubmit(onFormSubmit)}
       snack={snack}
       setSnack={setSnack}
-      handleSubmit={handleSubmit}
-      setField={setField}
     />
   );
-}
+};
+
+export default ContactPage;

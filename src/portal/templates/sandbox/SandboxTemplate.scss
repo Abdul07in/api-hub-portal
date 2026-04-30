@@ -1,18 +1,18 @@
 .sandbox-template {
   &__hero-overline {
     color: $primary;
-    letter-spacing: 2px;
-    font-size: 10px;
+    letter-spacing: 0.125rem;
+    font-size: 0.625rem;
 
     @media (min-width: 600px) {
-      font-size: 12px;
+      font-size: 0.75rem;
     }
   }
 
   &__hero-title {
     color: $secondary;
     font-weight: 800;
-    margin-top: 8px;
+    margin-top: 0.5rem;
     font-size: 1.75rem;
 
     @media (min-width: 900px) {
@@ -21,20 +21,20 @@
   }
 
   &__hero-desc {
-    margin-top: 8px;
-    margin-bottom: 32px;
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
     color: $text-secondary;
-    max-width: 720px;
-    font-size: 14px;
+    max-width: 45rem;
+    font-size: 0.875rem;
 
     @media (min-width: 900px) {
-      font-size: 16px;
+      font-size: 1rem;
     }
   }
 
   &__grid {
     display: grid;
-    gap: 20px;
+    gap: 1.25rem;
     grid-template-columns: 1fr;
     align-items: start;
 
@@ -43,29 +43,29 @@
     }
 
     @media (min-width: 900px) {
-      grid-template-columns: 260px 1fr 1fr;
+      grid-template-columns: 16.25rem 1fr 1fr;
     }
   }
 
   &__paper {
-    padding: 16px;
+    padding: 1rem;
   }
 
   &__section-title {
     font-weight: 700;
-    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
     color: $secondary;
   }
 
   &__module-select {
-    margin-bottom: 12px;
+    margin-bottom: 0.75rem;
   }
 
   &__api-info-box {
-    margin-top: 16px;
-    padding: 12px;
+    margin-top: 1rem;
+    padding: 0.75rem;
     background-color: $background-default;
-    border-radius: 12px;
+    border-radius: 0.75rem;
     border: 1px solid $border;
   }
 
@@ -75,18 +75,18 @@
 
   &__api-path-text {
     font-family: monospace;
-    font-size: 12px;
+    font-size: 0.75rem;
     word-break: break-all;
   }
 
   &__api-desc {
-    margin-top: 8px;
-    font-size: 12px;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
     color: $text-secondary;
   }
 
   &__request-header {
-    margin-bottom: 12px;
+    margin-bottom: 0.75rem;
     align-items: center;
     justify-content: space-between;
   }
@@ -94,40 +94,40 @@
   &__raw-text-field {
     & textarea {
       font-family: monospace;
-      font-size: 13px;
+      font-size: 0.8125rem;
     }
   }
 
   &__send-btn {
-    margin-top: 20px;
+    margin-top: 1.25rem;
   }
 
   &__headers-row {
     display: flex;
     align-items: flex-start;
-    gap: 8px;
+    gap: 0.5rem;
   }
 
   &__add-header-btn {
-    margin-top: 8px;
+    margin-top: 0.5rem;
     align-self: flex-start;
   }
 
   &__response-title {
     font-weight: 700;
-    margin-bottom: 12px;
+    margin-bottom: 0.75rem;
     color: $secondary;
   }
 
   &__loading-box {
     display: flex;
     justify-content: center;
-    padding-top: 32px;
-    padding-bottom: 32px;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
 
   &__result-header {
-    margin-bottom: 12px;
+    margin-bottom: 0.75rem;
     align-items: center;
   }
 

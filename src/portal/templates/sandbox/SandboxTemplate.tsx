@@ -1,15 +1,22 @@
+import { type FC } from "react";
 import {
   Alert,
   Box,
   Button,
   Chip,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   FormControl,
   IconButton,
   InputLabel,
   MenuItem,
   Paper,
   Select,
+  type SelectChangeEvent,
   Stack,
   TextField,
   ToggleButton,
@@ -46,9 +53,12 @@ export interface SandboxTemplateProps {
   result: SandboxResult | null;
   handleField: (name: string, value: unknown) => void;
   handleSend: () => void;
+  subscriptionOpen: boolean;
+  onNavigateToDashboard: () => void;
+  onNavigateToContact: () => void;
 }
 
-export default function SandboxTemplate({
+const SandboxTemplate: FC<SandboxTemplateProps> = ({
   apiCatalog,
   moduleId,
   setModuleId,
@@ -66,9 +76,35 @@ export default function SandboxTemplate({
   result,
   handleField,
   handleSend,
-}: SandboxTemplateProps) {
+  subscriptionOpen,
+  onNavigateToDashboard,
+  onNavigateToContact,
+}: SandboxTemplateProps) => {
+  const createHeaderKeyChangeHandler =
+    (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      const next = headers.map((r, idx) => (idx === index ? { ...r, key: e.target.value } : r));
+      setHeaders(next);
+    };
+  const createHeaderValueChangeHandler =
+    (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      const next = headers.map((r, idx) => (idx === index ? { ...r, value: e.target.value } : r));
+      setHeaders(next);
+    };
+  const createHeaderRemoveHandler = (index: number) => () =>
+    setHeaders(headers.filter((_, idx) => idx !== index));
+  const handleAddHeader = () => setHeaders([...headers, { key: "", value: "" }]);
+  const handleRawTextChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => setRawText(e.target.value);
+  const handleModuleChange = (e: SelectChangeEvent) => {
+    const m = apiCatalog.find((x) => x.id === e.target.value)!;
+    setModuleId(m.id);
+    setApiId(m.apis[0].id);
+  };
+  const handleApiChange = (e: SelectChangeEvent) => setApiId(e.target.value);
   return (
-    <Box className="sandbox-template">
+    <>
+      <Box className="sandbox-template">
       <Typography variant="overline" className="sandbox-template__hero-overline">
         {CONTENT.hero.overline}
       </Typography>
@@ -88,11 +124,7 @@ export default function SandboxTemplate({
             <Select
               label={CONTENT.picker.moduleLabel}
               value={moduleId}
-              onChange={(e) => {
-                const m = apiCatalog.find((x) => x.id === e.target.value)!;
-                setModuleId(m.id);
-                setApiId(m.apis[0].id);
-              }}
+              onChange={handleModuleChange}
             >
               {apiCatalog.map((m) => (
                 <MenuItem key={m.id} value={m.id}>
@@ -106,7 +138,7 @@ export default function SandboxTemplate({
             <Select
               label={CONTENT.picker.apiLabel}
               value={apiId}
-              onChange={(e) => setApiId(e.target.value)}
+              onChange={handleApiChange}
             >
               {currentModule.apis.map((a) => (
                 <MenuItem key={a.id} value={a.id}>
@@ -142,31 +174,21 @@ export default function SandboxTemplate({
                     size="small"
                     placeholder={CONTENT.headers.keyPlaceholder}
                     value={h.key}
-                    onChange={(e) => {
-                      const next = headers.map((r, idx) =>
-                        idx === i ? { ...r, key: e.target.value } : r,
-                      );
-                      setHeaders(next);
-                    }}
+                    onChange={createHeaderKeyChangeHandler(i)}
                     sx={{ flex: 1 }}
                   />
                   <TextField
                     size="small"
                     placeholder={CONTENT.headers.valuePlaceholder}
                     value={h.value}
-                    onChange={(e) => {
-                      const next = headers.map((r, idx) =>
-                        idx === i ? { ...r, value: e.target.value } : r,
-                      );
-                      setHeaders(next);
-                    }}
+                    onChange={createHeaderValueChangeHandler(i)}
                     sx={{ flex: 1 }}
                   />
                   {headers.length > 1 && (
                     <IconButton
                       size="small"
                       aria-label="remove header"
-                      onClick={() => setHeaders(headers.filter((_, idx) => idx !== i))}
+                      onClick={createHeaderRemoveHandler(i)}
                     >
                       <RemoveCircleOutlineIcon fontSize="small" />
                     </IconButton>
@@ -177,7 +199,7 @@ export default function SandboxTemplate({
             <Button
               size="small"
               startIcon={<AddIcon />}
-              onClick={() => setHeaders([...headers, { key: "", value: "" }])}
+              onClick={handleAddHeader}
               className="sandbox-template__add-header-btn"
             >
               {CONTENT.headers.addBtn}
@@ -195,7 +217,7 @@ export default function SandboxTemplate({
               multiline
               minRows={10}
               value={rawText}
-              onChange={(e) => setRawText(e.target.value)}
+              onChange={handleRawTextChange}
               error={!!rawError}
               helperText={rawError ?? CONTENT.request.rawJsonHelper}
               className="sandbox-template__raw-text-field"
@@ -259,6 +281,27 @@ export default function SandboxTemplate({
           )}
         </Paper>
       </Box>
-    </Box>
+      </Box>
+
+      <Dialog open={subscriptionOpen}>
+        <DialogTitle>Subscription Required</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To access detailed API specifications, request/response formats, and the interactive
+            sandbox, you must subscribe to our API services.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onNavigateToDashboard} color="inherit">
+            Back to Dashboard
+          </Button>
+          <Button onClick={onNavigateToContact} variant="contained" color="primary">
+            Subscribe Now
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
-}
+};
+
+export default SandboxTemplate;

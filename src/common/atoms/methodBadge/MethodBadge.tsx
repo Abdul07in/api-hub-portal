@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import { Chip } from "@mui/material";
 import { HttpMethod } from "@/common/enums";
 
@@ -9,13 +10,12 @@ const COLOR: Record<HttpMethod, string> = {
   [HttpMethod.PATCH]: "#0f766e",
 };
 
-export default function MethodBadge({
-  method,
-  size = "small",
-}: {
+interface MethodBadgeProps {
   method: HttpMethod;
   size?: "small" | "medium";
-}) {
+}
+
+const MethodBadge: FC<MethodBadgeProps> = ({ method, size = "small" }) => {
   return (
     <Chip
       label={method}
@@ -30,4 +30,6 @@ export default function MethodBadge({
       }}
     />
   );
-}
+};
+
+export default MethodBadge;

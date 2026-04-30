@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { Box, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -10,16 +10,18 @@ export interface SecureCredentialFieldProps {
   masked?: boolean;
 }
 
-export default function SecureCredentialField({
+const SecureCredentialField: FC<SecureCredentialFieldProps> = ({
   label,
   value,
   masked = false,
-}: SecureCredentialFieldProps) {
+}) => {
   const [revealed, setRevealed] = useState(false);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(value);
   };
+
+  const handleToggleRevealed = () => setRevealed((prev) => !prev);
 
   const displayValue = masked && !revealed ? "••••••••••••••••••••••••••" : value;
 
@@ -41,7 +43,7 @@ export default function SecureCredentialField({
                 {masked && (
                   <IconButton
                     size="small"
-                    onClick={() => setRevealed(!revealed)}
+                    onClick={handleToggleRevealed}
                     sx={{ color: "rgba(255,255,255,0.7)", mr: 0.5 }}
                   >
                     {revealed ? (
@@ -65,4 +67,6 @@ export default function SecureCredentialField({
       />
     </Box>
   );
-}
+};
+
+export default SecureCredentialField;

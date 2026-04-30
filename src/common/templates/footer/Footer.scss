@@ -1,15 +1,15 @@
 .footer {
-  margin-top: 64px;
+  margin-top: 4rem;
   background-color: $footer-bg;
   color: $footer-text;
 
   &__container {
-    padding-block: 48px;
+    padding-block: 3rem;
   }
 
   &__grid {
     display: grid;
-    gap: 32px;
+    gap: 2rem;
     grid-template-columns: 1fr;
 
     @media (min-width: 600px) {
@@ -23,24 +23,24 @@
 
   &__brand-title {
     color: $footer-white;
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 800;
   }
 
   &__brand-copy {
-    margin-top: 8px;
-    font-size: 14px;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
     opacity: 0.85;
   }
 
   &__section-title {
-    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
     color: $footer-white;
     font-weight: 700;
   }
 
   &__link-stack {
-    gap: 4px;
+    gap: 0.25rem;
   }
 
   &__link {
@@ -48,7 +48,7 @@
   }
 
   &__social-stack {
-    gap: 8px;
+    gap: 0.5rem;
   }
 
   &__social-button {
@@ -56,18 +56,18 @@
   }
 
   &__support-email {
-    margin-top: 16px;
-    font-size: 13px;
+    margin-top: 1rem;
+    font-size: 0.8125rem;
     opacity: 0.85;
   }
 
   &__divider {
-    margin-block: 24px;
+    margin-block: 1.5rem;
     border-color: $footer-divider;
   }
 
   &__meta {
-    gap: 16px;
+    gap: 1rem;
     justify-content: space-between;
     align-items: flex-start;
 
@@ -78,17 +78,17 @@
   }
 
   &__copyright {
-    font-size: 12px;
+    font-size: 0.75rem;
     opacity: 0.8;
   }
 
   &__legal-stack {
-    gap: 16px;
+    gap: 1rem;
     flex-wrap: wrap;
   }
 
   &__legal-link {
     color: inherit;
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 }

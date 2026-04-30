@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import {
   Box,
   Button,
@@ -45,10 +46,11 @@ const DEFAULT_META = {
   bg: "rgba(0, 51, 102, 0.08)",
 };
 
-export default function IntroductionOverview({
+const IntroductionOverview: FC<IntroductionOverviewProps> = ({
   modules,
   onModuleSelect,
-}: IntroductionOverviewProps) {
+}: IntroductionOverviewProps) => {
+  const createModuleSelectHandler = (id: string) => () => onModuleSelect(id);
   return (
     <Box className="intro-overview">
       <Box className="intro-overview__header">
@@ -140,7 +142,7 @@ export default function IntroductionOverview({
                     fullWidth
                     variant="text"
                     endIcon={<ChevronRightIcon />}
-                    onClick={() => onModuleSelect(module.id)}
+                    onClick={createModuleSelectHandler(module.id)}
                     className="intro-module-card__cta"
                     sx={{ color: meta.color, fontWeight: 600 }}
                   >
@@ -154,4 +156,6 @@ export default function IntroductionOverview({
       </Grid>
     </Box>
   );
-}
+};
+
+export default IntroductionOverview;

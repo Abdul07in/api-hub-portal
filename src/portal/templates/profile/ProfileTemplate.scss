@@ -1,7 +1,7 @@
 @use "sass:color";
 
 .profile-template {
-  max-width: 1200px;
+  max-width: 75rem;
   margin: 0 auto;
   padding: 2rem;
 
@@ -79,7 +79,7 @@
 
   &__card {
     height: 100%;
-    border-radius: 8px !important;
+    border-radius: 0.5rem !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
     &--dark {
       background-color: $text-primary !important;
@@ -107,15 +107,15 @@
   }
 
   &__avatar {
-    width: 64px !important;
-    height: 64px !important;
+    width: 4rem !important;
+    height: 4rem !important;
     margin-right: 1rem !important;
     background-color: $text-primary !important;
   }
 
   &__icon-box {
     padding: 0.5rem;
-    border-radius: 4px;
+    border-radius: 0.25rem;
     margin-right: 1rem;
 
     &--security {
@@ -152,23 +152,23 @@
 
   &__overview-label {
     color: rgba($surface, 0.7) !important;
-    letter-spacing: 1px !important;
+    letter-spacing: 0.0625rem !important;
   }
 
   &__overview-value {
     font-weight: 700 !important;
     margin-top: 0.25rem !important;
     &--large {
-      letter-spacing: 2px !important;
+      letter-spacing: 0.125rem !important;
     }
   }
 
   &__status-badge {
     background-color: $success;
     color: $surface;
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 12px;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 0.75rem;
     font-weight: bold;
     display: inline-block;
     margin-top: 0.5rem;
@@ -212,7 +212,7 @@
   &__footer-note {
     background-color: $bg-light;
     padding: 1rem;
-    border-radius: 4px;
+    border-radius: 0.25rem;
     text-align: center;
     font-style: italic;
     color: $text-secondary;
@@ -223,7 +223,7 @@
     margin-top: 2rem;
     background-color: rgba($warning, 0.1);
     padding: 1.5rem;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;

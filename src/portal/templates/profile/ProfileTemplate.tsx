@@ -1,10 +1,11 @@
+import { type FC } from "react";
 import { Box, Button, Typography, CircularProgress } from "@mui/material";
 import {
-  UseFormRegister,
-  UseFormWatch,
-  UseFormSetValue,
-  UseFormHandleSubmit,
-  FieldErrors,
+  type UseFormRegister,
+  type UseFormWatch,
+  type UseFormSetValue,
+  type UseFormHandleSubmit,
+  type FieldErrors,
 } from "react-hook-form";
 import { PROFILE_CONTENT } from "./serviceconstant";
 import type { ProfileUpdateRequest } from "@/portal/services/profile";
@@ -40,7 +41,7 @@ interface ProfileTemplateProps {
   onCancelSave: () => void;
 }
 
-export default function ProfileTemplate({
+const ProfileTemplate: FC<ProfileTemplateProps> = ({
   loading,
   saving,
   isDirty,
@@ -60,7 +61,7 @@ export default function ProfileTemplate({
   isConfirmModalOpen,
   onConfirmSave,
   onCancelSave,
-}: ProfileTemplateProps) {
+}: ProfileTemplateProps) => {
   if (loading) {
     return (
       <Box className="profile-template__loading">
@@ -155,4 +156,6 @@ export default function ProfileTemplate({
       />
     </Box>
   );
-}
+};
+
+export default ProfileTemplate;

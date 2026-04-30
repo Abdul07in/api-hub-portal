@@ -1,9 +1,10 @@
+import { type FC } from "react";
 import { Box, Chip, Paper, Typography } from "@mui/material";
 import CodeIcon from "@mui/icons-material/Code";
 
 import { CONTENT } from "../serviceconstant";
 
-export default function ApiProductsHero() {
+const ApiProductsHero: FC = () => {
   return (
     <Paper elevation={0} className="hero-banner">
       <Box className="hero-banner__content">
@@ -18,4 +19,6 @@ export default function ApiProductsHero() {
       </Box>
     </Paper>
   );
-}
+};
+
+export default ApiProductsHero;

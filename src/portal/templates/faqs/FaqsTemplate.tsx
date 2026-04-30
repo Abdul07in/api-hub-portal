@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -20,7 +21,8 @@ export interface FaqsTemplateProps {
   filtered: typeof faqGroups;
 }
 
-export default function FaqsTemplate({ q, setQ, filtered }: FaqsTemplateProps) {
+const FaqsTemplate: FC<FaqsTemplateProps> = ({ q, setQ, filtered }) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => setQ(e.target.value);
   return (
     <Box className="faqs-template">
       <Typography variant="overline" className="faqs-template__hero-overline">
@@ -35,7 +37,7 @@ export default function FaqsTemplate({ q, setQ, filtered }: FaqsTemplateProps) {
         fullWidth
         placeholder={CONTENT.searchPlaceholder}
         value={q}
-        onChange={(e) => setQ(e.target.value)}
+        onChange={handleSearchChange}
         slotProps={{
           input: {
             startAdornment: (
@@ -76,4 +78,6 @@ export default function FaqsTemplate({ q, setQ, filtered }: FaqsTemplateProps) {
       </Stack>
     </Box>
   );
-}
+};
+
+export default FaqsTemplate;

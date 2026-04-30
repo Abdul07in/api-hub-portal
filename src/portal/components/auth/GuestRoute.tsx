@@ -1,9 +1,10 @@
+import { type FC } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { selectIsAuthenticated } from "@/store/slices/authSlice";
 
-export default function GuestRoute() {
+const GuestRoute: FC = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
   if (isAuthenticated) {
@@ -11,4 +12,6 @@ export default function GuestRoute() {
   }
 
   return <Outlet />;
-}
+};
+
+export default GuestRoute;

@@ -1,4 +1,6 @@
-import type { ChangeEvent, FormEvent } from "react";
+import { type FC, type FormEventHandler } from "react";
+import type { Control, FormState, UseFormRegister } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import {
   Alert,
   Box,
@@ -21,37 +23,35 @@ import { Link as RouterLink } from "react-router-dom";
 
 import AuthShell from "./AuthShell";
 import { AUTH_CONTENT } from "./serviceconstant";
-import type { LoginForm } from "./validation";
+import type { LoginFormData } from "./validation";
 
 export interface LoginTemplateProps {
-  form: LoginForm;
-  errors: Partial<Record<keyof LoginForm, string>>;
+  register: UseFormRegister<LoginFormData>;
+  control: Control<LoginFormData>;
+  formState: FormState<LoginFormData>;
+  handleSubmit: FormEventHandler<HTMLFormElement>;
   snack: boolean;
   setSnack: (value: boolean) => void;
-  handleSubmit: (event: FormEvent) => void;
-  setField: (
-    field: keyof Pick<LoginForm, "email" | "password">,
-  ) => (event: ChangeEvent<HTMLInputElement>) => void;
-  handleRememberChange: (event: ChangeEvent<HTMLInputElement>) => void;
   showPassword: boolean;
   setShowPassword: (value: boolean) => void;
   isSubmitting: boolean;
   authError: string | null;
 }
 
-export default function LoginTemplate({
-  form,
-  errors,
+const LoginTemplate: FC<LoginTemplateProps> = ({
+  register,
+  control,
+  formState,
+  handleSubmit,
   snack,
   setSnack,
-  handleSubmit,
-  setField,
-  handleRememberChange,
   showPassword,
   setShowPassword,
   isSubmitting,
   authError,
-}: LoginTemplateProps) {
+}: LoginTemplateProps) => {
+  const handleTogglePassword = () => setShowPassword(!showPassword);
+  const handleCloseSnack = () => setSnack(false);
   return (
     <>
       <AuthShell
@@ -80,10 +80,9 @@ export default function LoginTemplate({
               type="email"
               fullWidth
               required
-              value={form.email}
-              onChange={setField("email")}
-              error={!!errors.email}
-              helperText={errors.email}
+              {...register("email")}
+              error={!!formState.errors.email}
+              helperText={formState.errors.email?.message}
               slotProps={{
                 input: {
                   startAdornment: (
@@ -100,10 +99,9 @@ export default function LoginTemplate({
               type={showPassword ? "text" : "password"}
               fullWidth
               required
-              value={form.password}
-              onChange={setField("password")}
-              error={!!errors.password}
-              helperText={errors.password}
+              {...register("password")}
+              error={!!formState.errors.password}
+              helperText={formState.errors.password?.message}
               slotProps={{
                 input: {
                   startAdornment: (
@@ -114,7 +112,7 @@ export default function LoginTemplate({
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
-                        onClick={() => setShowPassword(!showPassword)}
+                        onClick={handleTogglePassword}
                         edge="end"
                         aria-label={showPassword ? "Hide password" : "Show password"}
                       >
@@ -134,9 +132,15 @@ export default function LoginTemplate({
                 justifyContent: "space-between",
               }}
             >
-              <FormControlLabel
-                control={<Checkbox checked={form.rememberMe} onChange={handleRememberChange} />}
-                label="Keep me signed in on this device"
+              <Controller
+                name="rememberMe"
+                control={control}
+                render={({ field }) => (
+                  <FormControlLabel
+                    control={<Checkbox checked={field.value} onChange={field.onChange} />}
+                    label="Keep me signed in on this device"
+                  />
+                )}
               />
               <Button
                 component={RouterLink}
@@ -166,13 +170,15 @@ export default function LoginTemplate({
       <Snackbar
         open={snack}
         autoHideDuration={4000}
-        onClose={() => setSnack(false)}
+        onClose={handleCloseSnack}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
-        <Alert severity="success" variant="filled" onClose={() => setSnack(false)}>
+        <Alert severity="success" variant="filled" onClose={handleCloseSnack}>
           {AUTH_CONTENT.login.successMessage}
         </Alert>
       </Snackbar>
     </>
   );
-}
+};
+
+export default LoginTemplate;

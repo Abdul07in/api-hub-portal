@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import { Box, Container, Divider, IconButton, Link, Stack, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
@@ -14,7 +15,7 @@ import {
 import { selectIsAuthenticated } from "@/store/slices/authSlice";
 import "./Footer.scss";
 
-export default function Footer() {
+const Footer: FC = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const socialIcons = {
     LinkedIn: <LinkedInIcon />,
@@ -105,4 +106,6 @@ export default function Footer() {
       </Container>
     </Box>
   );
-}
+};
+
+export default Footer;

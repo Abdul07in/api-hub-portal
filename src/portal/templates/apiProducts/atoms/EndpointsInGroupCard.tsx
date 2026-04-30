@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import { Box, Paper, Stack, Typography } from "@mui/material";
 
 import type { ApiModule, ApiSpec } from "@/common/interfaces/api";
@@ -10,11 +11,12 @@ interface EndpointsInGroupCardProps {
   onSelectApi?: (id: string) => void;
 }
 
-export default function EndpointsInGroupCard({
+const EndpointsInGroupCard: FC<EndpointsInGroupCardProps> = ({
   module,
   activeApi,
   onSelectApi,
-}: EndpointsInGroupCardProps) {
+}: EndpointsInGroupCardProps) => {
+  const createSelectApiHandler = (id: string) => () => onSelectApi?.(id);
   return (
     <Paper variant="outlined" className="side-card">
       <Typography variant="subtitle2" className="side-card__title">
@@ -25,7 +27,7 @@ export default function EndpointsInGroupCard({
           <Box
             key={api.id}
             className={`endpoint-row ${api.id === activeApi.id ? "endpoint-row--active" : ""}`}
-            onClick={() => onSelectApi?.(api.id)}
+            onClick={createSelectApiHandler(api.id)}
           >
             <MethodBadge method={api.method} />
             <Typography className="endpoint-row__path">{api.path}</Typography>
@@ -34,4 +36,6 @@ export default function EndpointsInGroupCard({
       </Stack>
     </Paper>
   );
-}
+};
+
+export default EndpointsInGroupCard;

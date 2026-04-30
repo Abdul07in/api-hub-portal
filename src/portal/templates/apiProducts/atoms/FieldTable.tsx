@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import {
   Paper,
   Table,
@@ -15,7 +16,7 @@ interface FieldTableProps {
   fields: ApiSpec["requestFields"];
 }
 
-export default function FieldTable({ fields }: FieldTableProps) {
+const FieldTable: FC<FieldTableProps> = ({ fields }) => {
   return (
     <TableContainer component={Paper} variant="outlined" className="field-table">
       <Table size="small">
@@ -49,4 +50,6 @@ export default function FieldTable({ fields }: FieldTableProps) {
       </Table>
     </TableContainer>
   );
-}
+};
+
+export default FieldTable;

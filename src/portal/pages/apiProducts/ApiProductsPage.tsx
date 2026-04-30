@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, type FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -6,7 +6,7 @@ import { selectModules } from "@/store/slices/apiCatalogSlice";
 import { selectPartnerUser } from "@/store/slices/authSlice";
 import ApiProductsTemplate from "@/portal/templates/apiProducts/ApiProductsTemplate";
 
-export default function ApiProductsPage() {
+const ApiProductsPage: FC = () => {
   const navigate = useNavigate();
   const apiCatalog = useSelector(selectModules);
   const partnerUser = useSelector(selectPartnerUser);
@@ -59,4 +59,6 @@ export default function ApiProductsPage() {
       isSubscribed={isSubscribed}
     />
   );
-}
+};
+
+export default ApiProductsPage;

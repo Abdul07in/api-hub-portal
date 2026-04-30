@@ -1,14 +1,16 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, type FC } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { fetchProfile, updateProfile, type ProfileUpdateRequest } from "@/portal/services/profile";
+import ProfileService, { type ProfileUpdateRequest } from "@/portal/services/profile";
 import ProfileTemplate, { type SaveStatus } from "@/portal/templates/profile/ProfileTemplate";
+import { profileSchema } from "@/portal/templates/profile/profileValidation";
 
 const STATUS_BANNER_DURATION_MS = 5000;
 
-export default function ProfilePage() {
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
+const ProfilePage: FC = () => {
+  const queryClient = useQueryClient();
   const [partnerCode, setPartnerCode] = useState("");
   const [joinDate, setJoinDate] = useState("");
   const [status, setStatus] = useState("");
@@ -26,6 +28,7 @@ export default function ProfilePage() {
     setValue,
     formState: { isDirty, errors },
   } = useForm<ProfileUpdateRequest>({
+    resolver: zodResolver(profileSchema),
     defaultValues: {
       fullName: "",
       email: "",
@@ -57,66 +60,69 @@ export default function ProfilePage() {
     return () => clearTimeout(statusTimerRef.current);
   }, []);
 
-  const loadProfile = useCallback(async () => {
-    try {
-      setLoading(true);
-      const data = await fetchProfile();
+  const { data: profileData, isLoading: loading, error: profileError } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => ProfileService.fetchProfile(),
+  });
+
+  useEffect(() => {
+    if (profileData) {
       reset({
-        fullName: data.fullName || "",
-        email: data.email || "",
-        phoneNumber: data.phoneNumber || "",
-        companyName: data.companyName || "",
-        emailAlerts: data.emailAlerts ?? true,
-        apiStatusUpdates: data.apiStatusUpdates ?? true,
-        marketingComms: data.marketingComms ?? false,
+        fullName: profileData.fullName || "",
+        email: profileData.email || "",
+        phoneNumber: profileData.phoneNumber || "",
+        companyName: profileData.companyName || "",
+        emailAlerts: profileData.emailAlerts ?? true,
+        apiStatusUpdates: profileData.apiStatusUpdates ?? true,
+        marketingComms: profileData.marketingComms ?? false,
       });
-      setPartnerCode(data.partnerCode || "");
-      if (data.joinDate) {
+      setPartnerCode(profileData.partnerCode || "");
+      if (profileData.joinDate) {
         setJoinDate(
-          new Date(data.joinDate).toLocaleDateString("en-US", {
+          new Date(profileData.joinDate).toLocaleDateString("en-US", {
             month: "long",
             day: "numeric",
             year: "numeric",
           }),
         );
       }
-      setStatus(data.status || "VERIFIED PARTNER");
-    } catch (error) {
-      toast.error("Failed to load profile data.");
-      console.error(error);
-    } finally {
-      setLoading(false);
+      setStatus(profileData.status || "VERIFIED PARTNER");
     }
-  }, [reset]);
+  }, [profileData, reset]);
 
   useEffect(() => {
-    loadProfile();
-  }, [loadProfile]);
+    if (profileError) {
+      toast.error("Failed to load profile data.");
+    }
+  }, [profileError]);
+
+  const updateMutation = useMutation({
+    mutationFn: (data: ProfileUpdateRequest) => ProfileService.updateProfile(data),
+    onSuccess: (_, variables) => {
+      reset(variables);
+      showStatus("success", "Profile updated successfully!");
+      toast.success("Profile updated successfully!");
+      void queryClient.invalidateQueries({ queryKey: ["profile"] });
+      setIsConfirmModalOpen(false);
+      setPendingFormData(null);
+    },
+    onError: (error) => {
+      const message = error instanceof Error ? error.message : "Failed to update profile.";
+      showStatus("error", message);
+      toast.error(message);
+      setIsConfirmModalOpen(false);
+      setPendingFormData(null);
+    },
+  });
 
   const onSubmit = (data: ProfileUpdateRequest) => {
     setPendingFormData(data);
     setIsConfirmModalOpen(true);
   };
 
-  const handleConfirmSave = async () => {
+  const handleConfirmSave = () => {
     if (!pendingFormData) return;
-    try {
-      setSaving(true);
-      await updateProfile(pendingFormData);
-      reset(pendingFormData);
-      showStatus("success", "Profile updated successfully!");
-      toast.success("Profile updated successfully!");
-      setIsConfirmModalOpen(false);
-      setPendingFormData(null);
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "Failed to update profile.";
-      showStatus("error", message);
-      toast.error(message);
-      setIsConfirmModalOpen(false);
-      setPendingFormData(null);
-    } finally {
-      setSaving(false);
-    }
+    updateMutation.mutate(pendingFormData);
   };
 
   const handleCancelSave = () => {
@@ -126,13 +132,13 @@ export default function ProfilePage() {
 
   const handleDiscard = () => {
     dismissStatus();
-    loadProfile();
+    void queryClient.invalidateQueries({ queryKey: ["profile"] });
   };
 
   return (
     <ProfileTemplate
       loading={loading}
-      saving={saving}
+      saving={updateMutation.isPending}
       isDirty={isDirty}
       partnerCode={partnerCode}
       joinDate={joinDate}
@@ -152,4 +158,6 @@ export default function ProfilePage() {
       onCancelSave={handleCancelSave}
     />
   );
-}
+};
+
+export default ProfilePage;

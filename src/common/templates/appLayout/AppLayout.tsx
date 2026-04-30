@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { ThemeProvider, CssBaseline, StyledEngineProvider } from "@mui/material";
 import { Box } from "@mui/material";
-import { useEffect, type CSSProperties } from "react";
+import { useEffect, type FC, type CSSProperties } from "react";
 
 import { theme } from "@/common/styles/theme";
 import Header from "@/common/templates/header/Header";
@@ -9,7 +9,7 @@ import Footer from "@/common/templates/footer/Footer";
 import { APP_LAYOUT_CONFIG } from "./serviceconstant";
 import "./AppLayout.scss";
 
-function ScrollToTop() {
+const ScrollToTop: FC = () => {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -17,7 +17,7 @@ function ScrollToTop() {
   return null;
 }
 
-export default function AppLayout() {
+const AppLayout: FC = () => {
   const spacerStyle = {
     "--app-layout-header-spacer-mobile": `${APP_LAYOUT_CONFIG.headerSpacerMobilePx}px`,
     "--app-layout-header-spacer-desktop": `${APP_LAYOUT_CONFIG.headerSpacerDesktopPx}px`,
@@ -39,4 +39,6 @@ export default function AppLayout() {
       </ThemeProvider>
     </StyledEngineProvider>
   );
-}
+};
+
+export default AppLayout;

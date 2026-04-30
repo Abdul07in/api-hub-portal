@@ -2,10 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import type { AuthSession } from "@/common/interfaces/auth";
 import { loadStoredAuthSession } from "@/portal/services/auth/storage";
-import {
-  loginPartner,
-  registerPartner,
-  logoutPartnerSession,
+import AuthService, {
   type LoginPartnerInput,
   type RegisterPartnerInput,
 } from "@/portal/services/auth";
@@ -34,7 +31,7 @@ export const loginPartnerThunk = createAsyncThunk(
   "auth/loginPartner",
   async (input: LoginPartnerInput, thunkApi) => {
     try {
-      return await loginPartner(input);
+      return await AuthService.loginPartner(input);
     } catch (error) {
       return thunkApi.rejectWithValue(
         error instanceof Error ? error.message : "Unable to sign in right now.",
@@ -47,7 +44,7 @@ export const registerPartnerThunk = createAsyncThunk(
   "auth/registerPartner",
   async (input: RegisterPartnerInput, thunkApi) => {
     try {
-      return await registerPartner(input);
+      return await AuthService.registerPartner(input);
     } catch (error) {
       return thunkApi.rejectWithValue(
         error instanceof Error ? error.message : "Unable to create the account right now.",
@@ -63,11 +60,10 @@ export const logoutPartnerThunk = createAsyncThunk(
       const state = thunkApi.getState() as RootState;
       const refreshToken = state.auth.session?.tokens?.refreshToken;
       if (refreshToken) {
-        await logoutPartnerSession(refreshToken);
+        await AuthService.logoutPartnerSession(refreshToken);
       }
       return true;
-    } catch (error) {
-      console.error("Logout error", error);
+    } catch {
       return true; // Still logout locally
     }
   },

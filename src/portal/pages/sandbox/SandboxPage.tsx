@@ -1,21 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type FC } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { selectModules, selectApiById } from "@/store/slices/apiCatalogSlice";
 import { selectPartnerUser } from "@/store/slices/authSlice";
 import { RootState } from "@/store";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button,
-} from "@mui/material";
 import type { ApiSpec } from "@/common/interfaces/api";
 import { FieldType } from "@/common/enums";
-import { runSandbox, type SandboxResult } from "@/portal/services/sandboxRunner";
+import SandboxRunnerService, { type SandboxResult } from "@/portal/services/sandboxRunner";
 import SandboxTemplate from "@/portal/templates/sandbox/SandboxTemplate";
 
 function defaultPayload(api: ApiSpec): Record<string, unknown> {
@@ -29,7 +21,7 @@ function defaultPayload(api: ApiSpec): Record<string, unknown> {
   return out;
 }
 
-export default function SandboxPage() {
+const SandboxPage: FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const apiIdParam = searchParams.get("apiId");
@@ -101,49 +93,38 @@ export default function SandboxPage() {
     }
     setLoading(true);
     setResult(null);
-    const res = await runSandbox(currentApi, body as Record<string, unknown>);
+    const res = await SandboxRunnerService.runSandbox(currentApi, body as Record<string, unknown>);
     setResult(res);
     setLoading(false);
   };
 
+  const handleNavigateToDashboard = () => navigate("/partner/dashboard");
+  const handleNavigateToContact = () => navigate("/contact");
+
   return (
-    <>
-      <SandboxTemplate
-        apiCatalog={apiCatalog}
-        moduleId={moduleId}
-        setModuleId={setModuleId}
-        apiId={apiId}
-        setApiId={setApiId}
-        currentModule={currentModule}
-        currentApi={currentApi}
-        payload={payload}
-        rawText={rawText}
-        setRawText={setRawText}
-        rawError={rawError}
-        loading={loading}
-        result={result}
-        headers={headers}
-        setHeaders={setHeaders}
-        handleField={handleField}
-        handleSend={handleSend}
-      />
-      <Dialog open={!partnerUser?.isSubscribed}>
-        <DialogTitle>Subscription Required</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            To access detailed API specifications, request/response formats, and the interactive
-            sandbox, you must subscribe to our API services.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => navigate("/partner/dashboard")} color="inherit">
-            Back to Dashboard
-          </Button>
-          <Button onClick={() => navigate("/contact")} variant="contained" color="primary">
-            Subscribe Now
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </>
+    <SandboxTemplate
+      apiCatalog={apiCatalog}
+      moduleId={moduleId}
+      setModuleId={setModuleId}
+      apiId={apiId}
+      setApiId={setApiId}
+      currentModule={currentModule}
+      currentApi={currentApi}
+      payload={payload}
+      rawText={rawText}
+      setRawText={setRawText}
+      rawError={rawError}
+      loading={loading}
+      result={result}
+      headers={headers}
+      setHeaders={setHeaders}
+      handleField={handleField}
+      handleSend={handleSend}
+      subscriptionOpen={!partnerUser?.isSubscribed}
+      onNavigateToDashboard={handleNavigateToDashboard}
+      onNavigateToContact={handleNavigateToContact}
+    />
   );
-}
+};
+
+export default SandboxPage;

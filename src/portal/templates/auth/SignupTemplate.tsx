@@ -1,4 +1,6 @@
-import type { ChangeEvent, FormEvent } from "react";
+import { type FC, type FormEventHandler } from "react";
+import type { Control, FormState, UseFormRegister } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import {
   Alert,
   Box,
@@ -14,29 +16,24 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
 import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import { Link as RouterLink } from "react-router-dom";
 
 import AuthShell from "./AuthShell";
 import { AUTH_CONTENT } from "./serviceconstant";
-import type { SignupForm } from "./validation";
+import type { SignupFormData } from "./validation";
 
 export interface SignupTemplateProps {
-  form: SignupForm;
-  errors: Partial<Record<keyof SignupForm, string>>;
+  register: UseFormRegister<SignupFormData>;
+  control: Control<SignupFormData>;
+  formState: FormState<SignupFormData>;
+  handleSubmit: FormEventHandler<HTMLFormElement>;
   snack: boolean;
   setSnack: (value: boolean) => void;
-  handleSubmit: (event: FormEvent) => void;
-  setField: (
-    field: keyof Pick<SignupForm, "workEmail" | "company" | "password" | "confirmPassword">,
-  ) => (event: ChangeEvent<HTMLInputElement>) => void;
-  handleTermsChange: (event: ChangeEvent<HTMLInputElement>) => void;
   showPassword: boolean;
   setShowPassword: (value: boolean) => void;
   showConfirmPassword: boolean;
@@ -45,21 +42,23 @@ export interface SignupTemplateProps {
   authError: string | null;
 }
 
-export default function SignupTemplate({
-  form,
-  errors,
+const SignupTemplate: FC<SignupTemplateProps> = ({
+  register,
+  control,
+  formState,
+  handleSubmit,
   snack,
   setSnack,
-  handleSubmit,
-  setField,
-  handleTermsChange,
   showPassword,
   setShowPassword,
   showConfirmPassword,
   setShowConfirmPassword,
   isSubmitting,
   authError,
-}: SignupTemplateProps) {
+}: SignupTemplateProps) => {
+  const handleTogglePassword = () => setShowPassword(!showPassword);
+  const handleToggleConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+  const handleCloseSnack = () => setSnack(false);
   return (
     <>
       <AuthShell
@@ -89,10 +88,9 @@ export default function SignupTemplate({
                 type="email"
                 fullWidth
                 required
-                value={form.workEmail}
-                onChange={setField("workEmail")}
-                error={!!errors.workEmail}
-                helperText={errors.workEmail}
+                {...register("workEmail")}
+                error={!!formState.errors.workEmail}
+                helperText={formState.errors.workEmail?.message}
                 slotProps={{
                   input: {
                     startAdornment: (
@@ -110,10 +108,9 @@ export default function SignupTemplate({
                 label="Company name"
                 fullWidth
                 required
-                value={form.company}
-                onChange={setField("company")}
-                error={!!errors.company}
-                helperText={errors.company}
+                {...register("company")}
+                error={!!formState.errors.company}
+                helperText={formState.errors.company?.message}
                 slotProps={{
                   input: {
                     startAdornment: (
@@ -132,10 +129,9 @@ export default function SignupTemplate({
                 type={showPassword ? "text" : "password"}
                 fullWidth
                 required
-                value={form.password}
-                onChange={setField("password")}
-                error={!!errors.password}
-                helperText={errors.password ?? "Use 8+ characters with letters and numbers"}
+                {...register("password")}
+                error={!!formState.errors.password}
+                helperText={formState.errors.password?.message ?? "Use 8+ characters with letters and numbers"}
                 slotProps={{
                   input: {
                     startAdornment: (
@@ -146,7 +142,7 @@ export default function SignupTemplate({
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton
-                          onClick={() => setShowPassword(!showPassword)}
+                          onClick={handleTogglePassword}
                           edge="end"
                           aria-label={showPassword ? "Hide password" : "Show password"}
                         >
@@ -167,10 +163,9 @@ export default function SignupTemplate({
                 type={showConfirmPassword ? "text" : "password"}
                 fullWidth
                 required
-                value={form.confirmPassword}
-                onChange={setField("confirmPassword")}
-                error={!!errors.confirmPassword}
-                helperText={errors.confirmPassword}
+                {...register("confirmPassword")}
+                error={!!formState.errors.confirmPassword}
+                helperText={formState.errors.confirmPassword?.message}
                 slotProps={{
                   input: {
                     startAdornment: (
@@ -181,7 +176,7 @@ export default function SignupTemplate({
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton
-                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          onClick={handleToggleConfirmPassword}
                           edge="end"
                           aria-label={showConfirmPassword ? "Hide password" : "Show password"}
                         >
@@ -199,12 +194,18 @@ export default function SignupTemplate({
             </Stack>
 
             <Box>
-              <FormControlLabel
-                control={<Checkbox checked={form.agreeToTerms} onChange={handleTermsChange} />}
-                label={AUTH_CONTENT.signup.termsLabel}
+              <Controller
+                name="agreeToTerms"
+                control={control}
+                render={({ field }) => (
+                  <FormControlLabel
+                    control={<Checkbox checked={field.value} onChange={field.onChange} />}
+                    label={AUTH_CONTENT.signup.termsLabel}
+                  />
+                )}
               />
-              {errors.agreeToTerms ? (
-                <FormHelperText error>{errors.agreeToTerms}</FormHelperText>
+              {formState.errors.agreeToTerms ? (
+                <FormHelperText error>{formState.errors.agreeToTerms.message}</FormHelperText>
               ) : null}
             </Box>
 
@@ -225,13 +226,15 @@ export default function SignupTemplate({
       <Snackbar
         open={snack}
         autoHideDuration={4000}
-        onClose={() => setSnack(false)}
+        onClose={handleCloseSnack}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
-        <Alert severity="success" variant="filled" onClose={() => setSnack(false)}>
+        <Alert severity="success" variant="filled" onClose={handleCloseSnack}>
           {AUTH_CONTENT.signup.successMessage}
         </Alert>
       </Snackbar>
     </>
   );
-}
+};
+
+export default SignupTemplate;

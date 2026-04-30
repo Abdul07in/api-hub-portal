@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import { Alert, Collapse, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
@@ -11,7 +12,7 @@ interface StatusBannerProps {
   onDismiss?: () => void;
 }
 
-export default function StatusBanner({ type, message, visible, onDismiss }: StatusBannerProps) {
+const StatusBanner: FC<StatusBannerProps> = ({ type, message, visible, onDismiss }) => {
   return (
     <Collapse in={visible} timeout={350}>
       <Alert
@@ -38,4 +39,6 @@ export default function StatusBanner({ type, message, visible, onDismiss }: Stat
       </Alert>
     </Collapse>
   );
-}
+};
+
+export default StatusBanner;

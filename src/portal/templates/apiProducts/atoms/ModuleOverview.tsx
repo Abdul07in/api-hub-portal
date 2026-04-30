@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FC } from "react";
 import {
   Box,
   Breadcrumbs,
@@ -27,8 +27,11 @@ interface ModuleOverviewProps {
   onApiSelect: (id: string) => void;
 }
 
-export default function ModuleOverview({ module, onApiSelect }: ModuleOverviewProps) {
+const ModuleOverview: FC<ModuleOverviewProps> = ({ module, onApiSelect }) => {
   const [tab, setTab] = useState(0);
+
+  const handleTabChange = (_: React.SyntheticEvent, nextTab: number) => setTab(nextTab);
+  const createApiSelectHandler = (id: string) => () => onApiSelect(id);
 
   return (
     <Box className="module-overview">
@@ -52,7 +55,7 @@ export default function ModuleOverview({ module, onApiSelect }: ModuleOverviewPr
         {module.description}
       </Typography>
 
-      <Tabs value={tab} onChange={(_, nextTab) => setTab(nextTab)} className="api-tabs__list">
+      <Tabs value={tab} onChange={handleTabChange} className="api-tabs__list">
         <Tab label="Features" />
         <Tab label="Flow" />
         <Tab label="API List" />
@@ -92,7 +95,7 @@ export default function ModuleOverview({ module, onApiSelect }: ModuleOverviewPr
                   <TableRow
                     key={api.id}
                     hover
-                    onClick={() => onApiSelect(api.id)}
+                    onClick={createApiSelectHandler(api.id)}
                     sx={{ cursor: "pointer" }}
                   >
                     <TableCell sx={{ fontWeight: 600, color: "#002B5C" }}>{api.name}</TableCell>
@@ -116,4 +119,6 @@ export default function ModuleOverview({ module, onApiSelect }: ModuleOverviewPr
       )}
     </Box>
   );
-}
+};
+
+export default ModuleOverview;

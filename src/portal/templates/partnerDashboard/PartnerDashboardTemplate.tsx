@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { Box, Button, Chip, Paper, Stack, Typography } from "@mui/material";
 import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -12,6 +12,7 @@ import WorkspacePremiumOutlinedIcon from "@mui/icons-material/WorkspacePremiumOu
 import { Link as RouterLink } from "react-router-dom";
 
 import type { PartnerUser } from "@/common/interfaces/auth";
+import type { ApiModule } from "@/common/interfaces/api";
 import StatCard from "@/common/atoms/statCard/StatCard";
 import {
   PARTNER_DASHBOARD_CONTENT,
@@ -19,6 +20,8 @@ import {
   CHART_FILTERS,
   STAT_CARDS,
   TOP_API_HITS,
+  API_SECTION_CONTENT,
+  formatCount,
   type ChartFilter,
 } from "./serviceconstant";
 import "./PartnerDashboard.scss";
@@ -27,12 +30,96 @@ export interface PartnerDashboardTemplateProps {
   partner: PartnerUser | null;
   moduleCount: number;
   apiCount: number;
+  modules: ApiModule[];
 }
 
-function SubscribedDashboard({ partner }: { partner: PartnerUser | null }) {
+interface DashboardSubProps {
+  partner: PartnerUser | null;
+  modules: ApiModule[];
+}
+
+interface ApiCatalogSectionProps {
+  modules: ApiModule[];
+  isSubscribed: boolean;
+}
+
+const ApiCatalogSection: FC<ApiCatalogSectionProps> = ({ modules, isSubscribed }) => {
+  const totalApis = modules.reduce((sum, m) => sum + m.apis.length, 0);
+
+  return (
+    <Box className="partner-dashboard__api-section">
+      <Box className="partner-dashboard__api-section-header">
+        <Box>
+          <Typography variant="h6" className="partner-dashboard__api-section-title">
+            {API_SECTION_CONTENT.title}
+          </Typography>
+          <Typography className="partner-dashboard__api-section-subtitle">
+            {API_SECTION_CONTENT.subtitle(totalApis, modules.length)}
+          </Typography>
+        </Box>
+      </Box>
+      <Box className="partner-dashboard__api-section-grid">
+        {modules.map((mod) => (
+          <Paper
+            key={mod.id}
+            className={`partner-dashboard__api-card${
+              !isSubscribed ? " partner-dashboard__api-card--locked" : ""
+            }`}
+            elevation={0}
+          >
+            {isSubscribed ? (
+              <Box className="partner-dashboard__api-card-badge">
+                <Chip
+                  label={API_SECTION_CONTENT.subscribedBadge}
+                  size="small"
+                  color="success"
+                  variant="filled"
+                  className="partner-dashboard__api-card-subscribed-chip"
+                />
+              </Box>
+            ) : (
+              <Box className="partner-dashboard__api-card-lock-icon">
+                <LockOutlinedIcon fontSize="small" />
+              </Box>
+            )}
+            <Typography variant="subtitle1" className="partner-dashboard__api-card-name">
+              {mod.name}
+            </Typography>
+            <Typography variant="body2" className="partner-dashboard__api-card-desc">
+              {mod.description}
+            </Typography>
+            <Box className="partner-dashboard__api-card-meta">
+              <Chip
+                label={API_SECTION_CONTENT.apiCountLabel(mod.apis.length)}
+                size="small"
+                variant="outlined"
+                className="partner-dashboard__api-card-count-chip"
+              />
+              {!isSubscribed && (
+                <Button
+                  component={RouterLink}
+                  to={API_SECTION_CONTENT.subscribeHref}
+                  variant="contained"
+                  size="small"
+                  className="partner-dashboard__api-card-subscribe-btn"
+                >
+                  {API_SECTION_CONTENT.subscribeButtonLabel}
+                </Button>
+              )}
+            </Box>
+          </Paper>
+        ))}
+      </Box>
+    </Box>
+  );
+}
+
+const SubscribedDashboard: FC<DashboardSubProps> = ({ partner, modules }) => {
   const [activeFilter, setActiveFilter] = useState<ChartFilter>("Last 24 Hours");
   const { chart } = PARTNER_DASHBOARD_CONTENT;
   const chartData = CHART_DATA_MAP[activeFilter];
+
+  const createFilterClickHandler = (filterValue: ChartFilter) => () => setActiveFilter(filterValue);
 
   return (
     <>
@@ -58,7 +145,7 @@ function SubscribedDashboard({ partner }: { partner: PartnerUser | null }) {
                   label={filter}
                   variant={filter === activeFilter ? "filled" : "outlined"}
                   clickable
-                  onClick={() => setActiveFilter(filter)}
+                  onClick={createFilterClickHandler(filter)}
                   className={
                     filter === activeFilter
                       ? "partner-dashboard__filter-active"
@@ -122,7 +209,7 @@ function SubscribedDashboard({ partner }: { partner: PartnerUser | null }) {
                   <Typography className="partner-dashboard__api-hit-endpoint">{hit.endpoint}</Typography>
                 </Box>
                 <Typography className="partner-dashboard__api-hit-count">
-                  {hit.count.toLocaleString()}
+                  {formatCount(hit.count)}
                 </Typography>
               </Box>
             ))}
@@ -130,12 +217,12 @@ function SubscribedDashboard({ partner }: { partner: PartnerUser | null }) {
         </Box>
       </Box>
 
-
+      <ApiCatalogSection modules={modules} isSubscribed={true} />
     </>
   );
 }
 
-function BasicDashboard({ partner }: { partner: PartnerUser | null }) {
+const BasicDashboard: FC<DashboardSubProps> = ({ partner, modules }) => {
   const { basicDashboard } = PARTNER_DASHBOARD_CONTENT;
 
   const getCardIcon = (label: string) => {
@@ -223,43 +310,24 @@ function BasicDashboard({ partner }: { partner: PartnerUser | null }) {
             ))}
           </Stack>
         </Paper>
-
-        {/* Premium Upgrade */}
-        <Paper className="partner-dashboard__upgrade-card-dark" elevation={0}>
-          <Box className="partner-dashboard__upgrade-content-dark">
-            <Box className="partner-dashboard__upgrade-icon-wrapper-dark">
-              <LockOutlinedIcon fontSize="large" />
-            </Box>
-            <Typography variant="h5" className="partner-dashboard__upgrade-title-dark">
-              {basicDashboard.premiumUpgrade.title}
-            </Typography>
-            <Typography
-              className="partner-dashboard__upgrade-desc-dark"
-              sx={{ whiteSpace: "pre-line" }}
-            >
-              {basicDashboard.premiumUpgrade.description}
-            </Typography>
-            <Button
-              component={RouterLink}
-              to={basicDashboard.subscribeHref}
-              variant="contained"
-              className="partner-dashboard__subscribe-btn-dark"
-              fullWidth
-              disableElevation
-            >
-              {basicDashboard.subscribeLabel}
-            </Button>
-          </Box>
-        </Paper>
+         
       </Box>
+
+      <ApiCatalogSection modules={modules} isSubscribed={false} />
     </>
   );
 }
 
-export default function PartnerDashboardTemplate({ partner }: PartnerDashboardTemplateProps) {
+const PartnerDashboardTemplate: FC<PartnerDashboardTemplateProps> = ({ partner, modules }) => {
   return (
     <Box className="partner-dashboard">
-      {partner?.isSubscribed ? <SubscribedDashboard partner={partner} /> : <BasicDashboard partner={partner} />}
+      {partner?.isSubscribed ? (
+        <SubscribedDashboard partner={partner} modules={modules} />
+      ) : (
+        <BasicDashboard partner={partner} modules={modules} />
+      )}
     </Box>
   );
-}
+};
+
+export default PartnerDashboardTemplate;

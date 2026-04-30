@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -21,7 +22,7 @@ interface ConfirmModalProps {
   loading?: boolean;
 }
 
-export default function ConfirmModal({
+const ConfirmModal: FC<ConfirmModalProps> = ({
   open,
   title,
   message,
@@ -30,7 +31,7 @@ export default function ConfirmModal({
   onConfirm,
   onCancel,
   loading = false,
-}: ConfirmModalProps) {
+}: ConfirmModalProps) => {
   return (
     <Dialog
       open={open}
@@ -68,4 +69,6 @@ export default function ConfirmModal({
       </DialogActions>
     </Dialog>
   );
-}
+};
+
+export default ConfirmModal;

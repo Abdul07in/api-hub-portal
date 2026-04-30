@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type FC, type ReactNode } from "react";
 import { Box, Chip, Divider, Paper, Stack, Typography } from "@mui/material";
 import ShieldOutlinedIcon from "@mui/icons-material/ShieldOutlined";
 import SpeedOutlinedIcon from "@mui/icons-material/SpeedOutlined";
@@ -21,13 +21,13 @@ const HIGHLIGHT_ICONS = [
   <SupportAgentOutlinedIcon color="primary" />,
 ];
 
-export default function AuthShell({
+const AuthShell: FC<AuthShellProps> = ({
   overline,
   title,
   description,
   children,
   footer,
-}: AuthShellProps) {
+}: AuthShellProps) => {
   return (
     <Box className="auth-template">
       <Box className="auth-template__spotlight">
@@ -89,4 +89,6 @@ export default function AuthShell({
       </Paper>
     </Box>
   );
-}
+};
+
+export default AuthShell;

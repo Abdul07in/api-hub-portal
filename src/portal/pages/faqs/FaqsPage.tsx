@@ -1,8 +1,8 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type FC } from "react";
 import { faqGroups } from "@/common/helpers/constant/faqs";
 import FaqsTemplate from "@/portal/templates/faqs/FaqsTemplate";
 
-export default function FaqsPage() {
+const FaqsPage: FC = () => {
   const [q, setQ] = useState("");
 
   const filtered = useMemo(() => {
@@ -19,4 +19,6 @@ export default function FaqsPage() {
   }, [q]);
 
   return <FaqsTemplate q={q} setQ={setQ} filtered={filtered} />;
-}
+};
+
+export default FaqsPage;

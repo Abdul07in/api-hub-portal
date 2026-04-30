@@ -1,17 +1,24 @@
+import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import AppLayout from "@/common/templates/appLayout/AppLayout";
 import PageShell from "@/common/templates/pageShell/PageShell";
-import HomePage from "@/portal/pages/home/HomePage";
-import SandboxPage from "@/portal/pages/sandbox/SandboxPage";
-import ApiProductsPage from "@/portal/pages/apiProducts/ApiProductsPage";
-import FaqsPage from "@/portal/pages/faqs/FaqsPage";
-import ContactPage from "@/portal/pages/contactUs/ContactPage";
-import LoginPage from "@/portal/pages/login/LoginPage";
-import SignupPage from "@/portal/pages/signup/SignupPage";
-import PartnerDashboardPage from "@/portal/pages/partnerDashboard/PartnerDashboardPage";
-import ProfilePage from "@/portal/pages/profile/ProfilePage";
+import Loader from "@/common/atoms/loader/Loader";
 import ProtectedRoute from "@/portal/components/auth/ProtectedRoute";
 import GuestRoute from "@/portal/components/auth/GuestRoute";
+
+const HomePage = lazy(() => import("@/portal/pages/home/HomePage"));
+const SandboxPage = lazy(() => import("@/portal/pages/sandbox/SandboxPage"));
+const ApiProductsPage = lazy(() => import("@/portal/pages/apiProducts/ApiProductsPage"));
+const FaqsPage = lazy(() => import("@/portal/pages/faqs/FaqsPage"));
+const ContactPage = lazy(() => import("@/portal/pages/contactUs/ContactPage"));
+const LoginPage = lazy(() => import("@/portal/pages/login/LoginPage"));
+const SignupPage = lazy(() => import("@/portal/pages/signup/SignupPage"));
+const PartnerDashboardPage = lazy(
+  () => import("@/portal/pages/partnerDashboard/PartnerDashboardPage"),
+);
+const ProfilePage = lazy(() => import("@/portal/pages/profile/ProfilePage"));
+
+const PageLoader = () => <Loader size={36} />;
 
 export const router = createBrowserRouter([
   {
@@ -20,13 +27,19 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomePage />,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <HomePage />
+          </Suspense>
+        ),
       },
       {
         path: "faqs",
         element: (
           <PageShell maxWidth="xl">
-            <FaqsPage />
+            <Suspense fallback={<PageLoader />}>
+              <FaqsPage />
+            </Suspense>
           </PageShell>
         ),
       },
@@ -34,7 +47,9 @@ export const router = createBrowserRouter([
         path: "contact",
         element: (
           <PageShell maxWidth="xl">
-            <ContactPage />
+            <Suspense fallback={<PageLoader />}>
+              <ContactPage />
+            </Suspense>
           </PageShell>
         ),
       },
@@ -45,7 +60,9 @@ export const router = createBrowserRouter([
             path: "login",
             element: (
               <PageShell maxWidth="xl">
-                <LoginPage />
+                <Suspense fallback={<PageLoader />}>
+                  <LoginPage />
+                </Suspense>
               </PageShell>
             ),
           },
@@ -53,7 +70,9 @@ export const router = createBrowserRouter([
             path: "signup",
             element: (
               <PageShell maxWidth="xl">
-                <SignupPage />
+                <Suspense fallback={<PageLoader />}>
+                  <SignupPage />
+                </Suspense>
               </PageShell>
             ),
           },
@@ -66,7 +85,9 @@ export const router = createBrowserRouter([
             path: "partner/dashboard",
             element: (
               <PageShell maxWidth="xl">
-                <PartnerDashboardPage />
+                <Suspense fallback={<PageLoader />}>
+                  <PartnerDashboardPage />
+                </Suspense>
               </PageShell>
             ),
           },
@@ -74,7 +95,9 @@ export const router = createBrowserRouter([
             path: "partner/profile",
             element: (
               <PageShell maxWidth="xl">
-                <ProfilePage />
+                <Suspense fallback={<PageLoader />}>
+                  <ProfilePage />
+                </Suspense>
               </PageShell>
             ),
           },
@@ -82,7 +105,9 @@ export const router = createBrowserRouter([
             path: "sandbox",
             element: (
               <PageShell maxWidth="xl">
-                <SandboxPage />
+                <Suspense fallback={<PageLoader />}>
+                  <SandboxPage />
+                </Suspense>
               </PageShell>
             ),
           },
@@ -90,7 +115,9 @@ export const router = createBrowserRouter([
             path: "api-products",
             element: (
               <PageShell maxWidth="xl">
-                <ApiProductsPage />
+                <Suspense fallback={<PageLoader />}>
+                  <ApiProductsPage />
+                </Suspense>
               </PageShell>
             ),
           },
@@ -99,3 +126,4 @@ export const router = createBrowserRouter([
     ],
   },
 ]);
+

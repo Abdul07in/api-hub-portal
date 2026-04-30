@@ -1,8 +1,8 @@
 .page-shell {
-  min-height: calc(100vh - 64px - 220px);
-  padding-block: 32px;
+  min-height: calc(100vh - 4rem - 13.75rem);
+  padding-block: 2rem;
 
   @media (min-width: 900px) {
-    padding-block: 48px;
+    padding-block: 3rem;
   }
 }

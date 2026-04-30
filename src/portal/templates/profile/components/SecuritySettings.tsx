@@ -1,8 +1,9 @@
+import { type FC } from "react";
 import { Card, CardContent, Typography, Box, Button } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 import { PROFILE_CONTENT } from "../serviceconstant";
 
-export default function SecuritySettings() {
+const SecuritySettings: FC = () => {
   return (
     <Card className="profile-template__card">
       <CardContent sx={{ p: 4 }}>
@@ -25,4 +26,6 @@ export default function SecuritySettings() {
       </CardContent>
     </Card>
   );
-}
+};
+
+export default SecuritySettings;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import {
@@ -30,7 +30,7 @@ import {
 import type { AppDispatch } from "@/store";
 import "./Header.scss";
 
-export default function Header() {
+const Header: FC = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const dispatch = useDispatch<AppDispatch>();
@@ -48,6 +48,10 @@ export default function Header() {
     .slice(0, 2)
     .map((part) => part.charAt(0).toUpperCase())
     .join("");
+
+  const handleLogout = () => dispatch(logoutPartnerThunk());
+  const handleOpenMenu = () => setOpen(true);
+  const handleCloseMenu = () => setOpen(false);
 
   return (
     <AppBar position="fixed" elevation={0} color="transparent" className="header">
@@ -107,7 +111,7 @@ export default function Header() {
                 color="secondary"
                 startIcon={<LogoutOutlinedIcon />}
                 className="header__logout-action"
-                onClick={() => dispatch(logoutPartnerThunk())}
+                onClick={handleLogout}
               >
                 {HEADER_CONTENT.logoutLabel}
               </Button>
@@ -140,7 +144,7 @@ export default function Header() {
 
           <IconButton
             className="header__menu-button"
-            onClick={() => setOpen(true)}
+            onClick={handleOpenMenu}
             aria-label="open menu"
             edge="end"
           >
@@ -149,8 +153,8 @@ export default function Header() {
         </Toolbar>
       </Container>
 
-      <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
-        <Box className="header__drawer" role="presentation" onClick={() => setOpen(false)}>
+      <Drawer anchor="right" open={open} onClose={handleCloseMenu}>
+        <Box className="header__drawer" role="presentation" onClick={handleCloseMenu}>
           <Box className="header__drawer-brand">
             <Avatar
               src={iciciLogo}
@@ -206,7 +210,7 @@ export default function Header() {
                   color="secondary"
                   startIcon={<LogoutOutlinedIcon />}
                   className="header__drawer-button"
-                  onClick={() => dispatch(logoutPartnerThunk())}
+                  onClick={handleLogout}
                 >
                   {HEADER_CONTENT.logoutLabel}
                 </Button>
@@ -246,4 +250,6 @@ export default function Header() {
       </Drawer>
     </AppBar>
   );
-}
+};
+
+export default Header;

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import { Box, Button, Container, Stack, Typography, useTheme } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import ScienceIcon from "@mui/icons-material/Science";
@@ -58,15 +58,17 @@ function useReveal(threshold = 0.15) {
 }
 
 // ─── Flow (horizontal slide-in) card wrapper ─────────────────────────────────
-function FlowReveal({
-  children,
-  delay = 0,
-  className = "",
-}: {
+interface FlowRevealProps {
   children: React.ReactNode;
   delay?: number;
   className?: string;
-}) {
+}
+
+const FlowReveal: FC<FlowRevealProps> = ({
+  children,
+  delay = 0,
+  className = "",
+}) => {
   const { ref, visible } = useReveal();
   return (
     <div
@@ -84,17 +86,19 @@ function FlowReveal({
 }
 
 // ─── Reusable animated section wrapper ───────────────────────────────────────
-function RevealSection({
-  children,
-  delay = 0,
-  style,
-  className = "",
-}: {
+interface RevealSectionProps {
   children: React.ReactNode;
   delay?: number;
   style?: React.CSSProperties;
   className?: string;
-}) {
+}
+
+const RevealSection: FC<RevealSectionProps> = ({
+  children,
+  delay = 0,
+  style,
+  className = "",
+}) => {
   const { ref, visible } = useReveal();
   return (
     <div
@@ -117,7 +121,7 @@ export interface HomeTemplateProps {
   isAuthenticated: boolean;
 }
 
-export default function HomeTemplate({ apiCatalog, isAuthenticated }: HomeTemplateProps) {
+const HomeTemplate: FC<HomeTemplateProps> = ({ apiCatalog, isAuthenticated }) => {
   const theme = useTheme();
   const parallaxOffset = useHeroParallax();
   const heroPrimaryHref = isAuthenticated ? "/partner/dashboard" : "/login";
@@ -393,4 +397,6 @@ export default function HomeTemplate({ apiCatalog, isAuthenticated }: HomeTempla
       </Container>
     </Box>
   );
-}
+};
+
+export default HomeTemplate;

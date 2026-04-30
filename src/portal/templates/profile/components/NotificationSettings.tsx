@@ -1,23 +1,24 @@
+import { type FC } from "react";
 import { Card, CardContent, Typography, Box } from "@mui/material";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
-import { UseFormSetValue } from "react-hook-form";
+import { type UseFormSetValue } from "react-hook-form";
 import { Switch } from "@/components/ui/switch";
 import { PROFILE_CONTENT } from "../serviceconstant";
 import type { ProfileUpdateRequest } from "@/portal/services/profile";
 
-interface Props {
+interface NotificationSettingsProps {
   emailAlerts: boolean;
   apiStatusUpdates: boolean;
   marketingComms: boolean;
   setValue: UseFormSetValue<ProfileUpdateRequest>;
 }
 
-export default function NotificationSettings({
+const NotificationSettings: FC<NotificationSettingsProps> = ({
   emailAlerts,
   apiStatusUpdates,
   marketingComms,
   setValue,
-}: Props) {
+}) => {
   return (
     <Card className="profile-template__card">
       <CardContent sx={{ p: 4 }}>
@@ -86,4 +87,6 @@ export default function NotificationSettings({
       </CardContent>
     </Card>
   );
-}
+};
+
+export default NotificationSettings;

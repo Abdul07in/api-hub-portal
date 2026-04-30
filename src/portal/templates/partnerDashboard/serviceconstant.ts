@@ -3,6 +3,8 @@ import { createElement } from "react";
 
 import type { StatCardProps } from "@/common/atoms/statCard/StatCard";
 
+export const formatCount = (n: number): string => n.toLocaleString("en-US");
+
 export interface ChartDataPoint {
   time: string;
   value: number;
@@ -115,7 +117,7 @@ export const CHART_DATA_MAP: Record<ChartFilter, ChartDataPoint[]> = {
 export const STAT_CARDS: Omit<StatCardProps, "className">[] = [
   {
     title: "Total Requests",
-    value: "1,284,092",
+    value: formatCount(1284092),
     indicatorIcon: createElement(ArrowUpwardIcon, { fontSize: "inherit" }),
     indicatorLabel: "12.5%",
     indicatorVariant: "success",
@@ -129,7 +131,18 @@ export interface ApiHit {
 }
 
 export const TOP_API_HITS: ApiHit[] = [
-  { api: "Check KYC", endpoint: "/api/kyc/verify", count: 482301 },
-  { api: "Prospect Folio", endpoint: "/api/folio/create", count: 321847 },
-  { api: "Instant Redemption", endpoint: "/api/redemption/instant", count: 289644 },
+  { api: "Check KYC", endpoint: "/api/kyc/verify", count: 567890 },
+  { api: "Prospect Folio", endpoint: "/api/folio/create", count: 412543 },
+  { api: "Instant Redemption", endpoint: "/api/redemption/instant", count: 303659 },
 ];
+
+export const API_SECTION_CONTENT = {
+  title: "API Catalog",
+  subtitle: (apiCount: number, moduleCount: number) =>
+    `${apiCount} API${apiCount !== 1 ? "s" : ""} across ${moduleCount} module${moduleCount !== 1 ? "s" : ""}`,
+  subscribedBadge: "Subscribed",
+  subscribeButtonLabel: "Subscribe Now",
+  subscribeHref: "/contact",
+  lockedLabel: "Subscription Required",
+  apiCountLabel: (count: number) => `${count} API${count !== 1 ? "s" : ""}`,
+};

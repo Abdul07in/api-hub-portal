@@ -1,24 +1,23 @@
+import { type FC, type FormEventHandler } from "react";
+import type { FormState, UseFormRegister } from "react-hook-form";
 import { Alert, Box, Button, Paper, Snackbar, Stack, TextField, Typography } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import { Form } from "./validation";
+import type { ContactFormData } from "./validation";
 import { CONTENT } from "./serviceconstant";
 import "./ContactTemplate.scss";
 
 export interface ContactTemplateProps {
-  form: Form;
-  errors: Partial<Record<keyof Form, string>>;
+  register: UseFormRegister<ContactFormData>;
+  formState: FormState<ContactFormData>;
+  handleSubmit: FormEventHandler<HTMLFormElement>;
   snack: boolean;
   setSnack: (val: boolean) => void;
-  handleSubmit: (ev: React.FormEvent) => void;
-  setField: (
-    k: keyof Form,
-  ) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
-function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+const InfoRow: FC<{ icon: React.ReactNode; label: string; value: string }> = ({ icon, label, value }) => {
   return (
     <Stack direction="row" spacing={1.5} className="contact-template__info-row">
       <Box className="contact-template__info-icon-wrapper">{icon}</Box>
@@ -30,14 +29,13 @@ function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string;
   );
 }
 
-export default function ContactTemplate({
-  form,
-  errors,
+const ContactTemplate: FC<ContactTemplateProps> = ({
+  register,
+  formState,
+  handleSubmit,
   snack,
   setSnack,
-  handleSubmit,
-  setField,
-}: ContactTemplateProps) {
+}: ContactTemplateProps) => {
   return (
     <Box className="contact-template">
       <Typography variant="overline" className="contact-template__hero-overline">
@@ -89,20 +87,18 @@ export default function ContactTemplate({
                   label={CONTENT.form.fullName}
                   fullWidth
                   required
-                  value={form.name}
-                  onChange={setField("name")}
-                  error={!!errors.name}
-                  helperText={errors.name}
+                  {...register("name")}
+                  error={!!formState.errors.name}
+                  helperText={formState.errors.name?.message}
                 />
                 <TextField
                   label={CONTENT.form.email}
                   type="email"
                   fullWidth
                   required
-                  value={form.email}
-                  onChange={setField("email")}
-                  error={!!errors.email}
-                  helperText={errors.email}
+                  {...register("email")}
+                  error={!!formState.errors.email}
+                  helperText={formState.errors.email?.message}
                 />
               </Stack>
               <Stack
@@ -113,17 +109,15 @@ export default function ContactTemplate({
                 <TextField
                   label={CONTENT.form.company}
                   fullWidth
-                  value={form.company}
-                  onChange={setField("company")}
+                  {...register("company")}
                 />
                 <TextField
                   label={CONTENT.form.subject}
                   fullWidth
                   required
-                  value={form.subject}
-                  onChange={setField("subject")}
-                  error={!!errors.subject}
-                  helperText={errors.subject}
+                  {...register("subject")}
+                  error={!!formState.errors.subject}
+                  helperText={formState.errors.subject?.message}
                 />
               </Stack>
               <TextField
@@ -132,10 +126,9 @@ export default function ContactTemplate({
                 required
                 multiline
                 minRows={5}
-                value={form.message}
-                onChange={setField("message")}
-                error={!!errors.message}
-                helperText={errors.message}
+                {...register("message")}
+                error={!!formState.errors.message}
+                helperText={formState.errors.message?.message}
               />
               <Button
                 type="submit"
@@ -163,4 +156,6 @@ export default function ContactTemplate({
       </Snackbar>
     </Box>
   );
-}
+};
+
+export default ContactTemplate;

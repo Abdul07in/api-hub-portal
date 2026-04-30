@@ -36,80 +36,84 @@ export interface PasswordUpdateRequest {
   newPassword?: string;
 }
 
-function getAuthHeaders(): HeadersInit {
-  const authPayload = loadStoredAuthSession();
-  const token = authPayload?.session?.tokens?.accessToken;
-  const headers: HeadersInit = {
-    "Content-Type": "application/json",
-    traceId: crypto.randomUUID(),
-    source: "PortalFrontend",
-  };
+class ProfileService {
+  private static getAuthHeaders(): HeadersInit {
+    const authPayload = loadStoredAuthSession();
+    const token = authPayload?.session?.tokens?.accessToken;
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      traceId: crypto.randomUUID(),
+      source: "PortalFrontend",
+    };
 
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    return headers;
   }
 
-  return headers;
+  static async fetchProfile(): Promise<ProfileResponse> {
+    const response = await fetch(PROFILE_API_ENDPOINTS.profile, {
+      method: "GET",
+      headers: ProfileService.getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      const errorData: ApiResponse<unknown> | unknown = await response.json().catch(() => ({}));
+      throw new Error(
+        (errorData as ApiResponse<unknown>)?.error?.message ||
+          (errorData as { message?: string })?.message ||
+          "Failed to fetch profile.",
+      );
+    }
+
+    const resData: ApiResponse<ProfileResponse> = await response.json();
+    if (!resData.success?.data) {
+      throw new Error("Invalid response format received from server.");
+    }
+    return resData.success.data;
+  }
+
+  static async updateProfile(input: ProfileUpdateRequest): Promise<ProfileResponse> {
+    const response = await fetch(PROFILE_API_ENDPOINTS.profile, {
+      method: "PUT",
+      headers: ProfileService.getAuthHeaders(),
+      body: JSON.stringify(input),
+    });
+
+    if (!response.ok) {
+      const errorData: ApiResponse<unknown> | unknown = await response.json().catch(() => ({}));
+      throw new Error(
+        (errorData as ApiResponse<unknown>)?.error?.message ||
+          (errorData as { message?: string })?.message ||
+          "Failed to update profile.",
+      );
+    }
+
+    const resData: ApiResponse<ProfileResponse> = await response.json();
+    if (!resData.success?.data) {
+      throw new Error("Invalid response format received from server.");
+    }
+    return resData.success.data;
+  }
+
+  static async updatePassword(input: PasswordUpdateRequest): Promise<void> {
+    const response = await fetch(PROFILE_API_ENDPOINTS.password, {
+      method: "PUT",
+      headers: ProfileService.getAuthHeaders(),
+      body: JSON.stringify(input),
+    });
+
+    if (!response.ok) {
+      const errorData: ApiResponse<unknown> | unknown = await response.json().catch(() => ({}));
+      throw new Error(
+        (errorData as ApiResponse<unknown>)?.error?.message ||
+          (errorData as { message?: string })?.message ||
+          "Failed to update password.",
+      );
+    }
+  }
 }
 
-export async function fetchProfile(): Promise<ProfileResponse> {
-  const response = await fetch(PROFILE_API_ENDPOINTS.profile, {
-    method: "GET",
-    headers: getAuthHeaders(),
-  });
-
-  if (!response.ok) {
-    const errorData: ApiResponse<unknown> | unknown = await response.json().catch(() => ({}));
-    throw new Error(
-      (errorData as ApiResponse<unknown>)?.error?.message ||
-        (errorData as { message?: string })?.message ||
-        "Failed to fetch profile.",
-    );
-  }
-
-  const resData: ApiResponse<ProfileResponse> = await response.json();
-  if (!resData.success?.data) {
-    throw new Error("Invalid response format received from server.");
-  }
-  return resData.success.data;
-}
-
-export async function updateProfile(input: ProfileUpdateRequest): Promise<ProfileResponse> {
-  const response = await fetch(PROFILE_API_ENDPOINTS.profile, {
-    method: "PUT",
-    headers: getAuthHeaders(),
-    body: JSON.stringify(input),
-  });
-
-  if (!response.ok) {
-    const errorData: ApiResponse<unknown> | unknown = await response.json().catch(() => ({}));
-    throw new Error(
-      (errorData as ApiResponse<unknown>)?.error?.message ||
-        (errorData as { message?: string })?.message ||
-        "Failed to update profile.",
-    );
-  }
-
-  const resData: ApiResponse<ProfileResponse> = await response.json();
-  if (!resData.success?.data) {
-    throw new Error("Invalid response format received from server.");
-  }
-  return resData.success.data;
-}
-
-export async function updatePassword(input: PasswordUpdateRequest): Promise<void> {
-  const response = await fetch(PROFILE_API_ENDPOINTS.password, {
-    method: "PUT",
-    headers: getAuthHeaders(),
-    body: JSON.stringify(input),
-  });
-
-  if (!response.ok) {
-    const errorData: ApiResponse<unknown> | unknown = await response.json().catch(() => ({}));
-    throw new Error(
-      (errorData as ApiResponse<unknown>)?.error?.message ||
-        (errorData as { message?: string })?.message ||
-        "Failed to update password.",
-    );
-  }
-}
+export default ProfileService;

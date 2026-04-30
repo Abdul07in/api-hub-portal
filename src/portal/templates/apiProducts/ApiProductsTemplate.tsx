@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import { Box } from "@mui/material";
 
 import type { ApiSpec, ApiModule } from "@/common/interfaces/api";
@@ -26,7 +27,7 @@ export interface ApiProductsTemplateProps {
   isSubscribed: boolean;
 }
 
-export default function ApiProductsTemplate({
+const ApiProductsTemplate: FC<ApiProductsTemplateProps> = ({
   search,
   setSearch,
   filteredModules,
@@ -38,7 +39,7 @@ export default function ApiProductsTemplate({
   activeApi,
   onTryInSandbox,
   isSubscribed,
-}: ApiProductsTemplateProps) {
+}: ApiProductsTemplateProps) => {
   return (
     <Box className="api-products-page">
       <ApiProductsHero />
@@ -104,4 +105,6 @@ export default function ApiProductsTemplate({
       </Box>
     </Box>
   );
-}
+};
+
+export default ApiProductsTemplate;

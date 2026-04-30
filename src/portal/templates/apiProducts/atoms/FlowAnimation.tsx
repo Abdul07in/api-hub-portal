@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState, Fragment, type FC } from "react";
 import { Box, Typography } from "@mui/material";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
@@ -9,7 +9,7 @@ interface FlowAnimationProps {
   flowSteps?: ApiModule["flowSteps"];
 }
 
-export default function FlowAnimation({ flowSteps }: FlowAnimationProps) {
+const FlowAnimation: FC<FlowAnimationProps> = ({ flowSteps }) => {
   const steps = flowSteps ?? [];
   const totalPhases = steps.length * 2;
   const [phase, setPhase] = useState(0);
@@ -164,4 +164,6 @@ export default function FlowAnimation({ flowSteps }: FlowAnimationProps) {
       </Box>
     </Box>
   );
-}
+};
+
+export default FlowAnimation;

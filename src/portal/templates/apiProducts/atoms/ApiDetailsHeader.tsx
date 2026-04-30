@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import { Box, Breadcrumbs, Chip, Stack, Typography } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
@@ -9,7 +10,7 @@ interface ApiDetailsHeaderProps {
   onBackToModule?: () => void;
 }
 
-export default function ApiDetailsHeader({ module, api, onBackToModule }: ApiDetailsHeaderProps) {
+const ApiDetailsHeader: FC<ApiDetailsHeaderProps> = ({ module, api, onBackToModule }) => {
   return (
     <Box sx={{ mb: 3 }}>
       <Breadcrumbs separator={<ChevronRightIcon fontSize="small" />} sx={{ mb: 2 }}>
@@ -37,4 +38,6 @@ export default function ApiDetailsHeader({ module, api, onBackToModule }: ApiDet
       <Typography className="api-desc">{api.description}</Typography>
     </Box>
   );
-}
+};
+
+export default ApiDetailsHeader;

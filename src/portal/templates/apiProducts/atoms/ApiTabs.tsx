@@ -1,4 +1,4 @@
-import { useState, type SyntheticEvent } from "react";
+import { useState, type FC, type SyntheticEvent } from "react";
 import {
   Box,
   Button,
@@ -38,9 +38,12 @@ interface ApiTabsProps {
   onTryInSandbox: (id: string) => void;
 }
 
-export default function ApiTabs({ api, isSubscribed, onTryInSandbox }: ApiTabsProps) {
+const ApiTabs: FC<ApiTabsProps> = ({ api, isSubscribed, onTryInSandbox }) => {
   const [tab, setTab] = useState(0);
   const [subscribeOpen, setSubscribeOpen] = useState(false);
+
+  const handleTryInSandbox = () => onTryInSandbox(api.id);
+  const handleCloseSubscribeDialog = () => setSubscribeOpen(false);
 
   const handleTabChange = (_event: SyntheticEvent, nextTab: number) => {
     if (nextTab > 0 && !isSubscribed) {
@@ -175,7 +178,7 @@ export default function ApiTabs({ api, isSubscribed, onTryInSandbox }: ApiTabsPr
             fullWidth
             variant="contained"
             className="try-btn"
-            onClick={() => onTryInSandbox(api.id)}
+            onClick={handleTryInSandbox}
           >
             {CONTENT.request.tryItOut}
           </Button>
@@ -221,7 +224,7 @@ export default function ApiTabs({ api, isSubscribed, onTryInSandbox }: ApiTabsPr
         </Stack>
       )}
 
-      <Dialog open={subscribeOpen} onClose={() => setSubscribeOpen(false)}>
+      <Dialog open={subscribeOpen} onClose={handleCloseSubscribeDialog}>
         <DialogTitle>Subscription Required</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -230,7 +233,7 @@ export default function ApiTabs({ api, isSubscribed, onTryInSandbox }: ApiTabsPr
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setSubscribeOpen(false)} color="inherit">
+          <Button onClick={handleCloseSubscribeDialog} color="inherit">
             Cancel
           </Button>
           <Button component={RouterLink} to="/contact" variant="contained" color="primary">
@@ -240,4 +243,6 @@ export default function ApiTabs({ api, isSubscribed, onTryInSandbox }: ApiTabsPr
       </Dialog>
     </Box>
   );
-}
+};
+
+export default ApiTabs;

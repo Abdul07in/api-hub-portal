@@ -1,10 +1,11 @@
+import { type FC } from "react";
 import { useSelector } from "react-redux";
 
 import PartnerDashboardTemplate from "@/portal/templates/partnerDashboard/PartnerDashboardTemplate";
 import { selectModules } from "@/store/slices/apiCatalogSlice";
 import { selectPartnerUser } from "@/store/slices/authSlice";
 
-export default function PartnerDashboardPage() {
+const PartnerDashboardPage: FC = () => {
   const partner = useSelector(selectPartnerUser);
   const apiCatalog = useSelector(selectModules);
 
@@ -15,6 +16,9 @@ export default function PartnerDashboardPage() {
       partner={partner}
       moduleCount={apiCatalog.length}
       apiCount={apiCount}
+      modules={apiCatalog}
     />
   );
-}
+};
+
+export default PartnerDashboardPage;

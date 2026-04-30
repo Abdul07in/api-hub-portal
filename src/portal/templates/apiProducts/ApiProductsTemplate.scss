@@ -1,12 +1,20 @@
+$page-bg: #fafbfc;
+$hero-dark-blue: #002b5c;
+$hero-desc-color: #a0aec0;
+$muted-gray: #6c757d;
+$version-chip-bg: #e8f5e9;
+$version-chip-color: #2e7d32;
+$table-header-bg: #f8f9fa;
+
 .api-products-page {
-  padding: 24px;
-  background-color: #fafbfc;
-  min-height: calc(100vh - 64px);
+  padding: 1.5rem;
+  background-color: $page-bg;
+  min-height: calc(100vh - 4rem);
 
   &__layout {
     display: flex;
-    gap: 24px;
-    max-width: 1440px;
+    gap: 1.5rem;
+    max-width: 90rem;
     margin: 0 auto;
     align-items: flex-start;
 
@@ -34,34 +42,34 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #002b5c;
-  border-radius: 8px;
-  padding: 32px 40px;
-  color: white;
-  margin-bottom: 24px;
-  max-width: 1440px;
+  background-color: $hero-dark-blue;
+  border-radius: 0.5rem;
+  padding: 2rem 2.5rem;
+  color: $surface;
+  margin-bottom: 1.5rem;
+  max-width: 90rem;
   margin-left: auto;
   margin-right: auto;
 
   &__overline {
     background-color: $primary !important;
-    color: white !important;
+    color: $surface !important;
     font-weight: 700 !important;
-    border-radius: 4px !important;
-    margin-bottom: 16px;
-    height: 24px !important;
+    border-radius: 0.25rem !important;
+    margin-bottom: 1rem;
+    height: 1.5rem !important;
     font-size: 0.75rem !important;
   }
 
   &__title {
     font-weight: 700 !important;
-    margin-bottom: 12px !important;
+    margin-bottom: 0.75rem !important;
     font-size: 2.25rem !important;
   }
 
   &__desc {
-    color: #a0aec0;
-    max-width: 600px;
+    color: $hero-desc-color;
+    max-width: 37.5rem;
     line-height: 1.6;
   }
 
@@ -84,12 +92,12 @@
   &__title {
     font-size: 0.75rem !important;
     font-weight: 700 !important;
-    color: #6c757d;
-    letter-spacing: 0.5px;
+    color: $muted-gray;
+    letter-spacing: 0.03125rem;
   }
 
   &__details {
-    padding: 0 0 12px 0 !important;
+    padding: 0 0 0.75rem 0 !important;
   }
 }
 
@@ -98,8 +106,8 @@
   text-transform: none !important;
   color: $secondary !important;
   font-weight: 500 !important;
-  padding: 8px 16px !important;
-  border-radius: 6px !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 0.375rem !important;
   font-size: 0.9rem !important;
 
   &:hover {
@@ -115,8 +123,8 @@
 
 .api-details-grid {
   display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 24px;
+  grid-template-columns: 1fr 21.25rem;
+  gap: 1.5rem;
 
   @media (max-width: 1200px) {
     grid-template-columns: 1fr;
@@ -130,11 +138,11 @@
 }
 
 .version-chip {
-  background-color: #e8f5e9 !important;
-  color: #2e7d32 !important;
+  background-color: $version-chip-bg !important;
+  color: $version-chip-color !important;
   font-weight: 700 !important;
   font-size: 0.7rem !important;
-  border-radius: 4px !important;
+  border-radius: 0.25rem !important;
 }
 
 .api-desc {
@@ -145,15 +153,15 @@
 .api-tabs {
   &__list {
     border-bottom: 1px solid $border;
-    margin-bottom: 24px;
+    margin-bottom: 1.5rem;
 
     .MuiTab-root {
       text-transform: none;
       font-weight: 600;
       color: $text-secondary;
       min-width: auto;
-      margin-right: 24px;
-      padding: 12px 0;
+      margin-right: 1.5rem;
+      padding: 0.75rem 0;
 
       &.Mui-selected {
         color: $primary;
@@ -162,7 +170,7 @@
     .MuiTabs-indicator {
       background-color: $primary;
       height: 3px;
-      border-radius: 3px 3px 0 0;
+      border-radius: 0.1875rem 0.1875rem 0 0;
     }
   }
 
@@ -175,12 +183,12 @@
 
 .field-table {
   box-shadow: none !important;
-  border-radius: 8px !important;
+  border-radius: 0.5rem !important;
 
   th {
     font-weight: 700 !important;
     color: $text-secondary !important;
-    background-color: #f8f9fa;
+    background-color: $table-header-bg;
     border-bottom: 2px solid $border;
   }
 }
@@ -191,17 +199,17 @@
 }
 
 .req-chip-optional {
-  background-color: #f5f5f5 !important;
-  color: #616161 !important;
+  background-color: $gray-100 !important;
+  color: $gray-500 !important;
 }
 
 .code-container {
-  border-radius: 8px;
+  border-radius: 0.5rem;
   overflow: hidden;
 
   &.dark-code {
     background-color: $dark-bg;
-    padding: 16px;
+    padding: 1rem;
 
     pre {
       margin: 0;
@@ -211,26 +219,26 @@
 }
 
 .side-card {
-  border-radius: 8px !important;
+  border-radius: 0.5rem !important;
   padding: 0 !important;
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
   box-shadow: none !important;
   overflow: hidden;
 
   &__title {
-    padding: 16px 16px 8px;
+    padding: 1rem 1rem 0.5rem;
     font-size: 0.75rem !important;
     font-weight: 700 !important;
     color: $text-secondary;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.03125rem;
   }
 }
 
 .endpoint-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
+  gap: 0.75rem;
+  padding: 0.625rem 1rem;
   cursor: pointer;
   border-left: 3px solid transparent;
 
@@ -267,7 +275,7 @@
 }
 
 .curl-code {
-  padding: 0 16px;
+  padding: 0 1rem;
 
   pre {
     background: transparent !important;
@@ -278,10 +286,10 @@
 
 .try-btn {
   background-color: $primary !important;
-  color: white !important;
+  color: $surface !important;
   font-weight: 700 !important;
-  padding: 10px !important;
-  border-radius: 6px !important;
+  padding: 0.625rem !important;
+  border-radius: 0.375rem !important;
   box-shadow: none !important;
 
   &:hover {
@@ -292,11 +300,11 @@
 .issues-card {
   background-color: #fff9f9 !important;
   border-color: #ffebee !important;
-  padding: 20px !important;
+  padding: 1.25rem !important;
 }
 
 .module-overview {
-  padding: 16px 0;
+  padding: 1rem 0;
 
   &__title {
     font-size: 2.25rem !important;
@@ -313,7 +321,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 28px 16px 20px;
+  padding: 1.75rem 1rem 1.25rem;
 
   &__header {
     display: flex;
@@ -321,10 +329,10 @@
     align-items: center;
     justify-content: center;
     background: $secondary;
-    color: #fff;
-    border-radius: 10px;
-    padding: 10px 28px;
-    min-width: 110px;
+    color: $surface;
+    border-radius: 0.625rem;
+    padding: 0.625rem 1.75rem;
+    min-width: 6.875rem;
     text-align: center;
     transition:
       box-shadow 0.5s ease,
@@ -342,7 +350,7 @@
   &__down-connector {
     display: flex;
     justify-content: center;
-    height: 32px;
+    height: 2rem;
   }
 
   &__steps {
@@ -351,7 +359,7 @@
     justify-content: center;
     gap: 0;
     flex-wrap: wrap;
-    row-gap: 16px;
+    row-gap: 1rem;
   }
 
   &__step {
@@ -359,12 +367,12 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    width: 140px;
-    min-height: 130px;
-    padding: 12px 8px 10px;
+    width: 8.75rem;
+    min-height: 8.125rem;
+    padding: 0.75rem 0.5rem 0.625rem;
     border: 1.5px solid #dce2ea;
-    border-radius: 10px;
-    background: #fff;
+    border-radius: 0.625rem;
+    background: $surface;
     position: relative;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
@@ -374,7 +382,7 @@
       box-shadow:
         0 0 16px rgba(225, 83, 37, 0.3),
         0 0 32px rgba(225, 83, 37, 0.1);
-      transform: translateY(-4px) scale(1.04);
+      transform: translateY(-0.25rem) scale(1.04);
       animation: flowPulse 1.2s ease-in-out infinite;
     }
 
@@ -386,12 +394,12 @@
 
   &__step-badge {
     position: absolute;
-    top: -9px;
+    top: -0.5625rem;
     left: 50%;
     transform: translateX(-50%);
     background: #dce2ea;
-    border-radius: 20px;
-    padding: 1px 10px;
+    border-radius: 1.25rem;
+    padding: 0.0625rem 0.625rem;
     font-size: 0.6rem;
     transition: background 0.4s ease;
 
@@ -407,7 +415,7 @@
   &__connector {
     display: flex;
     align-items: center;
-    padding: 0 2px;
+    padding: 0 0.125rem;
     flex-shrink: 0;
   }
 
@@ -450,24 +458,24 @@
 .sidebar-intro-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 16px;
+  gap: 0.625rem;
+  padding: 0.625rem 1rem;
   cursor: pointer;
-  border-radius: 6px;
-  margin-bottom: 4px;
+  border-radius: 0.375rem;
+  margin-bottom: 0.25rem;
   border-bottom: 1px solid $border;
   transition: background-color 0.15s ease;
 
   &__icon {
-    color: #6c757d;
+    color: $muted-gray;
     font-size: 1rem !important;
   }
 
   &__label {
     font-size: 0.75rem !important;
     font-weight: 700 !important;
-    color: #6c757d;
-    letter-spacing: 0.5px;
+    color: $muted-gray;
+    letter-spacing: 0.03125rem;
     text-transform: uppercase;
   }
 
@@ -490,22 +498,22 @@
 
 /* ── Introduction Overview ── */
 .intro-overview {
-  padding: 16px 0;
+  padding: 1rem 0;
 
   &__header {
-    margin-bottom: 32px;
+    margin-bottom: 2rem;
   }
 
   &__title {
     font-weight: 700 !important;
-    color: #002b5c;
+    color: $hero-dark-blue;
     font-size: 2rem !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 0.5rem !important;
   }
 
   &__subtitle {
     color: $text-secondary;
-    max-width: 700px;
+    max-width: 43.75rem;
     line-height: 1.7;
   }
 
@@ -518,17 +526,17 @@
 .intro-module-card {
   display: flex;
   flex-direction: column;
-  border-radius: 12px !important;
+  border-radius: 0.75rem !important;
   overflow: hidden;
   height: 100%;
   transition: box-shadow 0.2s ease;
 
   &:hover {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.1) !important;
   }
 
   &__body {
-    padding: 20px;
+    padding: 1.25rem;
     flex: 1;
   }
 
@@ -536,20 +544,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
-    border-radius: 12px;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 0.75rem;
     flex-shrink: 0;
   }
 
   &__count {
-    border-radius: 6px !important;
+    border-radius: 0.375rem !important;
   }
 
   &__name {
     font-weight: 700 !important;
     font-size: 1.1rem !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 0.5rem !important;
   }
 
   &__desc {
@@ -562,7 +570,7 @@
   }
 
   &__footer {
-    padding: 8px 12px 12px;
+    padding: 0.5rem 0.75rem 0.75rem;
     border-top: 1px solid $border;
     margin-top: auto;
   }

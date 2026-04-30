@@ -1,15 +1,16 @@
+import { type FC } from "react";
 import { Card, CardContent, Typography, Box, Divider, Button } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import { PROFILE_CONTENT } from "../serviceconstant";
 
-interface Props {
+interface AccountOverviewProps {
   partnerCode: string;
   joinDate: string;
   status: string;
 }
 
-export default function AccountOverview({ partnerCode, joinDate, status }: Props) {
+const AccountOverview: FC<AccountOverviewProps> = ({ partnerCode, joinDate, status }) => {
   return (
     <Card className="profile-template__card profile-template__card--dark">
       <CardContent sx={{ p: 3, pb: 2 }}>
@@ -66,4 +67,6 @@ export default function AccountOverview({ partnerCode, joinDate, status }: Props
       </CardContent>
     </Card>
   );
-}
+};
+
+export default AccountOverview;

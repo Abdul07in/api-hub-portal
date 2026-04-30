@@ -1,83 +1,38 @@
-export interface LoginForm {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
-
-export interface SignupForm {
-  workEmail: string;
-  company: string;
-  role: string;
-  password: string;
-  confirmPassword: string;
-  agreeToTerms: boolean;
-}
-
-export const EMPTY_LOGIN_FORM: LoginForm = {
-  email: "",
-  password: "",
-  rememberMe: true,
-};
-
-export const EMPTY_SIGNUP_FORM: SignupForm = {
-  workEmail: "",
-  company: "",
-  role: "partner",
-  password: "",
-  confirmPassword: "",
-  agreeToTerms: false,
-};
+import { z } from "zod";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const STRONG_PW_REGEX = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
 
-function isStrongPassword(value: string) {
-  return value.length >= 8 && /[A-Za-z]/.test(value) && /\d/.test(value);
-}
+export const loginSchema = z.object({
+  email: z
+    .string()
+    .min(1, "Business email is required")
+    .regex(EMAIL_REGEX, "Enter a valid email address"),
+  password: z.string().min(1, "Password is required"),
+  rememberMe: z.boolean(),
+});
 
-export const validateLoginForm = (form: LoginForm): Partial<Record<keyof LoginForm, string>> => {
-  const errors: Partial<Record<keyof LoginForm, string>> = {};
+export const signupSchema = z
+  .object({
+    workEmail: z
+      .string()
+      .min(1, "Business email is required")
+      .regex(EMAIL_REGEX, "Enter a valid email address"),
+    company: z.string().min(1, "Company name is required"),
+    role: z.string(),
+    password: z
+      .string()
+      .min(1, "Password is required")
+      .regex(STRONG_PW_REGEX, "Use at least 8 characters with letters and numbers"),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+    agreeToTerms: z
+      .boolean()
+      .refine((val) => val, { message: "You must accept the portal terms to continue" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
-  if (!form.email.trim()) {
-    errors.email = "Business email is required";
-  } else if (!EMAIL_REGEX.test(form.email)) {
-    errors.email = "Enter a valid email address";
-  }
-
-  if (!form.password.trim()) {
-    errors.password = "Password is required";
-  }
-
-  return errors;
-};
-
-export const validateSignupForm = (form: SignupForm): Partial<Record<keyof SignupForm, string>> => {
-  const errors: Partial<Record<keyof SignupForm, string>> = {};
-
-  if (!form.workEmail.trim()) {
-    errors.workEmail = "Business email is required";
-  } else if (!EMAIL_REGEX.test(form.workEmail)) {
-    errors.workEmail = "Enter a valid email address";
-  }
-
-  if (!form.company.trim()) {
-    errors.company = "Company name is required";
-  }
-
-  if (!form.password.trim()) {
-    errors.password = "Password is required";
-  } else if (!isStrongPassword(form.password)) {
-    errors.password = "Use at least 8 characters with letters and numbers";
-  }
-
-  if (!form.confirmPassword.trim()) {
-    errors.confirmPassword = "Please confirm your password";
-  } else if (form.confirmPassword !== form.password) {
-    errors.confirmPassword = "Passwords do not match";
-  }
-
-  if (!form.agreeToTerms) {
-    errors.agreeToTerms = "You must accept the portal terms to continue";
-  }
-
-  return errors;
-};
+export type LoginFormData = z.infer<typeof loginSchema>;
+export type SignupFormData = z.infer<typeof signupSchema>;

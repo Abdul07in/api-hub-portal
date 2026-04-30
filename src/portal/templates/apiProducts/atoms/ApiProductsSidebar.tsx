@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -28,7 +29,7 @@ interface ApiProductsSidebarProps {
   setActiveApiId?: (value: string | null) => void;
 }
 
-export default function ApiProductsSidebar({
+const ApiProductsSidebar: FC<ApiProductsSidebarProps> = ({
   search,
   setSearch,
   filteredModules,
@@ -36,7 +37,29 @@ export default function ApiProductsSidebar({
   setActiveModuleId,
   activeApiId,
   setActiveApiId,
-}: ApiProductsSidebarProps) {
+}: ApiProductsSidebarProps) => {
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setSearch(event.target.value);
+  const handleIntroClick = () => {
+    setActiveModuleId("introduction");
+    setActiveApiId?.(null);
+  };
+  const createModuleChangeHandler =
+    (moduleId: string) => (_event: React.SyntheticEvent, expanded: boolean) => {
+      if (expanded) {
+        setActiveModuleId(moduleId);
+        setActiveApiId?.(null);
+      } else {
+        setActiveModuleId("introduction");
+        setActiveApiId?.(null);
+      }
+    };
+  const createApiClickHandler =
+    (moduleId: string, apiId: string) => (event: React.MouseEvent) => {
+      event.stopPropagation();
+      setActiveModuleId(moduleId);
+      setActiveApiId?.(apiId);
+    };
   return (
     <Box className="api-products-page__sidebar">
       <TextField
@@ -44,7 +67,7 @@ export default function ApiProductsSidebar({
         size="small"
         placeholder={CONTENT.searchPlaceholder}
         value={search}
-        onChange={(event) => setSearch(event.target.value)}
+        onChange={handleSearchChange}
         slotProps={{
           input: {
             startAdornment: (
@@ -62,10 +85,7 @@ export default function ApiProductsSidebar({
         {/* Introduction nav item */}
         <Box
           className={`sidebar-intro-item ${activeModuleId === "introduction" ? "sidebar-intro-item--active" : ""}`}
-          onClick={() => {
-            setActiveModuleId("introduction");
-            setActiveApiId?.(null);
-          }}
+          onClick={handleIntroClick}
         >
           <Typography className="sidebar-intro-item__label">Introduction</Typography>
         </Box>
@@ -79,15 +99,7 @@ export default function ApiProductsSidebar({
               disableGutters
               elevation={0}
               expanded={isModuleActive}
-              onChange={(_, expanded) => {
-                if (expanded) {
-                  setActiveModuleId(module.id);
-                  setActiveApiId?.(null);
-                } else {
-                  setActiveModuleId("introduction");
-                  setActiveApiId?.(null);
-                }
-              }}
+              onChange={createModuleChangeHandler(module.id)}
               className="sidebar-module"
             >
               <AccordionSummary expandIcon={<ExpandMoreIcon fontSize="small" />}>
@@ -109,11 +121,7 @@ export default function ApiProductsSidebar({
                         key={api.id}
                         fullWidth
                         disableRipple
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          setActiveModuleId(module.id);
-                          setActiveApiId?.(api.id);
-                        }}
+                        onClick={createApiClickHandler(module.id, api.id)}
                         className={`sidebar-api ${isApiActive ? "sidebar-api--active" : ""}`}
                         startIcon={
                           isApiActive ? (
@@ -137,4 +145,6 @@ export default function ApiProductsSidebar({
       </Box>
     </Box>
   );
-}
+};
+
+export default ApiProductsSidebar;

@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CheckIcon from "@mui/icons-material/Check";
 
-interface Props {
+interface CodeBlockProps {
   code: string;
   language?: string;
   maxHeight?: number | string;
 }
 
-export default function CodeBlock({ code, language, maxHeight = 360 }: Props) {
+const CodeBlock: FC<CodeBlockProps> = ({ code, language, maxHeight = 360 }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -80,4 +80,6 @@ export default function CodeBlock({ code, language, maxHeight = 360 }: Props) {
       </Box>
     </Box>
   );
-}
+};
+
+export default CodeBlock;
